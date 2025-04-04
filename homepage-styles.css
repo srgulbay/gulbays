@@ -1,0 +1,129 @@
+/* homepage-styles.css - Ana Sayfa Stilleri (Gömülü SVG Uyumlu) */
+
+/* === Google Font === */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* === Değişkenler === */
+:root {
+    --hp-font-family: 'Poppins', sans-serif;
+    --hp-bg-color: #fdfaf6;
+    --hp-header-bg: linear-gradient(135deg, #43a047, #2e7d32);
+    --hp-header-text: #ffffff;
+    --hp-container-width: 1200px;
+    --hp-card-bg: #ffffff;
+    --hp-card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    --hp-card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    --hp-text-primary: #333;
+    --hp-text-secondary: #555;
+    --hp-accent-color-1: #4caf50; /* Yeşil */
+    --hp-accent-color-2: #ff9800; /* Turuncu */
+    --hp-footer-bg: #388e3c;
+    --hp-footer-text: #e8f5e9;
+    --hp-border-radius: 12px;
+    --hp-transition-speed: 0.3s;
+}
+
+/* === Genel Sıfırlama ve Ayarlar === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--hp-font-family); font-size: 16px; line-height: 1.7; color: var(--hp-text-primary); background-color: var(--hp-bg-color); overflow-x: hidden; }
+.container { width: 90%; max-width: var(--hp-container-width); margin: 0 auto; padding: 0 15px; }
+
+/* === Header === */
+.main-header { background: var(--hp-header-bg); color: var(--hp-header-text); padding: 40px 0 50px 0; text-align: center; border-bottom-left-radius: 50% 20px; border-bottom-right-radius: 50% 20px; margin-bottom: 40px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+.main-header h1 { font-size: 2.8em; font-weight: 700; margin-bottom: 10px; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); }
+.main-header .subtitle { font-size: 1.1em; font-weight: 300; opacity: 0.9; }
+
+/* === Ana İçerik Alanı === */
+.main-content { padding: 20px 0; }
+
+/* === Aktivite Kartları Izgarası === */
+.activity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+
+/* === Aktivite Kartı === */
+.activity-card { background-color: var(--hp-card-bg); border-radius: var(--hp-border-radius); box-shadow: var(--hp-card-shadow); padding: 25px; text-align: center; display: flex; flex-direction: column; align-items: center; transition: transform var(--hp-transition-speed) ease, box-shadow var(--hp-transition-speed) ease; overflow: hidden; border-top: 5px solid var(--hp-accent-color-1); }
+.activity-card:nth-child(even) { border-top-color: var(--hp-accent-color-2); }
+.activity-card:hover { transform: translateY(-8px); box-shadow: var(--hp-card-hover-shadow); }
+
+/* Kart İkonu/Resmi Alanı */
+.card-icon {
+    margin-bottom: 20px;
+    background-color: rgba(76, 175, 80, 0.08); /* Daha soluk ikon arka planı */
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color var(--hp-transition-speed) ease;
+}
+.activity-card:nth-child(even) .card-icon {
+    background-color: rgba(255, 152, 0, 0.08);
+}
+
+/* Gömülü SVG İkon Stili */
+.card-icon svg.icon-svg { /* HTML'deki svg etiketine class="icon-svg" eklenmişti */
+    width: 45px;  /* Boyut */
+    height: 45px; /* Boyut */
+    stroke-width: 1.5; /* SVG içindeki stroke-width'i geçersiz kılabilir veya destekleyebilir */
+    color: var(--hp-accent-color-1); /* SVG'de stroke="currentColor" varsa rengi buradan alır */
+    fill: none; /* Genellikle ikonlarda dolgu istenmez, stroke kullanılır */
+}
+.activity-card:nth-child(even) .card-icon svg.icon-svg {
+     color: var(--hp-accent-color-2); /* Farklı renk */
+}
+/* Eğer SVG'leriniz fill kullanıyorsa veya stroke istemiyorsanız:
+.card-icon svg.icon-svg {
+    fill: var(--hp-accent-color-1);
+    stroke: none;
+}
+.activity-card:nth-child(even) .card-icon svg.icon-svg {
+     fill: var(--hp-accent-color-2);
+}
+*/
+
+
+/* Kart Başlığı */
+.card-title { font-size: 1.4em; font-weight: 600; color: var(--hp-text-primary); margin-bottom: 10px; }
+
+/* Kart Açıklaması */
+.card-description { font-size: 0.95em; color: var(--hp-text-secondary); margin-bottom: 20px; flex-grow: 1; min-height: 50px; }
+
+/* Kart Butonu (Genel Buton Stili) */
+.card-button {
+    display: inline-block; padding: 10px 22px; font-size: 0.95em; font-weight: 500; text-decoration: none;
+    border-radius: var(--hp-border-radius-sm); background: var(--hp-accent-color-1); color: white;
+    transition: background-color var(--hp-transition-speed) ease, transform var(--hp-transition-speed) ease;
+    margin-top: auto; border: none; cursor: pointer; /* Link olsa bile buton gibi görünsün */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.activity-card:nth-child(even) .card-button { background: var(--hp-accent-color-2); }
+.card-button:hover { background-color: #388e3c; transform: scale(1.05); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+.activity-card:nth-child(even) .card-button:hover { background-color: #f57c00; }
+
+/* === Footer === */
+.main-footer { margin-top: 50px; background-color: var(--hp-footer-bg); color: var(--hp-footer-text); padding: 25px 0; text-align: center; font-size: 0.9em; }
+
+/* === Medya Sorguları (Mobil Uyum) === */
+@media (max-width: 992px) {
+    .activity-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
+    .main-header h1 { font-size: 2.4em; }
+}
+@media (max-width: 768px) {
+    body { padding: 10px; }
+    #app-container { padding: 20px 15px; }
+    .main-header { padding: 30px 0 40px 0; margin-bottom: 30px;}
+    .main-header h1 { font-size: 2em; }
+    .main-header .subtitle { font-size: 1em; }
+    .activity-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .activity-card { padding: 20px; }
+    .card-title { font-size: 1.3em; }
+    .card-description { font-size: 0.9em; min-height: 40px; }
+    .card-button { padding: 9px 18px; font-size: 0.9em; }
+}
+@media (max-width: 480px) {
+     .main-header h1 { font-size: 1.8em; }
+     .main-header .subtitle { font-size: 0.9em; }
+     .activity-grid { grid-template-columns: 1fr; /* Mobilde tek sütun */ gap: 15px; }
+     .activity-card { padding: 15px; }
+     .card-title { font-size: 1.2em; }
+}
