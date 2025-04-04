@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quorum Sensing: Bilimsel Bir Deneyim - Vanilla JS</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto+Slab:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
   <style>
     /* === Değişkenler ve Temel Ayarlar (Açık Tema) === */
     :root {
-      --bg-light: #F4F7F9;
-      --bg-medium-light: #E8EFF3;
-      --primary-accent: #0077B6;
-      --secondary-accent: #48A9A6;
-      --highlight: #F9A825;
+      --bg-light: #f4f7f9;
+      --bg-medium-light: #e8eff3;
+      --primary-accent: #0077b6;
+      --secondary-accent: #48a9a6;
+      --highlight: #f9a825;
       --text-dark: #212529;
-      --text-medium: #5A677D;
-      --text-light-on-dark: #E6E6FA;
+      --text-medium: #5a677d;
       --card-bg: rgba(255, 255, 255, 0.85);
-      --glass-bg: rgba(232, 239, 243, 0.75);
+      /* Arka plan opaklığı arttırıldı */
+      --glass-bg: rgba(232, 239, 243, 0.95);
       --glass-border: rgba(0, 119, 182, 0.3);
       --slide-bg-gradient: radial-gradient(circle at 10% 90%, rgba(72, 169, 166, 0.1), transparent 50%),
                            radial-gradient(circle at 90% 10%, rgba(0, 119, 182, 0.1), transparent 50%),
@@ -38,7 +41,9 @@
       scrollbar-width: thin;
       scrollbar-color: var(--primary-accent) var(--bg-medium-light);
     }
-    html { font-size: 16px; }
+    html {
+      font-size: 16px;
+    }
     body {
       font-family: var(--font-main);
       background: var(--bg-light);
@@ -122,13 +127,19 @@
       max-height: calc(100vh - 160px);
       overflow-y: auto;
     }
-    .slide-content::-webkit-scrollbar { width: 8px; }
-    .slide-content::-webkit-scrollbar-track { background: transparent; }
+    .slide-content::-webkit-scrollbar {
+      width: 8px;
+    }
+    .slide-content::-webkit-scrollbar-track {
+      background: transparent;
+    }
     .slide-content::-webkit-scrollbar-thumb {
       background-color: rgba(0, 119, 182, 0.5);
       border-radius: 4px;
     }
-    .slide-content::-webkit-scrollbar-thumb:hover { background-color: var(--primary-accent); }
+    .slide-content::-webkit-scrollbar-thumb:hover {
+      background-color: var(--primary-accent);
+    }
 
     /* Layout & Tipografi */
     .slide-content.two-column {
@@ -136,9 +147,18 @@
       align-items: center;
       gap: clamp(35px, 4vw, 55px);
     }
-    .slide-content.two-column.reversed { flex-direction: row-reverse; }
-    .two-column .text-content { flex: 1.1; min-width: 0; }
-    .two-column .visual-content { flex: 0.9; max-width: 460px; text-align: center; }
+    .slide-content.two-column.reversed {
+      flex-direction: row-reverse;
+    }
+    .two-column .text-content {
+      flex: 1.1;
+      min-width: 0;
+    }
+    .two-column .visual-content {
+      flex: 0.9;
+      max-width: 460px;
+      text-align: center;
+    }
     .slide-content.single-column {
       display: flex;
       flex-direction: column;
@@ -165,7 +185,7 @@
       margin-bottom: 0.1em;
       font-weight: 700;
       letter-spacing: 1px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     }
     .slide h2.subtitle {
       font-family: var(--font-main);
@@ -215,7 +235,9 @@
       margin-bottom: 1em;
       padding-left: 10px;
     }
-    .slide ul { list-style: none; }
+    .slide ul {
+      list-style: none;
+    }
     .slide ul li::before {
       content: "•";
       color: var(--primary-accent);
@@ -249,12 +271,15 @@
       text-align: center;
       line-height: 20px;
     }
-    .slide strong { color: var(--primary-accent); font-weight: 700; }
+    .slide strong {
+      color: var(--primary-accent);
+      font-weight: 700;
+    }
     .highlight {
       background-color: rgba(249, 168, 37, 0.15);
       padding: 0.1em 0.3em;
       border-radius: 3px;
-      color: #B8731D;
+      color: #b8731d;
     }
     .slide .citation {
       font-size: 0.7em;
@@ -287,19 +312,50 @@
       margin-left: 5px;
       font-weight: bold;
     }
-    .tag.g-neg { background-color: var(--secondary-accent); color: var(--bg-light); }
-    .tag.g-pos { background-color: var(--primary-accent); color: var(--bg-light); }
-    .tag.g-uni { background-color: var(--highlight); color: var(--text-dark); }
-    .agenda-list { list-style: none; padding-left: 0; }
-    .agenda-list li { margin-bottom: 0.6em; }
-    .agenda-number { display: inline-block; width: 25px; font-weight: bold; color: var(--primary-accent); }
-    .agenda-detail { color: var(--text-medium); font-size: 0.9em; }
-    .component-section { margin-bottom: 1.2em; }
-    .component-section ul { padding-left: 10px; }
-    .component-section li { margin-bottom: 0.3em; }
-    .pathogen-examples { margin-top: 1em; }
-    .advantage { margin-top: 1em; }
-
+    .tag.g-neg {
+      background-color: var(--secondary-accent);
+      color: var(--bg-light);
+    }
+    .tag.g-pos {
+      background-color: var(--primary-accent);
+      color: var(--bg-light);
+    }
+    .tag.g-uni {
+      background-color: var(--highlight);
+      color: var(--text-dark);
+    }
+    .agenda-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    .agenda-list li {
+      margin-bottom: 0.6em;
+    }
+    .agenda-number {
+      display: inline-block;
+      width: 25px;
+      font-weight: bold;
+      color: var(--primary-accent);
+    }
+    .agenda-detail {
+      color: var(--text-medium);
+      font-size: 0.9em;
+    }
+    .component-section {
+      margin-bottom: 1.2em;
+    }
+    .component-section ul {
+      padding-left: 10px;
+    }
+    .component-section li {
+      margin-bottom: 0.3em;
+    }
+    .pathogen-examples {
+      margin-top: 1em;
+    }
+    .advantage {
+      margin-top: 1em;
+    }
     .slide img {
       max-width: 100%;
       height: auto;
@@ -310,8 +366,10 @@
       border: 1px solid rgba(0, 119, 182, 0.15);
       transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
-    .slide img:hover { transform: scale(1.02); box-shadow: 0 10px 25px var(--shadow-color-medium); }
-
+    .slide img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 10px 25px var(--shadow-color-medium);
+    }
     .animated-diagram {
       display: flex;
       flex-wrap: wrap;
@@ -331,9 +389,20 @@
       color: var(--text-dark);
       text-align: center;
     }
-    .diagram-node:hover { border-color: var(--primary-accent); transform: translateY(-4px); }
-    .node-icon { display: block; font-size: 2rem; margin-bottom: 6px; }
-    .node-label { font-size: 0.8rem; color: var(--text-dark); font-weight: 400; }
+    .diagram-node:hover {
+      border-color: var(--primary-accent);
+      transform: translateY(-4px);
+    }
+    .node-icon {
+      display: block;
+      font-size: 2rem;
+      margin-bottom: 6px;
+    }
+    .node-label {
+      font-size: 0.8rem;
+      color: var(--text-dark);
+      font-weight: 400;
+    }
     .diagram-arrow {
       font-size: 1.6rem;
       color: var(--primary-accent);
@@ -369,11 +438,25 @@
       font-size: 1rem;
       font-family: var(--font-heading);
     }
-    .card-header .icon { font-size: 1.1rem; }
-    .g-neg-header { background: var(--secondary-accent); color: var(--bg-light); }
-    .g-pos-header { background: var(--primary-accent); color: var(--bg-light); }
-    .pathogen-pa .card-header { background: #B03A5B; color: var(--bg-light); }
-    .pathogen-sa .card-header { background: #D35400; color: var(--bg-light); }
+    .card-header .icon {
+      font-size: 1.1rem;
+    }
+    .g-neg-header {
+      background: var(--secondary-accent);
+      color: var(--bg-light);
+    }
+    .g-pos-header {
+      background: var(--primary-accent);
+      color: var(--bg-light);
+    }
+    .pathogen-pa .card-header {
+      background: #b03a5b;
+      color: var(--bg-light);
+    }
+    .pathogen-sa .card-header {
+      background: #d35400;
+      color: var(--bg-light);
+    }
     .card-body {
       padding: 12px;
       background: var(--card-bg);
@@ -381,7 +464,11 @@
       border: 1px solid var(--glass-border);
       border-top: none;
     }
-    .card-body ul { margin: 0; padding-left: 5px; list-style: none; }
+    .card-body ul {
+      margin: 0;
+      padding-left: 5px;
+      list-style: none;
+    }
     .card-body li {
       font-size: 0.85rem;
       color: var(--text-medium);
@@ -396,7 +483,10 @@
       margin-left: -1.1em;
       font-size: 1em;
     }
-    .icon-list { list-style: none; padding-left: 0; }
+    .icon-list {
+      list-style: none;
+      padding-left: 0;
+    }
     .icon-list li {
       list-style: none;
       padding-left: 30px;
@@ -438,7 +528,6 @@
       text-align: center;
       line-height: 20px;
     }
-    
     /* Özel Slayt Stilleri */
     .title-slide .slide-content {
       background: none;
@@ -448,8 +537,13 @@
       -webkit-backdrop-filter: none;
       text-align: center;
     }
-    .title-slide .presenter-info { margin-top: 2em; color: var(--text-medium); }
-    .title-slide .presenter-info strong { color: var(--text-dark); }
+    .title-slide .presenter-info {
+      margin-top: 2em;
+      color: var(--text-medium);
+    }
+    .title-slide .presenter-info strong {
+      color: var(--text-dark);
+    }
     .references-slide .slide-content {
       background: rgba(232, 239, 243, 0.8);
       backdrop-filter: blur(8px);
@@ -460,17 +554,28 @@
       color: var(--primary-accent);
       margin-bottom: 0.6em;
     }
-    .references-list.compact { list-style: none; padding-left: 0; }
+    .references-list.compact {
+      list-style: none;
+      padding-left: 0;
+    }
     .references-list.compact li {
       font-size: 0.7rem;
       line-height: 1.3;
       margin-bottom: 3px;
       color: var(--text-medium);
     }
-    .final-slide-text { text-align: center; max-width: 700px; }
-    .final-slide-text .contact-info { margin-top: 1.5em; font-weight: 400; color: var(--text-dark); }
-    .final-slide-text .contact-info strong { color: var(--text-dark); }
-
+    .final-slide-text {
+      text-align: center;
+      max-width: 700px;
+    }
+    .final-slide-text .contact-info {
+      margin-top: 1.5em;
+      font-weight: 400;
+      color: var(--text-dark);
+    }
+    .final-slide-text .contact-info strong {
+      color: var(--text-dark);
+    }
     /* Navigasyon ve İlerleme Çubuğu */
     .navigation-area {
       position: fixed;
@@ -550,8 +655,13 @@
       min-width: 50px;
       text-align: center;
     }
-    #audioControlBtn { background-color: var(--secondary-accent); }
-    #audioControlBtn.playing { background-color: var(--highlight); color: var(--text-dark); }
+    #audioControlBtn {
+      background-color: var(--secondary-accent);
+    }
+    #audioControlBtn.playing {
+      background-color: var(--highlight);
+      color: var(--text-dark);
+    }
     .nav-button:focus-visible,
     #audioControlBtn:focus-visible {
       outline: 3px solid var(--highlight);
@@ -559,22 +669,37 @@
       background-color: var(--highlight);
       color: var(--text-dark);
     }
-    .slide::-webkit-scrollbar { width: 10px; }
-    .slide::-webkit-scrollbar-track { background: transparent; }
+    .slide::-webkit-scrollbar {
+      width: 10px;
+    }
+    .slide::-webkit-scrollbar-track {
+      background: transparent;
+    }
     .slide::-webkit-scrollbar-thumb {
       background-color: rgba(0, 119, 182, 0.6);
       border-radius: 5px;
       border: 2px solid transparent;
       background-clip: content-box;
     }
-    .slide::-webkit-scrollbar-thumb:hover { background-color: var(--primary-accent); }
-
+    .slide::-webkit-scrollbar-thumb:hover {
+      background-color: var(--primary-accent);
+    }
     /* Responsive Tasarım */
     @media (max-width: 992px) {
-      .slide { padding: 30px 35px; }
-      .slide-content { padding: clamp(20px, 3vw, 35px); max-height: calc(100vh - 150px); }
-      .slide-content.two-column { flex-direction: column; gap: 25px; }
-      .two-column .text-content { order: 2; }
+      .slide {
+        padding: 30px 35px;
+      }
+      .slide-content {
+        padding: clamp(20px, 3vw, 35px);
+        max-height: calc(100vh - 150px);
+      }
+      .slide-content.two-column {
+        flex-direction: column;
+        gap: 25px;
+      }
+      .two-column .text-content {
+        order: 2;
+      }
       .two-column .visual-content {
         order: 1;
         flex-basis: auto;
@@ -584,25 +709,57 @@
       }
     }
     @media (max-width: 768px) {
-      html { font-size: 14px; }
-      .slide { padding: 25px 15px; }
-      .slide-content { border-radius: 8px; max-height: calc(100vh - 140px); }
-      .navigation-area { padding-bottom: 10px; }
-      .progress-indicator { height: 4px; margin-bottom: 10px; }
-      .navigation-controls { gap: 12px; padding: 8px 15px; }
+      html {
+        font-size: 14px;
+      }
+      .slide {
+        padding: 25px 15px;
+      }
+      .slide-content {
+        border-radius: 8px;
+        max-height: calc(100vh - 140px);
+      }
+      .navigation-area {
+        padding-bottom: 10px;
+      }
+      .progress-indicator {
+        height: 4px;
+        margin-bottom: 10px;
+      }
+      .navigation-controls {
+        gap: 12px;
+        padding: 8px 15px;
+      }
       .nav-button,
-      #audioControlBtn { width: 35px; height: 35px; font-size: 1.3rem; line-height: 35px; }
-      #slideCounter { font-size: 0.85rem; }
-      .animated-diagram { flex-direction: column; gap: 15px; }
-      .diagram-arrow { transform: rotate(90deg); margin: 5px 0; }
-      .comparison-container.detailed { flex-direction: column; align-items: center; }
-      .detailed-card { max-width: 90%; }
+      #audioControlBtn {
+        width: 35px;
+        height: 35px;
+        font-size: 1.3rem;
+        line-height: 35px;
+      }
+      #slideCounter {
+        font-size: 0.85rem;
+      }
+      .animated-diagram {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .diagram-arrow {
+        transform: rotate(90deg);
+        margin: 5px 0;
+      }
+      .comparison-container.detailed {
+        flex-direction: column;
+        align-items: center;
+      }
+      .detailed-card {
+        max-width: 90%;
+      }
     }
   </style>
 </head>
 <body>
-
-  <!-- Sunum Konteyneri (Erişilebilirlik için aria-live eklendi) -->
+  <!-- Sunum Konteyneri (aria-live eklenmiş) -->
   <div class="presentation-container" id="presentation-container" aria-live="polite"></div>
   <div class="background-effects"></div>
 
@@ -619,7 +776,7 @@
     </div>
   </div>
 
-  <!-- Ses Elementi (Örnek ses dosyası URL'si eklendi) -->
+  <!-- Ses Elementi (Örnek ses dosyası URL'si) -->
   <audio id="presentationAudio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="metadata"></audio>
 
   <script>
@@ -829,7 +986,7 @@
             </div>
           </div>
           <div class="comparison-item pathogen-sa detailed-card">
-            <div class="card-header g-pos-header" style="background: #D35400;"><span class="icon">🦠</span><i>S. aureus</i></div>
+            <div class="card-header g-pos-header" style="background: #d35400;"><span class="icon">🦠</span><i>S. aureus</i></div>
             <div class="card-body">
               <ul>
                 <li><strong>Sistem:</strong> Agr (AIP) <span class="citation">[8]</span>.</li>
@@ -866,7 +1023,7 @@
       }
     ];
 
-    // Ön Yükleme: Slaytlardaki görselleri yükle
+    // Ön Yükleme: Slaytlardaki görsellerin yüklenmesi
     slidesData.forEach(slide => {
       if (slide.imageSrc) {
         const img = new Image();
@@ -891,7 +1048,7 @@
 
     function renderSlide(index) {
       if (index < 0 || index >= totalSlides) return;
-      if (isTransitioning) return; // Geçiş devam ediyorsa çıkış yapma
+      if (isTransitioning) return;
 
       isTransitioning = true;
       const slideData = slidesData[index];
@@ -972,11 +1129,16 @@
       newSlideElement.tabIndex = -1;
       newSlideElement.focus();
 
-      requestAnimationFrame(() => {
+      // requestAnimationFrame kullanımı; destek yoksa hemen ekle
+      if (window.requestAnimationFrame) {
         requestAnimationFrame(() => {
-          newSlideElement.classList.add('active');
+          requestAnimationFrame(() => {
+            newSlideElement.classList.add('active');
+          });
         });
-      });
+      } else {
+        newSlideElement.classList.add('active');
+      }
 
       scrollToTop(newSlideElement);
 
@@ -1011,7 +1173,9 @@
 
     function scrollToTop(slideElement) {
       const contentElement = slideElement.querySelector('.slide-content');
-      if (contentElement) { contentElement.scrollTop = 0; }
+      if (contentElement) {
+        contentElement.scrollTop = 0;
+      }
     }
 
     function toggleAudio() {
@@ -1035,18 +1199,20 @@
       } else {
         const playPromise = audioElement.play();
         if (playPromise !== undefined) {
-          playPromise.then(() => {
-            audioControlButton.innerHTML = `<span>🔈</span>`;
-            audioControlButton.classList.add('playing');
-            audioPlaying = true;
-            audioControlButton.disabled = false;
-          }).catch(error => {
-            console.error("Audio play failed:", error);
-            audioPlaying = false;
-            audioControlButton.classList.remove('playing');
-            audioControlButton.innerHTML = `<span>🔊</span>`;
-            audioControlButton.disabled = false;
-          });
+          playPromise
+            .then(() => {
+              audioControlButton.innerHTML = `<span>🔈</span>`;
+              audioControlButton.classList.add('playing');
+              audioPlaying = true;
+              audioControlButton.disabled = false;
+            })
+            .catch(error => {
+              console.error("Audio play failed:", error);
+              audioPlaying = false;
+              audioControlButton.classList.remove('playing');
+              audioControlButton.innerHTML = `<span>🔊</span>`;
+              audioControlButton.disabled = false;
+            });
         }
       }
     }
