@@ -330,8 +330,151 @@
         <button id="nextBtn" aria-label="Sonraki Slayt">&gt;</button> </nav>
 
     <script>
-        // JavaScript kodu sonraki adımlarda buraya gelecek.
-        // Bu dosya şu anda sadece statik HTML içeriğini barındırıyor.
+        // DOM Elementlerini Seçme
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+        const progressBar = document.getElementById('progressBar');
+        // CSS'ten geçiş süresini alma (ms cinsinden)
+        const transitionSpeed = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--transition-speed') || '0.6') * 1000;
+
+        // Durum Değişkenleri
+        let currentSlide = 1; // Başlangıç slaytı (HTML'deki 'active' sınıfına göre)
+        const totalSlides = slides.length;
+
+        /**
+         * UI elemanlarını (buton durumu, sayaç, ilerleme çubuğu) günceller.
+         * @param {number} slideIndex Gösterilen slaytın indeksi (1 tabanlı).
+         */
+        function updateUI(slideIndex) {
+            // Butonları etkinleştir/devre dışı bırak
+            prevBtn.disabled = (slideIndex === 1);
+            nextBtn.disabled = (slideIndex === totalSlides);
+
+            // Sayacı güncelle
+            slideCounter.textContent = `${slideIndex} / ${totalSlides}`;
+
+            // İlerleme çubuğunu güncelle
+            const progressPercent = (slideIndex / totalSlides) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+        }
+
+        /**
+         * Belirtilen indeksteki slaytı gösterir ve geçiş animasyonlarını yönetir.
+         * @param {number} slideIndex Gösterilecek slaytın indeksi (1 tabanlı).
+         */
+        function showSlide(slideIndex) {
+            const targetSlide = document.getElementById(`slide${slideIndex}`);
+            if (!targetSlide) {
+                console.error(`Slide with index ${slideIndex} not found.`);
+                return;
+            }
+
+            const currentActiveSlide = document.querySelector('.slide.active');
+
+            // Eğer hedef slayt zaten aktifse veya geçiş halindeyse işlem yapma
+            if (currentActiveSlide && currentActiveSlide.id === targetSlide.id) {
+                return;
+            }
+
+            // --- Geçiş Başlangıcı ---
+
+            // 1. Mevcut aktif slayt varsa, çıkış animasyonunu başlat
+            if (currentActiveSlide) {
+                currentActiveSlide.classList.remove('active');
+                currentActiveSlide.classList.add('exiting');
+
+                // Geçiş bittikten sonra 'exiting' sınıfını temizle
+                // Bu, slayta hızla geri dönülürse çakışmaları önler
+                setTimeout(() => {
+                    // Hâlâ 'exiting' ise kaldır (başka bir geçiş başlamamışsa)
+                    if (currentActiveSlide.classList.contains('exiting')) {
+                        currentActiveSlide.classList.remove('exiting');
+                    }
+                }, transitionSpeed);
+            }
+
+            // 2. Hedef slaytın giriş animasyonunu başlat
+            // requestAnimationFrame, tarayıcının sınıf değişikliklerini ayrı ayrı işlemesine yardımcı olur
+            requestAnimationFrame(() => {
+                 targetSlide.classList.remove('exiting'); // Hızlı geri dönüşte kalmış olabilecek 'exiting'i temizle
+                 targetSlide.classList.add('active');
+                 // Yeni slaytın içeriğini en üste kaydır
+                 targetSlide.scrollTop = 0;
+            });
+
+
+            // --- Geçiş Sonu ---
+
+            // 3. UI elemanlarını güncelle
+            updateUI(slideIndex);
+        }
+
+        /**
+         * Sonraki veya önceki slayta geçişi tetikler.
+         * @param {number} direction Geçiş yönü (-1 için önceki, 1 için sonraki).
+         */
+        function changeSlide(direction) {
+            const newSlideIndex = currentSlide + direction;
+            // Sınırları kontrol et
+            if (newSlideIndex >= 1 && newSlideIndex <= totalSlides) {
+                currentSlide = newSlideIndex; // Mevcut slayt indeksini güncelle
+                showSlide(currentSlide);
+            }
+        }
+
+        // === Olay Dinleyicileri ===
+
+        // Buton Tıklamaları
+        prevBtn.addEventListener('click', () => changeSlide(-1));
+        nextBtn.addEventListener('click', () => changeSlide(1));
+
+        // Klavye Navigasyonu
+        document.addEventListener('keydown', (event) => {
+            // Odak navigasyon kontrollerindeyse ve Enter/Space basılırsa varsayılan davranışı engelleme
+            if (document.activeElement === prevBtn || document.activeElement === nextBtn) {
+               if (event.key === 'Enter' || event.key === ' ') {
+                   return; // Butonun kendi click olayını işlemesine izin ver
+               }
+            }
+
+            // Ok tuşları ve diğer gezinme tuşları için sayfa kaydırmayı engelle
+            if (['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', ' ', 'PageDown', 'PageUp'].includes(event.key)) {
+                event.preventDefault();
+            }
+
+            // Slayt geçişlerini tetikle
+            if (event.key === 'ArrowRight' || event.key === ' ' || event.key === 'PageDown' || event.key === 'ArrowDown') {
+                // Sonraki buton aktifse sonraki slayta geç
+                if (!nextBtn.disabled) {
+                    changeSlide(1);
+                }
+            } else if (event.key === 'ArrowLeft' || event.key === 'PageUp' || event.key === 'ArrowUp') {
+                // Önceki buton aktifse önceki slayta geç
+                if (!prevBtn.disabled) {
+                    changeSlide(-1);
+                }
+            }
+        });
+
+        // === Başlangıç Ayarları ===
+        document.addEventListener('DOMContentLoaded', () => {
+            // HTML'de zaten ilk slayt 'active' olduğu için,
+            // sadece UI'yi başlangıç durumuna getir.
+            if (totalSlides > 0) {
+                updateUI(currentSlide);
+                 // İlk slaytın animasyonlarının başlaması için küçük bir gecikme gerekebilir.
+                 // Ancak CSS'deki .slide.active kuralı bunu zaten halletmeli.
+            } else {
+                console.warn("No slides found for the presentation.");
+                // Navigasyonu gizle veya hata mesajı göster
+                const navControls = document.getElementById('navControls');
+                const progressIndicator = document.getElementById('progressIndicator');
+                if(navControls) navControls.style.display = 'none';
+                if(progressIndicator) progressIndicator.style.display = 'none';
+            }
+        });
         console.log("HTML structure loaded. Waiting for slides-style.css and JavaScript.");
     </script>
 
