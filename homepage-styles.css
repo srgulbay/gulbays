@@ -1,129 +1,188 @@
-/* homepage-styles.css - Ana Sayfa Stilleri (Gömülü SVG Uyumlu) */
+/* homepage-styles.css - Ana Sayfa Stilleri (Karşılama Ekranı Dahil) */
 
 /* === Google Font === */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* index.html'den çağrılıyor, burada gerek yok */
 
 /* === Değişkenler === */
 :root {
-    --hp-font-family: 'Poppins', sans-serif;
-    --hp-bg-color: #fdfaf6;
+    /* Renk Paleti */
+    --hp-bg-color: #f3f4f6; /* Daha açık gri arka plan */
+    --hp-container-bg: #ffffff;
+    --hp-welcome-bg: linear-gradient(145deg, #8b5cf6, #6366f1); /* Mor/İndigo gradient */
+    --hp-welcome-text: #ffffff;
     --hp-header-bg: linear-gradient(135deg, #43a047, #2e7d32);
     --hp-header-text: #ffffff;
-    --hp-container-width: 1200px;
     --hp-card-bg: #ffffff;
-    --hp-card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    --hp-card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-    --hp-text-primary: #333;
-    --hp-text-secondary: #555;
+    --hp-text-primary: #1f2937;
+    --hp-text-secondary: #4b5563; /* Biraz daha koyu ikincil metin */
     --hp-accent-color-1: #4caf50; /* Yeşil */
     --hp-accent-color-2: #ff9800; /* Turuncu */
     --hp-footer-bg: #388e3c;
     --hp-footer-text: #e8f5e9;
+
+    /* Butonlar */
+    --hp-btn-primary-bg: linear-gradient(145deg, #6366f1, #4f46e5);
+    --hp-btn-primary-hover-bg: linear-gradient(145deg, #7c7fee, #6366f1);
+    --hp-btn-relation-bg: #ffffff;
+    --hp-btn-relation-text: var(--hp-primary-color);
+    --hp-btn-relation-hover-bg: #ede9fe; /* Açık mor */
+
+    /* Diğer */
+    --hp-font-family: 'Poppins', sans-serif;
+    --hp-container-width: 1200px;
     --hp-border-radius: 12px;
+    --hp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --hp-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --hp-transition-speed: 0.3s;
+    --hp-animation-duration: 0.4s; /* Daha hızlı animasyon */
 }
 
 /* === Genel Sıfırlama ve Ayarlar === */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--hp-font-family); font-size: 16px; line-height: 1.7; color: var(--hp-text-primary); background-color: var(--hp-bg-color); overflow-x: hidden; }
-.container { width: 90%; max-width: var(--hp-container-width); margin: 0 auto; padding: 0 15px; }
+body { font-family: var(--hp-font-family); font-size: 16px; line-height: 1.6; color: var(--hp-text-primary); background-color: var(--hp-bg-color); min-height: 100vh; padding: 20px; display: flex; justify-content: center; align-items: center; }
+#app-container { background-color: var(--hp-container-bg); border-radius: var(--hp-border-radius); box-shadow: var(--hp-shadow-lg); width: 100%; max-width: var(--hp-container-width); min-height: 80vh; padding: 0; /* İç padding'i ekranlar yönetecek */ display: flex; flex-direction: column; overflow: hidden; }
 
-/* === Header === */
-.main-header { background: var(--hp-header-bg); color: var(--hp-header-text); padding: 40px 0 50px 0; text-align: center; border-bottom-left-radius: 50% 20px; border-bottom-right-radius: 50% 20px; margin-bottom: 40px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
-.main-header h1 { font-size: 2.8em; font-weight: 700; margin-bottom: 10px; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); }
-.main-header .subtitle { font-size: 1.1em; font-weight: 300; opacity: 0.9; }
+/* === Ekran Yönetimi === */
+.screen { display: none; /* Başlangıçta gizli */ width: 100%; padding: 30px 35px; /* Ekran içi boşluk */ animation: screenFadeIn var(--hp-animation-duration) ease-out; box-sizing: border-box; }
+.screen.active { display: block; /* Aktif olanı göster */ }
+@keyframes screenFadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* === Ana İçerik Alanı === */
-.main-content { padding: 20px 0; }
-
-/* === Aktivite Kartları Izgarası === */
-.activity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-
-/* === Aktivite Kartı === */
-.activity-card { background-color: var(--hp-card-bg); border-radius: var(--hp-border-radius); box-shadow: var(--hp-card-shadow); padding: 25px; text-align: center; display: flex; flex-direction: column; align-items: center; transition: transform var(--hp-transition-speed) ease, box-shadow var(--hp-transition-speed) ease; overflow: hidden; border-top: 5px solid var(--hp-accent-color-1); }
-.activity-card:nth-child(even) { border-top-color: var(--hp-accent-color-2); }
-.activity-card:hover { transform: translateY(-8px); box-shadow: var(--hp-card-hover-shadow); }
-
-/* Kart İkonu/Resmi Alanı */
-.card-icon {
-    margin-bottom: 20px;
-    background-color: rgba(76, 175, 80, 0.08); /* Daha soluk ikon arka planı */
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    display: flex;
+/* === Karşılama Ekranı (#welcome-screen) === */
+#welcome-screen {
+    display: flex; /* Aktif olduğunda flex olacak */
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: background-color var(--hp-transition-speed) ease;
+    min-height: 70vh; /* Ekranı doldursun */
+    text-align: center;
+    background: var(--hp-welcome-bg);
+    color: var(--hp-welcome-text);
+    border-radius: var(--hp-border-radius); /* Ana konteyner ile aynı */
 }
-.activity-card:nth-child(even) .card-icon {
-    background-color: rgba(255, 152, 0, 0.08);
+/* .screen.active kuralı display:block yapacak, bu yüzden flex'i burada tekrar tanımlıyoruz */
+#welcome-screen.active {
+    display: flex;
 }
 
-/* Gömülü SVG İkon Stili */
-.card-icon svg.icon-svg { /* HTML'deki svg etiketine class="icon-svg" eklenmişti */
-    width: 45px;  /* Boyut */
-    height: 45px; /* Boyut */
-    stroke-width: 1.5; /* SVG içindeki stroke-width'i geçersiz kılabilir veya destekleyebilir */
-    color: var(--hp-accent-color-1); /* SVG'de stroke="currentColor" varsa rengi buradan alır */
-    fill: none; /* Genellikle ikonlarda dolgu istenmez, stroke kullanılır */
+.welcome-content {
+    max-width: 500px;
 }
-.activity-card:nth-child(even) .card-icon svg.icon-svg {
-     color: var(--hp-accent-color-2); /* Farklı renk */
+
+.welcome-icon {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 25px;
+    color: var(--hp-welcome-text); /* SVG rengi */
+    opacity: 0.9;
 }
-/* Eğer SVG'leriniz fill kullanıyorsa veya stroke istemiyorsanız:
-.card-icon svg.icon-svg {
-    fill: var(--hp-accent-color-1);
-    stroke: none;
+
+#welcome-screen h2 {
+    font-size: 2.2em;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--hp-welcome-text);
 }
-.activity-card:nth-child(even) .card-icon svg.icon-svg {
-     fill: var(--hp-accent-color-2);
+
+#welcome-screen .question {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    opacity: 0.95;
 }
-*/
+
+.relation-buttons {
+    display: flex;
+    flex-wrap: wrap; /* Küçük ekranlar için */
+    justify-content: center;
+    gap: 15px;
+}
+
+.relation-button { /* Genel .btn stilini kullanır ama renkleri farklı */
+    background: var(--hp-btn-relation-bg);
+    color: var(--hp-btn-relation-text);
+    font-weight: 600;
+    padding: 12px 25px;
+    box-shadow: var(--hp-shadow-md);
+}
+
+.relation-button:hover:not(:disabled) {
+    background: var(--hp-btn-relation-hover-bg);
+    box-shadow: var(--hp-shadow-lg);
+     transform: translateY(-2px);
+     color: var(--hp-primary-color); /* Hover rengi */
+}
 
 
-/* Kart Başlığı */
-.card-title { font-size: 1.4em; font-weight: 600; color: var(--hp-text-primary); margin-bottom: 10px; }
+/* === Ana İçerik Ekranı (#main-content-screen) === */
+#main-content-screen {
+    padding: 0; /* İçeriği header/main/footer yönetecek */
+    /* background: none; */ /* Ekran arka planı istemiyorsak */
+}
 
-/* Kart Açıklaması */
-.card-description { font-size: 0.95em; color: var(--hp-text-secondary); margin-bottom: 20px; flex-grow: 1; min-height: 50px; }
+/* Header */
+.main-header { background: var(--hp-header-bg); color: var(--hp-header-text); padding: 35px 0 45px 0; text-align: center; border-bottom-left-radius: 40% 15px; border-bottom-right-radius: 40% 15px; margin-bottom: 35px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+.main-header .container { /* Padding için */ padding: 0 15px; }
+#main-title { font-size: 2.2em; font-weight: 700; margin-bottom: 8px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15); }
+#main-subtitle { font-size: 1.05em; font-weight: 300; opacity: 0.9; margin: 0; }
 
-/* Kart Butonu (Genel Buton Stili) */
-.card-button {
-    display: inline-block; padding: 10px 22px; font-size: 0.95em; font-weight: 500; text-decoration: none;
-    border-radius: var(--hp-border-radius-sm); background: var(--hp-accent-color-1); color: white;
-    transition: background-color var(--hp-transition-speed) ease, transform var(--hp-transition-speed) ease;
-    margin-top: auto; border: none; cursor: pointer; /* Link olsa bile buton gibi görünsün */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+/* Ana İçerik Alanı */
+.main-content { padding: 20px 0; }
+
+/* Aktivite Kartları Izgarası */
+.activity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 25px; }
+
+/* Aktivite Kartı */
+.activity-card { background-color: var(--hp-card-bg); border-radius: var(--hp-border-radius); box-shadow: var(--hp-shadow-md); padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; transition: transform var(--hp-transition-speed) ease, box-shadow var(--hp-transition-speed) ease; overflow: hidden; border-top: 4px solid var(--hp-accent-color-1); }
+.activity-card:nth-child(even) { border-top-color: var(--hp-accent-color-2); }
+.activity-card:hover { transform: translateY(-6px); box-shadow: var(--hp-shadow-lg); }
+
+/* Kart İkonu */
+.card-icon { margin-bottom: 18px; background-color: transparent; border-radius: 50%; width: 65px; height: 65px; display: flex; justify-content: center; align-items: center; }
+.card-icon svg.icon-svg { width: 40px; height: 40px; stroke-width: 1.5; color: var(--hp-accent-color-1); fill: none; }
+.activity-card:nth-child(even) .card-icon svg.icon-svg { color: var(--hp-accent-color-2); }
+
+/* Kart İçeriği */
+.card-title { font-size: 1.3em; font-weight: 600; color: var(--hp-text-primary); margin-bottom: 8px; }
+.card-description { font-size: 0.9em; color: var(--hp-text-secondary); margin-bottom: 18px; flex-grow: 1; min-height: 45px; }
+
+/* Kart Butonu */
+.card-button { /* Genel .btn stilini kullanır */
+    padding: 8px 20px; font-size: 0.9em; font-weight: 500;
+    background: var(--hp-accent-color-1); margin-top: auto;
 }
 .activity-card:nth-child(even) .card-button { background: var(--hp-accent-color-2); }
-.card-button:hover { background-color: #388e3c; transform: scale(1.05); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+.card-button:hover { background-color: #388e3c; transform: scale(1.03); }
 .activity-card:nth-child(even) .card-button:hover { background-color: #f57c00; }
 
+
 /* === Footer === */
-.main-footer { margin-top: 50px; background-color: var(--hp-footer-bg); color: var(--hp-footer-text); padding: 25px 0; text-align: center; font-size: 0.9em; }
+.main-footer { margin-top: 40px; background-color: var(--hp-footer-bg); color: var(--hp-footer-text); padding: 20px 0; text-align: center; font-size: 0.9em; }
+#footer-text { margin: 0; }
+
 
 /* === Medya Sorguları (Mobil Uyum) === */
-@media (max-width: 992px) {
-    .activity-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
-    .main-header h1 { font-size: 2.4em; }
-}
 @media (max-width: 768px) {
-    body { padding: 10px; }
-    #app-container { padding: 20px 15px; }
-    .main-header { padding: 30px 0 40px 0; margin-bottom: 30px;}
-    .main-header h1 { font-size: 2em; }
-    .main-header .subtitle { font-size: 1em; }
+    #app-container { padding: 0; min-height: 95vh; } /* Kenar boşluklarını sıfırla */
+    .screen { padding: 20px 15px; }
+    .main-header { padding: 25px 0 35px 0; margin-bottom: 25px; border-radius: 0 0 30% 15px / 0 0 15px 15px;}
+    h1, #main-title { font-size: 1.8em; }
+    h2 { font-size: 1.4em; }
+    #welcome-screen h2 { font-size: 1.8em;}
+    #welcome-screen .question { font-size: 1.1em; margin-bottom: 25px;}
+    .relation-buttons { gap: 10px; flex-direction: column; align-items: center; }
+    .relation-button { width: 80%; max-width: 250px; padding: 10px;}
     .activity-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-    .activity-card { padding: 20px; }
-    .card-title { font-size: 1.3em; }
-    .card-description { font-size: 0.9em; min-height: 40px; }
-    .card-button { padding: 9px 18px; font-size: 0.9em; }
+    .activity-card { padding: 18px; }
+    .card-title { font-size: 1.2em; }
+    .card-description { font-size: 0.85em; min-height: 35px; }
 }
+
 @media (max-width: 480px) {
-     .main-header h1 { font-size: 1.8em; }
-     .main-header .subtitle { font-size: 0.9em; }
-     .activity-grid { grid-template-columns: 1fr; /* Mobilde tek sütun */ gap: 15px; }
+     .main-header { padding: 20px 0 30px 0; }
+     h1, #main-title { font-size: 1.6em; }
+     #welcome-screen h2 { font-size: 1.6em;}
+     #welcome-screen .question { font-size: 1em;}
+     .activity-grid { grid-template-columns: 1fr; gap: 15px; } /* Tek sütun */
      .activity-card { padding: 15px; }
-     .card-title { font-size: 1.2em; }
+     .card-title { font-size: 1.15em; }
+     .main-footer { padding: 15px 0; font-size: 0.8em;}
 }
