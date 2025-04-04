@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quorum Sensing: Bilimsel Sunum - Vanilla JS</title>
+  <!-- Favicon ekleniyor (isteğe bağlı) -->
+  <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABKUlEQVQ4T62SMUtCURSGv3uLE2aKFkGIKRwNKFbS0NgZ4CrEFlY+gk2ShIWiCYFK+gJFFKpkiQ1EX8D+gkTFNKH6NTJt95vP9/fec73lL6MEkD2DSgVqY1wiEkGeBnR2CjYM8REK9sAEv0iRjOI4t7tgKnwEvYTIhU8ck8jzBYwd1jGLmg5URO1V8iGeqRoi0iA6BVihaM80mowrpBM92gCJZge54KOwDDoHNaTHnw8Abt1Hk7Rgm92ALf8Fe1P3yO2p0MvhJvG95B/6w5w1L4OTbP+7QC/b8mZ9GzB/hAVnHcF+84uGYYgF8BzOcbmJZfM5gCUeP8heAT0qnAa0lpFz4wAAAABJRU5ErkJggg==" />
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto+Slab:wght@400;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     /* --- Temel Renk ve Stil Değişkenleri --- */
     :root {
@@ -88,12 +88,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: clamp(40px,5vh,60px) clamp(50px,6vw,80px);
+      padding: clamp(40px, 5vh, 60px) clamp(50px, 6vw, 80px);
       opacity: 0;
       visibility: hidden;
       transform: translateX(50%) translateZ(-200px) rotateY(-30deg);
       transform-origin: center right;
-      transition: opacity var(--transition-speed) ease-out, transform var(--transition-speed) cubic-bezier(0.4,0,0.2,1);
+      transition: opacity var(--transition-speed) ease-out, transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
       overflow-y: auto;
       z-index: 1;
       pointer-events: none;
@@ -117,7 +117,7 @@
     .slide-content {
       max-width: 1150px;
       width: 100%;
-      padding: clamp(25px,3vw,45px);
+      padding: clamp(25px, 3vw, 45px);
       background: var(--glass-bg);
       border-radius: 10px;
       border: 1px solid var(--glass-border);
@@ -136,7 +136,7 @@
     .slide-content::-webkit-scrollbar-thumb:hover { background-color: var(--primary-accent); }
 
     /* --- Layout & Tipografi --- */
-    .slide-content.two-column { display: flex; align-items: center; gap: clamp(35px,4vw,55px); }
+    .slide-content.two-column { display: flex; align-items: center; gap: clamp(35px, 4vw, 55px); }
     .slide-content.two-column.reversed { flex-direction: row-reverse; }
     .two-column .text-content { flex: 1.1; min-width: 0; }
     .two-column .visual-content { flex: 0.9; max-width: 460px; text-align: center; }
@@ -144,7 +144,7 @@
     .single-column .text-content { width: 100%; max-width: 880px; text-align: left; }
     .slide h1.main-title {
       font-family: var(--font-heading);
-      font-size: clamp(3rem,6vw,5rem);
+      font-size: clamp(3rem, 6vw, 5rem);
       color: var(--text-dark);
       margin-bottom: 0.1em;
       font-weight: 700;
@@ -153,7 +153,7 @@
     }
     .slide h2.subtitle {
       font-family: var(--font-main);
-      font-size: clamp(1.3rem,2.2vw,1.6rem);
+      font-size: clamp(1.3rem, 2.2vw, 1.6rem);
       color: var(--primary-accent);
       font-weight: 400;
       margin-top: 0.5em;
@@ -162,7 +162,7 @@
     }
     .slide h2 {
       font-family: var(--font-heading);
-      font-size: clamp(1.7rem,3.5vw,2.5rem);
+      font-size: clamp(1.7rem, 3.5vw, 2.5rem);
       color: var(--primary-accent);
       margin-bottom: 0.9em;
       font-weight: 700;
@@ -173,7 +173,7 @@
     }
     .slide h3 {
       font-family: var(--font-heading);
-      font-size: clamp(1.1rem,2.2vw,1.4rem);
+      font-size: clamp(1.1rem, 2.2vw, 1.4rem);
       color: var(--text-dark);
       margin-bottom: 0.9em;
       font-weight: 400;
@@ -181,14 +181,14 @@
     }
     .slide h4 {
       font-family: var(--font-heading);
-      font-size: clamp(1rem,1.8vw,1.15rem);
+      font-size: clamp(1rem, 1.8vw, 1.15rem);
       color: var(--secondary-accent);
       margin-bottom: 0.6em;
       font-weight: 700;
       letter-spacing: 0.2px;
     }
     .slide p, .slide li {
-      font-size: clamp(0.9rem,1.6vw,1rem);
+      font-size: clamp(0.9rem, 1.6vw, 1rem);
       color: var(--text-medium);
       margin-bottom: 0.8em;
     }
@@ -272,6 +272,7 @@
     .tag.g-neg { background-color: var(--secondary-accent); color: var(--bg-light); }
     .tag.g-pos { background-color: var(--primary-accent); color: var(--bg-light); }
     .tag.g-uni { background-color: var(--highlight); color: var(--text-dark); }
+    
     /* --- Navigasyon & İlerleme --- */
     .navigation-area {
       position: fixed;
@@ -413,7 +414,7 @@
   <audio id="presentationAudio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="metadata"></audio>
 
   <script>
-    // Presentation sınıfı; tüm sunum mantığı burada yer alıyor.
+    // Sunum mantığını yöneten Presentation sınıfı
     class Presentation {
       constructor(slidesData) {
         this.slidesData = slidesData;
@@ -438,6 +439,7 @@
       }
 
       preloadImages() {
+        // Tüm görsellerin önceden yüklenmesi
         this.slidesData.forEach(slide => {
           if (slide.imageSrc) {
             const img = new Image();
@@ -452,10 +454,10 @@
         this.audioControlButton.addEventListener('click', () => this.toggleAudio());
 
         window.addEventListener('keydown', (e) => {
-          if (['ArrowRight','PageDown',' '].includes(e.key)) {
+          if (['ArrowRight', 'PageDown', ' '].includes(e.key)) {
             e.preventDefault();
             this.nextSlide();
-          } else if (['ArrowLeft','PageUp'].includes(e.key)) {
+          } else if (['ArrowLeft', 'PageUp'].includes(e.key)) {
             e.preventDefault();
             this.prevSlide();
           } else if (e.key === 'Home') {
@@ -471,7 +473,8 @@
           }
         });
 
-        if(this.audioElement) {
+        // Ses dosyası bittiğinde ses kontrolü ikonunu güncelle
+        if (this.audioElement) {
           this.audioElement.onended = () => {
             this.audioPlaying = false;
             this.audioControlButton.classList.remove('playing');
@@ -488,8 +491,8 @@
         const slideData = this.slidesData[index];
         let slideHTML = '';
 
-        // Farklı slayt tiplerine göre HTML oluşturulması
-        if(slideData.type === 'title'){
+        // Slayt tipi kontrolü
+        if (slideData.type === 'title') {
           slideHTML = `
             <div class="slide-content title-slide">
               <div class="title-text-wrapper">
@@ -501,7 +504,7 @@
                 <p class="event-info">${slideData.event}</p>
               </div>
             </div>`;
-        } else if(slideData.type === 'two-column'){
+        } else if (slideData.type === 'two-column') {
           slideHTML = `
             <div class="slide-content two-column ${slideData.reversed ? 'reversed' : ''}">
               <div class="text-content">${slideData.htmlContent}</div>
@@ -510,7 +513,7 @@
                 <img src="${slideData.imageSrc}" alt="${slideData.imageAlt || ''}">
               </div>` : ''}
             </div>`;
-        } else if(slideData.type === 'single-column'){
+        } else if (slideData.type === 'single-column') {
           slideHTML = `
             <div class="slide-content single-column">
               <div class="text-content">${slideData.htmlContentTop || ''}</div>
@@ -522,13 +525,13 @@
                 <img src="${slideData.imageSrcBottom}" alt="${slideData.imageAltBottom || ''}">
               </div>` : ''}
             </div>`;
-        } else if(slideData.type === 'references'){
+        } else if (slideData.type === 'references') {
           slideHTML = `
             <div class="slide-content references-slide">
               <h2>${slideData.title}</h2>
               <ul class="references-list compact">${slideData.htmlContent}</ul>
             </div>`;
-        } else if(slideData.type === 'final'){
+        } else if (slideData.type === 'final') {
           slideHTML = `
             <div class="slide-content single-column">
               <div class="final-slide-text">
@@ -554,18 +557,19 @@
           }, 600);
         }
 
-        // Yeni slaytı oluştur ve ekle
+        // Yeni slaytı oluşturma ve ekleme
         const newSlide = document.createElement('section');
         newSlide.className = 'slide';
         newSlide.id = `slide${index + 1}`;
         newSlide.innerHTML = slideHTML;
         this.container.appendChild(newSlide);
 
-        // Erişilebilirlik: Yeni slayta odak verilmesi
+        // Erişilebilirlik: Yeni slayta odak verme
         newSlide.tabIndex = -1;
         newSlide.focus();
 
-        if(window.requestAnimationFrame){
+        // requestAnimationFrame ile animasyonun tetiklenmesi (destek yoksa hemen ekle)
+        if (window.requestAnimationFrame) {
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
               newSlide.classList.add('active');
@@ -589,7 +593,7 @@
       }
 
       nextSlide() {
-        if(this.currentSlideIndex < this.totalSlides - 1 && !this.isTransitioning){
+        if (this.currentSlideIndex < this.totalSlides - 1 && !this.isTransitioning) {
           this.currentSlideIndex++;
           this.renderSlide(this.currentSlideIndex);
           this.updateNavigation();
@@ -597,7 +601,7 @@
       }
 
       prevSlide() {
-        if(this.currentSlideIndex > 0 && !this.isTransitioning){
+        if (this.currentSlideIndex > 0 && !this.isTransitioning) {
           this.currentSlideIndex--;
           this.renderSlide(this.currentSlideIndex);
           this.updateNavigation();
@@ -606,20 +610,20 @@
 
       scrollToTop(slideElement) {
         const content = slideElement.querySelector('.slide-content');
-        if(content){ content.scrollTop = 0; }
+        if (content) { content.scrollTop = 0; }
       }
 
       toggleAudio() {
-        if(!this.audioElement) {
+        if (!this.audioElement) {
           alert("Ses elementi bulunamadı.");
           return;
         }
-        if(!this.audioElement.src || this.audioElement.getAttribute('src') === ""){
+        if (!this.audioElement.src || this.audioElement.getAttribute('src') === "") {
           alert("Lütfen geçerli bir ses dosyası belirtin.");
           return;
         }
         this.audioControlButton.disabled = true;
-        if(this.audioPlaying) {
+        if (this.audioPlaying) {
           this.audioElement.pause();
           this.audioControlButton.innerHTML = `<span>🔊</span>`;
           this.audioControlButton.classList.remove('playing');
@@ -627,7 +631,7 @@
           this.audioControlButton.disabled = false;
         } else {
           const playPromise = this.audioElement.play();
-          if(playPromise !== undefined){
+          if (playPromise !== undefined) {
             playPromise.then(() => {
               this.audioControlButton.innerHTML = `<span>🔈</span>`;
               this.audioControlButton.classList.add('playing');
@@ -888,7 +892,7 @@
       }
     ];
 
-    // Sunumu başlat
+    // Sunum başlatılıyor
     document.addEventListener('DOMContentLoaded', () => {
       const presentation = new Presentation(slidesData);
       presentation.init();
