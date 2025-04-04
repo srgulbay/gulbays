@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quorum Sensing Deneyimi - Sait Ramazan Gülbay (Düzeltilmiş)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* === Değişkenler ve Temel Ayarlar === */
+        :root {
+            --bg-dark: #10121f;
+            --bg-medium: #1a1d2e;
+            --primary-accent: #00f5d4;
+            --secondary-accent: #ff0054;
+            --highlight: #fee440;
+            --text-light: #f0f0f0;
+            --text-medium: #a9a9d4;
+            --text-dark: #333;
+            --card-bg: rgba(40, 45, 70, 0.5);
+            --glass-bg: rgba(26, 29, 46, 0.6);
+            --glass-border: rgba(0, 245, 212, 0.3);
+            --slide-bg-gradient: radial-gradient(circle at 10% 10%, rgba(0, 245, 212, 0.08), transparent 40%),
+                                 radial-gradient(circle at 90% 80%, rgba(255, 0, 84, 0.08), transparent 40%),
+                                 linear-gradient(160deg, var(--bg-dark) 20%, var(--bg-medium) 80%);
+            --transition-speed: 0.7s;
+            --font-main: 'Poppins', sans-serif;
+            --font-title: 'Orbitron', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-accent) rgba(255, 255, 255, 0.05);
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-dark);
+            color: var(--text-light);
+            height: 100vh;
+            width: 100vw; /* Genişliği de ayarla */
+            overflow: hidden;
+            line-height: 1.7;
+            position: relative;
+        }
+
+        /* === Animasyonlu Arka Plan === */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
+            background: linear-gradient(135deg, rgba(0, 245, 212, 0.1), rgba(255, 0, 84, 0.05), rgba(0, 245, 212, 0.1));
+            background-size: 400% 400%;
+            animation: gradientAnimation 25s ease infinite;
+            opacity: 0.6;
+        }
+
+
+        /* === Sunum Konteyneri === */
+        .presentation-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            perspective: 1500px;
+        }
+
+        /* === Slayt Temel Stilleri === */
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: var(--slide-bg-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 70px;
+            opacity: 0; /* Başlangıçta görünmez */
+            visibility: hidden; /* Başlangıçta gizli */
+            transform: translateZ(-300px) rotateY(60deg) scale(0.8);
+            transform-origin: center right;
+            transition: opacity calc(var(--transition-speed) * 0.8) ease-out,
+                        transform var(--transition-speed) cubic-bezier(0.25, 1, 0.5, 1),
+                        visibility 0s ease-out var(--transition-speed); /* Visibility geçişi hemen bitsin */
+            overflow-y: auto;
+            z-index: 1;
+            pointer-events: none; /* Çok Önemli: Aktif olmayan tıklanamaz */
+        }
+
+        /* Aktif Slayt */
+        .slide.active {
+            opacity: 1;
+            visibility: visible; /* Görünür yap */
+            transform: translateZ(0) rotateY(0deg) scale(1);
+            z-index: 2;
+            pointer-events: auto; /* Önemli: Aktif olan tıklanabilir */
+            transition: opacity calc(var(--transition-speed) * 0.8) ease-out,
+                        transform var(--transition-speed) cubic-bezier(0.25, 1, 0.5, 1),
+                        visibility 0s ease-out 0s; /* Visibility geçişi hemen başlasın */
+        }
+
+        /* Çıkış Yapan Slayt */
+        .slide.exiting {
+            /* Stiller 'active' kaldırılınca otomatik uygulanır,
+               ama transformu özellikle tanımlamak iyi olur */
+            opacity: 0;
+            transform: translateZ(-300px) rotateY(-60deg) scale(0.8);
+            transform-origin: center left;
+            z-index: 1; /* Aktif'in arkasında kalır */
+            pointer-events: none;
+            visibility: hidden; /* Çıkınca gizlenmeli */
+             /* Geçiş, .slide üzerindeki genel transition ile yönetilir */
+        }
+
+
+        /* Slayt İçeriği Genel */
+        .slide-content {
+            max-width: 1200px;
+            width: 100%;
+            padding: clamp(20px, 3vw, 40px);
+            background: var(--glass-bg);
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* === Layout Stilleri === */
+        .slide-content.two-column { display: flex; align-items: center; gap: clamp(30px, 4vw, 60px); }
+        .slide-content.two-column.reversed { flex-direction: row-reverse; }
+        .two-column .text-content { flex: 1.2; min-width: 0; }
+        .two-column .visual-content { flex: 0.8; max-width: 480px; text-align: center; }
+        .slide-content.single-column { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 25px; }
+        .single-column .text-content { width: 100%; max-width: 900px; text-align: left; }
+        .single-column .text-content h2, .single-column .text-content h3 { text-align: center; border: none; padding: 0; margin-bottom: 1em;}
+        .single-column .visual-content.lower-visual { margin-top: 30px; width: 60%; }
+
+        /* === Tipografi === */
+        .slide h1.main-title { font-family: var(--font-title); font-size: clamp(3rem, 7vw, 6rem); color: var(--text-light); margin-bottom: 0.1em; font-weight: 700; letter-spacing: 2px; text-shadow: 0 0 10px var(--primary-accent), 0 0 20px var(--secondary-accent); }
+        .slide h2.subtitle { font-family: var(--font-main); font-size: clamp(1.4rem, 2.5vw, 1.8rem); color: var(--primary-accent); font-weight: 400; margin-top: 0.5em; margin-bottom: 1.5em; letter-spacing: 1px; border: none; padding: 0; display: block; }
+        .slide h2 { font-family: var(--font-title); font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--primary-accent); margin-bottom: 1em; font-weight: 500; border-bottom: 1px solid var(--secondary-accent); padding-bottom: 0.4em; display: inline-block; letter-spacing: 1px; }
+        .single-column h2 { border-bottom: none; display: block; text-align: center; }
+        .slide h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); color: var(--text-light); margin-bottom: 1em; font-weight: 400; opacity: 0.9; }
+        .slide h4 { font-size: clamp(1.05rem, 2vw, 1.25rem); color: var(--highlight); margin-bottom: 0.6em; font-weight: 600; letter-spacing: 0.5px; }
+        .slide p, .slide li { font-size: clamp(0.95rem, 1.8vw, 1.1rem); color: var(--text-medium); margin-bottom: 1em; }
+        .slide ul, .slide ol { margin-left: 25px; margin-bottom: 1em; padding-left: 10px; }
+        .slide ul { list-style: none; }
+        .slide ul li::before { content: "»"; color: var(--primary-accent); font-weight: bold; display: inline-block; width: 1em; margin-left: -1.2em; font-size: 1.1em; transition: transform 0.3s ease; }
+        .slide ul li:hover::before { transform: translateX(3px); }
+        .slide ol { list-style: none; counter-reset: step-counter; }
+        .slide ol li { counter-increment: step-counter; position: relative; margin-left: 10px; padding-left: 25px; }
+        .slide ol li::before { content: counter(step-counter); position: absolute; left: -15px; top: 0; background-color: var(--secondary-accent); color: var(--bg-dark); width: 22px; height: 22px; border-radius: 50%; font-size: 0.8em; font-weight: bold; text-align: center; line-height: 22px; }
+        .slide strong, .highlight { color: var(--highlight); font-weight: 700; }
+        .slide .citation { font-size: 0.75em; color: var(--primary-accent); opacity: 0.7; vertical-align: super; margin-left: 2px; }
+        .analogy { font-style: italic; border-left: 3px solid var(--highlight); padding-left: 10px; color: var(--text-light); opacity: 0.9; margin-top: 1em; }
+        .note { font-size: 0.85em; font-style: italic; color: var(--text-medium); opacity: 0.8; margin-top: 1em; }
+
+        /* === Görsel ve Özel Alan Stilleri === */
+        .slide img { max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); display: block; margin: 1em auto; border: 1px solid var(--glass-border); transition: transform 0.4s ease, box-shadow 0.4s ease; }
+        .slide img:hover { transform: scale(1.03); box-shadow: 0 15px 35px rgba(0, 245, 212, 0.2); }
+
+        /* Animsayonlu Diagram */
+        .animated-diagram { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 15px; margin-top: 30px; padding: 20px; }
+        .diagram-node { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 15px; background: var(--card-bg); border-radius: 10px; min-width: 150px; transition: transform 0.3s ease; border: 1px solid transparent; }
+        .diagram-node:hover { transform: translateY(-5px); border-color: var(--primary-accent); }
+        .node-icon { font-size: 2.5rem; margin-bottom: 10px; line-height: 1; }
+        .node-label { font-size: 0.9rem; color: var(--text-light); font-weight: 400; }
+        .diagram-arrow { font-size: 2rem; color: var(--primary-accent); opacity: 0.7; align-self: center; }
+        .slide.active .diagram-node { animation: popIn 0.5s ease-out forwards; opacity: 0; animation-delay: calc(0.4s + (var(--animation-order, 0) * 0.15s)); } /* Gecikme için var kullanılabilir */
+        .slide.active .diagram-arrow { animation: fadeInArrow 0.5s ease-out 0.5s forwards; opacity: 0; }
+        @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes fadeInArrow { from { opacity: 0; } to { opacity: 0.7; } }
+
+        /* Karşılaştırma Kartları */
+        .comparison-container.detailed { gap: 30px; }
+        .detailed-card { background: none; padding: 0; border: none; }
+        .card-header { display: flex; align-items: center; gap: 10px; padding: 10px 15px; border-radius: 8px 8px 0 0; font-weight: 600; font-size: 1.1rem; }
+        .card-header .icon { font-size: 1.3rem; }
+        .g-neg-header { background: linear-gradient(45deg, var(--secondary-accent), #ff3f7a); color: var(--text-light); }
+        .g-pos-header { background: linear-gradient(45deg, var(--primary-accent), #00d1b2); color: var(--bg-dark); }
+        .pathogen-pa .card-header { background: linear-gradient(45deg, #c33764, #1d2671); color: var(--text-light);}
+        .pathogen-sa .card-header { background: linear-gradient(45deg, #fca311, #ff5f6d); color: var(--bg-dark);}
+        .card-body { padding: 15px; background: var(--card-bg); border-radius: 0 0 8px 8px; border: 1px solid var(--glass-border); border-top: none; }
+        .card-body ul { margin: 0; padding-left: 5px; }
+        .card-body li::before { margin-left: -1.1em; font-size: 1em; }
+
+        /* İkon Listesi */
+        .icon-list li { list-style: none; padding-left: 35px; position: relative; margin-bottom: 12px; }
+        .icon-list li .icon { position: absolute; left: 0; top: 2px; font-size: 1.3rem; color: var(--primary-accent); }
+
+        /* İkili Liste (Zorluklar/Fırsatlar) */
+        .dual-list { display: flex; gap: 30px; margin-top: 1.5em; }
+        .list-section { flex: 1; }
+        .list-section h4 { padding-bottom: 5px; border-bottom: 1px dashed; }
+        .list-section.challenges h4 { border-color: var(--secondary-accent); color: var(--secondary-accent); }
+        .list-section.opportunities h4 { border-color: var(--primary-accent); color: var(--primary-accent); }
+        .list-section ul { margin: 10px 0 0 0; padding-left: 0; list-style: none; }
+        .list-section li { padding-left: 20px; position: relative; }
+        .list-section li::before { font-family: 'Arial'; position: absolute; left: 0; top: 1px; }
+        .list-section.challenges li::before { content: "⚠️"; }
+        .list-section.opportunities li::before { content: "✨"; }
+
+        /* Özet Noktaları */
+        .summary-points li { list-style: none; padding-left: 30px; position: relative; margin-bottom: 15px; }
+        .summary-points .point-icon { position: absolute; left: 0; top: 1px; font-size: 1.1rem; color: var(--highlight); }
+
+        /* === Özel Slayt Stilleri === */
+        .title-slide .slide-content { background: none; border: none; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+        .title-slide .presenter-info { margin-top: 3em; }
+
+        .references-slide .slide-content { background: var(--glass-bg); backdrop-filter: blur(10px); }
+        .references-list.compact li { font-size: 0.8rem; line-height: 1.3; margin-bottom: 5px; }
+
+        .final-slide-text .contact-info { margin-top: 2em; font-weight: 600; }
+        .final-slide-text .contact-info strong { color: var(--text-light); }
+
+        /* === Navigasyon ve İlerleme Çubuğu === */
+        .progress-indicator {
+            position: fixed; /* Sabit */
+            bottom: 70px;
+            left: 5%;
+            width: 90%;
+            height: 6px;
+            background-color: var(--card-bg); /* Arka plan */
+            border-radius: 3px;
+            z-index: 100; /* Önemli: Slaytların üzerinde olmalı */
+            overflow: hidden;
+            opacity: 1; /* Görünür olmalı */
+            visibility: visible; /* Görünür olmalı */
+            transition: opacity 0.3s; /* Yumuşak gizleme/gösterme */
+        }
+
+        .progress-bar {
+            width: 0; /* JS ile ayarlanacak */
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-accent), var(--highlight));
+            border-radius: 3px;
+            transition: width 0.4s ease-out;
+        }
+
+        .navigation-controls {
+            position: fixed; /* Sabit */
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100; /* Önemli: Slaytların üzerinde olmalı */
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            display: flex; /* İçerikleri yan yana diz */
+            align-items: center;
+            gap: 20px;
+            padding: 12px 25px;
+            border-radius: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            opacity: 1; /* Görünür olmalı */
+            visibility: visible; /* Görünür olmalı */
+            transition: opacity 0.3s; /* Yumuşak gizleme/gösterme */
+        }
+
+        .navigation-controls button {
+            background: var(--primary-accent);
+            color: var(--bg-dark);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            font-weight: bold;
+            line-height: 40px;
+            text-align: center;
+            padding: 0;
+            box-shadow: 0 0 10px rgba(0, 245, 212, 0.5);
+            transition: all 0.3s ease;
+        }
+        .navigation-controls button:hover:not(:disabled) { background: var(--highlight); color: var(--bg-dark); transform: scale(1.1) rotate(5deg); box-shadow: 0 0 15px rgba(254, 228, 64, 0.7); }
+        .navigation-controls button:disabled { background: rgba(85, 85, 85, 0.5); color: rgba(153, 153, 153, 0.7); box-shadow: none; transform: none; cursor: not-allowed; }
+        #slideCounter { font-size: 1rem; font-weight: 700; color: var(--text-light); text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); min-width: 50px; text-align: center; }
+
+        /* === Erişilebilirlik === */
+        .navigation-controls button:focus-visible { outline: 3px solid var(--highlight); outline-offset: 3px; background-color: var(--highlight); }
+
+        /* === Scrollbar Stili === */
+        .slide::-webkit-scrollbar { width: 12px; }
+        .slide::-webkit-scrollbar-track { background: transparent; }
+        .slide::-webkit-scrollbar-thumb { background-color: var(--primary-accent); border-radius: 10px; border: 3px solid var(--glass-bg); background-clip: content-box; }
+        .slide::-webkit-scrollbar-thumb:hover { background-color: var(--highlight); }
+
+        /* === Responsive Tasarım İyileştirmeleri === */
+        @media (max-width: 992px) {
+             /* ... (önceki responsive kuralları) ... */
+            .slide { padding: 30px 35px; }
+            .slide-content { padding: clamp(15px, 2.5vw, 30px); }
+            .slide-content.two-column { gap: 30px; flex-direction: column; } /* Mobil hep alt alta */
+            .two-column .text-content { order: 2; }
+            .two-column .visual-content { order: 1; flex-basis: auto; width: 70%; max-width: 350px; margin-bottom: 20px;}
+            .dual-list { flex-direction: column; gap: 20px; }
+        }
+        @media (max-width: 768px) {
+            html { font-size: 14.5px; }
+            .slide { padding: 25px 15px; }
+            .slide-content { border-radius: 10px; }
+            .progress-indicator { bottom: 65px; height: 4px; }
+            .navigation-controls { gap: 15px; padding: 10px 18px; bottom: 10px; } /* Biraz yukarı */
+            .navigation-controls button { width: 38px; height: 38px; font-size: 1.4rem; line-height: 38px;}
+            #slideCounter { font-size: 0.9rem; }
+            .animated-diagram { flex-direction: column; gap: 20px; }
+            .diagram-arrow { transform: rotate(90deg); }
+        }
+        @media (max-width: 480px) {
+             /* ... (önceki mobil kuralları) ... */
+            html { font-size: 14px; }
+             .slide-content { padding: 15px; }
+             .slide h1.main-title { font-size: 2.5rem; }
+             .slide h2.subtitle { font-size: 1.2rem; }
+             .slide h2 { font-size: 1.5rem; }
+             .card-header { font-size: 1rem; }
+             .navigation-controls { gap: 10px; padding: 8px 12px; }
+             .navigation-controls button { width: 32px; height: 32px; font-size: 1.2rem; line-height: 32px;}
+             #slideCounter { font-size: 0.8rem; }
+        }
+
+        /* === Giriş Animasyonları (Aktif slaytta tetiklenecek) === */
+        .slide.active .text-content,
+        .slide.active .visual-content,
+        .slide.active .animated-diagram,
+        .slide.active .comparison-container,
+        .slide.active .summary-points,
+        .slide.active .references-list,
+        .slide.active .dual-list {
+            animation: slideInContent 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .slide.active .visual-content { animation-delay: 0.5s; }
+        /* Diagram node gecikmeleri için JS ile --animation-order atanabilir veya nth-child kullanılır */
+         .slide.active .animated-diagram .diagram-node:nth-child(1) { animation-delay: 0.5s; }
+         .slide.active .animated-diagram .diagram-node:nth-child(3) { animation-delay: 0.7s; } /* Okları da sayarsak */
+         .slide.active .animated-diagram .diagram-node:nth-child(5) { animation-delay: 0.9s; }
+         .slide.active .animated-diagram .diagram-node:nth-child(7) { animation-delay: 1.1s; }
+
+        @keyframes slideInContent {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+         <div class="background-effects"></div>
+
+        <section class="slide active" id="slide1">
+             <div class="slide-content title-slide">
+                 <div class="title-text-wrapper">
+                     <h1 class="main-title">QUORUM SENSING</h1>
+                     <h2 class="subtitle">Bakteriyel Fısıltılardan Biyoteknolojik Senfonilere</h2>
+                 </div>
+                 <div class="presenter-info">
+                     <p class="presenter"><strong>Sunan:</strong> Sait Ramazan Gülbay</p>
+                     <p class="event-info">Tıbbi Mikrobiyoloji Kongresi - 5 Nisan 2025</p>
+                 </div>
+                 <div class="title-visual-elements"></div>
+            </div>
+        </section>
+
+        <section class="slide" id="slide2">
+             <div class="slide-content two-column reversed">
+                <div class="text-content">
+                    <h2>Giriş: Mikroskobik Sosyal Ağ</h2>
+                    <h3>Keşif Yolculuğumuz</h3>
+                    <ul class="agenda-list">
+                        <li><span class="agenda-number">I.</span> QS Nedir? <span class="agenda-detail">Temel Kavramlar ve Önemi</span></li>
+                        <li><span class="agenda-number">II.</span> İşleyiş Sırları: <span class="agenda-detail">Sinyaller, Reseptörler</span></li>
+                        <li><span class="agenda-number">III.</span> Bakteriyel Lehçeler: <span class="agenda-detail">Gram Farklılıkları</span></li>
+                        <li><span class="agenda-number">IV.</span> Klinik Yankılar: <span class="agenda-detail">Hastalıklar, Biyofilm, Direnç</span></li>
+                        <li><span class="agenda-number">V.</span> Müdahale Sanatı: <span class="agenda-detail">Quorum Quenching</span></li>
+                        <li><span class="agenda-number">VI.</span> Ufuktaki Gelişmeler: <span class="agenda-detail">Gelecek Perspektifleri</span></li>
+                    </ul>
+                </div>
+                 <div class="visual-content">
+                     <img src="https://images.unsplash.com/photo-1555664424-778a1e5e1b48?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Soyut teknolojik ağ bağlantıları">
+                 </div>
+             </div>
+        </section>
+
+        <section class="slide" id="slide3">
+            <div class="slide-content two-column">
+                <div class="text-content">
+                    <h2>Konsept: <span class="highlight">Yeterli Çoğunluk</span> Algısı</h2>
+                    <h3>Bakteriler Nasıl "Anlaşır"?</h3>
+                    <p>Basitçe, QS, bakterilerin ortamdaki <span class="highlight">kendi nüfus yoğunluklarını</span> algılamalarını ve belirli bir kritik eşik aşıldığında <span class="highlight">toplu davranışları</span> (örneğin saldırı veya savunma) senkronize etmelerini sağlayan bir <span class="highlight">sinyal sistemidir</span> <span class="citation">[1]</span>.</p>
+                    <p>Tek bir bakterinin etkisi sınırlıyken, <span class="highlight">"ordu"</span> yeterli sayıya ulaştığında QS ile koordineli hareket ederler.</p>
+                    <p class="analogy"><strong>Analoji:</strong> Bir konserde yeterli kalabalık oluşunca başlayan alkış tufanı gibi.</p>
+                </div>
+                <div class="visual-content">
+                    <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Kalabalık veya birlikte hareket eden soyut formlar">
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" id="slide4">
+            <div class="slide-content single-column">
+                <div class="text-content">
+                    <h2>İşleyiş: <span class="highlight">4 Adımda</span> İletişim Döngüsü</h2>
+                    <h3>Sinyal Moleküllerinin Yolculuğu <span class="citation">[2]</span></h3>
+                </div>
+                <div class="animated-diagram mechanism-diagram">
+                    <div class="diagram-node step1" style="--animation-order: 1;">
+                        <span class="node-icon">🧬</span>
+                        <span class="node-label">Üretim & Salınım (AI Sinyali)</span>
+                    </div>
+                    <div class="diagram-arrow">→</div>
+                    <div class="diagram-node step2" style="--animation-order: 2;">
+                        <span class="node-icon">📈</span>
+                        <span class="node-label">Yoğunluk Artışı & Sinyal Birikimi</span>
+                    </div>
+                    <div class="diagram-arrow">→</div>
+                    <div class="diagram-node step3" style="--animation-order: 3;">
+                        <span class="node-icon">🔑</span>
+                        <span class="node-label">Eşik Değer & Reseptör Bağlanması</span>
+                    </div>
+                    <div class="diagram-arrow">→</div>
+                    <div class="diagram-node step4" style="--animation-order: 4;">
+                        <span class="node-icon">💡</span>
+                        <span class="node-label">Koordineli Gen İfadesi (Yanıt)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide" id="slide5">
+             <div class="slide-content two-column reversed">
+                  <div class="text-content">
+                      <h2>Anahtar Oyuncular: <span class="highlight">Moleküler Alfabe</span></h2>
+                      <h3>Sinyaller (AI) ve Alıcılar (Reseptörler)</h3>
+                      <div class="component-section">
+                          <h4>Otoindükleyiciler (AI'lar): Kimyasal "Harfler"</h4>
+                          <ul>
+                             <li><span class="highlight term">AHL (Açil-Homoserin Lakton):</span> Gram (-) özel <span class="tag g-neg">G-</span></li>
+                             <li><span class="highlight term">AIP (Otoindükleyici Peptit):</span> Gram (+) özel <span class="tag g-pos">G+</span></li>
+                             <li><span class="highlight term">AI-2 (Autoinducer-2):</span> Evrensel Dil <span class="tag g-uni">Evrensel</span> <span class="citation">[3, 4]</span></li>
+                              <li>Ve diğerleri (PQS, DSFs...)</li>
+                          </ul>
+                      </div>
+                       <div class="component-section">
+                          <h4>Reseptörler: "Kulaklar"</h4>
+                          <ul>
+                             <li>Sinyalleri tanıyan ve bağlayan proteinler.</li>
+                             <li>Bağlanma sonrası hücre içi sinyal yollarını aktive ederler.</li>
+                             <li>Gen ifadesini düzenleyen anahtarlar gibi çalışırlar.</li>
+                          </ul>
+                      </div>
+                 </div>
+                  <div class="visual-content">
+                       <img src="https://images.unsplash.com/photo-1635110927455-1515e3d91955?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Soyut molekül ve reseptör bağlantısı">
+                  </div>
+             </div>
+         </section>
+
+         <section class="slide" id="slide6">
+             <div class="slide-content single-column">
+                 <div class="text-content">
+                      <h2>Sistem Mimarileri: <span class="highlight">Gram (+) vs Gram (-)</span></h2>
+                      <h3>Farklı Yapılar, Ortak Amaç</h3>
+                 </div>
+                  <div class="comparison-container detailed">
+                       <div class="comparison-item gram-negative detailed-card">
+                          <div class="card-header g-neg-header">
+                             <span class="icon">➖</span> Gram-Negatif (örn. <i>P. aeruginosa</i>)
+                          </div>
+                          <div class="card-body">
+                             <ul>
+                                <li>Sinyal: Genellikle <span class="highlight">AHL</span> <span class="citation">[2]</span></li>
+                                <li>Geçiş: Membrandan <span class="highlight">pasif difüzyon</span></li>
+                                <li>Algılama: Genellikle <span class="highlight">sitoplazmik</span> LuxR-tipi proteinler</li>
+                                <li>Özellik: Sinyal hücre içine girer.</li>
+                            </ul>
+                          </div>
+                       </div>
+                        <div class="comparison-item gram-positive detailed-card">
+                            <div class="card-header g-pos-header">
+                                 <span class="icon">➕</span> Gram-Pozitif (örn. <i>S. aureus</i>)
+                             </div>
+                            <div class="card-body">
+                                 <ul>
+                                    <li>Sinyal: Genellikle <span class="highlight">Peptit (AIP)</span> <span class="citation">[3]</span></li>
+                                    <li>Geçiş: <span class="highlight">Aktif transport</span> ile dışarı</li>
+                                    <li>Algılama: Genellikle <span class="highlight">membran</span> sensör kinazları</li>
+                                    <li>Özellik: Sinyal dışarıda algılanır.</li>
+                                </ul>
+                            </div>
+                        </div>
+                  </div>
+                   <p class="universal-signal note">**Evrensel Sinyal (AI-2):** Farklı türler arasında köprü kurar <span class="citation">[4]</span>.</p>
+             </div>
+         </section>
+
+         <section class="slide" id="slide7">
+              <div class="slide-content two-column">
+                  <div class="text-content">
+                     <h2>Kolektif Eylemler: <span class="highlight">QS Ne Yapar?</span></h2>
+                     <h3>Bireyselden Topluluğa Geçiş</h3>
+                     <p>QS, bakterilerin tek başlarına verimsiz olacak birçok davranışı koordine etmesini sağlar:</p>
+                     <ul class="icon-list">
+                         <li><span class="icon">🛡️</span><span class="highlight">Biyofilm Oluşumu:</span> Dirençli kaleler inşa etmek <span class="citation">[5]</span>.</li>
+                         <li><span class="icon">☠️</span><span class="highlight">Virülans Faktörleri:</span> Toksin ve enzim salgılayarak saldırmak <span class="citation">[1, 6]</span>.</li>
+                         <li><span class="icon">💡</span>Biyolüminesans: Ortamı aydınlatmak (<i>V. fischeri</i>).</li>
+                         <li><span class="icon">💊</span>Antibiyotik Üretimi/Direnci: Rekabet ve savunma.</li>
+                         <li><span class="icon">🧬</span>Gen Transferi (Konjugasyon): Genetik bilgi alışverişi.</li>
+                         <li><span class="icon">⏳</span>Sporülasyon: Zor koşullara hazırlanmak.</li>
+                     </ul>
+                  </div>
+                  <div class="visual-content">
+                      <img src="https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1032&q=80" alt="Biyofilm dokusu veya bakteri kolonisi altında hücreler">
+                  </div>
+              </div>
+         </section>
+
+         <section class="slide" id="slide8">
+             <div class="slide-content two-column reversed">
+                 <div class="text-content">
+                      <h2>Klinik Sahne: <span class="highlight">QS ve Enfeksiyonlar</span></h2>
+                      <h3>Hastalıkların Sessiz Orkestra Şefi</h3>
+                      <p>Patojenler, QS'i enfeksiyon sürecinde <span class="highlight">akıllıca</span> kullanır <span class="citation">[6]</span>:</p>
+                      <ol class="step-list">
+                          <li><span class="step-number">1</span><strong>Gizlenme:</strong> Düşük yoğunlukta virülans genleri kapalı tutulur, bağışıklık sisteminden kaçılır.</li>
+                          <li><span class="step-number">2</span><strong>Çoğalma & Algılama:</strong> Kritik yoğunluğa ulaşılınca QS sistemi aktive olur.</li>
+                          <li><span class="step-number">3</span><strong>Koordineli Saldırı:</strong> Tüm popülasyon aynı anda virülans faktörlerini (toksinler vb.) salgılar, konak savunması zorlanır.</li>
+                      </ol>
+                       <p class="pathogen-examples"><strong>Örnekler:</strong> <i>P. aeruginosa</i> <span class="citation">[7]</span>, <i>S. aureus</i> <span class="citation">[8]</span>, <i>V. cholerae</i>.</p>
+                 </div>
+                 <div class="visual-content">
+                      <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Mikroskop altında patojen bakteri veya enfekte doku">
+                 </div>
+             </div>
+         </section>
+
+         <section class="slide" id="slide9">
+              <div class="slide-content two-column">
+                 <div class="text-content">
+                     <h2>Aşil Topuğu: <span class="highlight">Biyofilm ve Direnç Duvarı</span></h2>
+                     <h3>Tedavideki Büyük Engel</h3>
+                      <h4>Biyofilm Kalkanı:</h4>
+                     <ul>
+                         <li>QS, biyofilm oluşumunu <span class="highlight">tetikler ve yönetir</span> <span class="citation">[5]</span>.</li>
+                         <li>Bu yapı, bakterileri antibiyotiklerden (<span class="highlight">~1000x</span> daha dirençli!) ve bağışıklıktan korur.</li>
+                         <li>Özellikle <span class="highlight">implant ve kateter</span> enfeksiyonlarında baş belasıdır.</li>
+                     </ul>
+                      <h4>Direnç Mekanizmaları:</h4>
+                      <ul>
+                         <li>QS, <span class="highlight">efluks pompaları</span> gibi direnç genlerini aktive edebilir.</li>
+                         <li>Fiziksel bariyer + Yavaş metabolizma = <span class="highlight">Antibiyotik etkisizliği</span>.</li>
+                      </ul>
+                 </div>
+                  <div class="visual-content">
+                      <img src="https://images.unsplash.com/photo-1607619056574-74848f815646?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Antibiyotik kapsülleri ve dirençli bakteri konsepti">
+                  </div>
+              </div>
+         </section>
+
+         <section class="slide" id="slide10">
+              <div class="slide-content two-column reversed">
+                  <div class="text-content">
+                     <h2>Karşı Hamle: <span class="highlight">Quorum Quenching (QQ)</span></h2>
+                     <h3>Bakteriyel İletişimi "Hacklemek"</h3>
+                     <p>Antibiyotik direncine karşı <span class="highlight">yenilikçi bir strateji</span>: Bakterilerin iletişimini kesmek! <span class="citation">[9, 10]</span></p>
+                     <p><strong>QQ Taktikleri:</strong></p>
+                     <ul class="icon-list">
+                         <li><span class="icon">🚫</span><strong>Sinyal Üretimini Engelle:</strong> Sentez enzimlerini bloke et.</li>
+                         <li><span class="icon">✂️</span><strong>Sinyali Parçala:</strong> Sinyal moleküllerini yıkan enzimler (AHLaz vb.) kullan.</li>
+                         <li><span class="icon">🔒</span><strong>Sinyal Algılamayı Boz:</strong> Reseptörleri bloke eden antagonistler kullan.</li>
+                     </ul>
+                     <p class="advantage"><strong>Avantajı:</strong> Doğrudan öldürmediği için direnç gelişim <span class="highlight">baskısını azaltma potansiyeli</span> <span class="citation">[10]</span>.</p>
+                  </div>
+                  <div class="visual-content">
+                      <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Kesilmiş iletişim hattı veya kilitlenmiş sinyal konsepti">
+                  </div>
+              </div>
+         </section>
+
+         <section class="slide" id="slide11">
+             <div class="slide-content single-column">
+                 <div class="text-content">
+                     <h2>Vaka Çalışmaları: <span class="highlight">Kritik Patojenler</span></h2>
+                     <h3>QS'in Klinik Arenadaki İzleri</h3>
+                 </div>
+                  <div class="comparison-container detailed">
+                       <div class="comparison-item pathogen-pa detailed-card">
+                           <div class="card-header g-neg-header"><span class="icon">🦠</span><i>Pseudomonas aeruginosa</i></div>
+                           <div class="card-body">
+                                <ul>
+                                    <li><strong>Sistem:</strong> Karmaşık (Las, Rhl, PQS) <span class="citation">[7]</span>.</li>
+                                    <li><strong>Etki:</strong> Kistik fibrozis, yanıklar, VİP.</li>
+                                    <li><strong>Hedef:</strong> QQ ajanları için <span class="highlight">öncelikli</span>.</li>
+                                </ul>
+                           </div>
+                       </div>
+                        <div class="comparison-item pathogen-sa detailed-card">
+                             <div class="card-header g-pos-header"><span class="icon">➕</span><i>Staphylococcus aureus</i></div>
+                             <div class="card-body">
+                                <ul>
+                                    <li><strong>Sistem:</strong> Agr (AIP tabanlı) <span class="citation">[8]</span>.</li>
+                                    <li><strong>Etki:</strong> Cilt enf., sepsis, <span class="highlight">MRSA</span>.</li>
+                                    <li><strong>Hedef:</strong> Agr inhibitörleri <span class="highlight">araştırılıyor</span>.</li>
+                                </ul>
+                            </div>
+                        </div>
+                  </div>
+                   <div class="visual-content lower-visual">
+                      <img src="https://images.unsplash.com/photo-1579165466941-d7e3e4f6f52d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="Petri kabında bakteri kültürü">
+                  </div>
+             </div>
+         </section>
+
+          <section class="slide" id="slide12">
+             <div class="slide-content two-column">
+                 <div class="text-content">
+                      <h2>Yarının Vizyonu: <span class="highlight">Engeller ve Fırsatlar</span></h2>
+                      <h3>QS Araştırmalarında Ufuk Turu</h3>
+                       <div class="dual-list">
+                           <div class="list-section challenges">
+                               <h4>⚠️ Engeller</h4>
+                               <ul>
+                                  <li>Sistemlerin karmaşıklığı</li>
+                                  <li>Spesifik hedefleme zorluğu</li>
+                                  <li>İlaç geliştirme maliyeti/süresi</li>
+                                  <li>QQ'ya karşı direnç olasılığı</li>
+                               </ul>
+                           </div>
+                            <div class="list-section opportunities">
+                                <h4>✨ Fırsatlar</h4>
+                               <ul>
+                                  <li>Yeni nesil, spesifik QQ ajanları</li>
+                                  <li>Antibiyotiklerle <span class="highlight">sinerjistik</span> kombinasyonlar</li>
+                                  <li>Konak-patojen etkileşim bilgisi</li>
+                                  <li>QS tabanlı <span class="highlight">hızlı tanı yöntemleri</span></li>
+                               </ul>
+                           </div>
+                      </div>
+                 </div>
+                 <div class="visual-content">
+                       <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Geleceğe bakan laboratuvar veya bilimsel araştırma">
+                 </div>
+             </div>
+         </section>
+
+         <section class="slide" id="slide13">
+             <div class="slide-content two-column reversed">
+                 <div class="text-content">
+                      <h2>Sonuç: <span class="highlight">Anahtar Çıkarımlar</span></h2>
+                      <h3>QS'in Mikrobiyolojideki Mirası</h3>
+                      <ul class="summary-points">
+                         <li><span class="point-icon">🔑</span> QS, bakteriyel <span class="highlight">kolektif zekanın</span> dilidir.</li>
+                         <li><span class="point-icon">🎯</span> Enfeksiyon ve dirençte <span class="highlight">merkezi</span> bir oyuncudur.</li>
+                         <li><span class="point-icon">💡</span> Tedavi için <span class="highlight">yeni ve heyecan verici</span> hedefler sunar.</li>
+                         <li><span class="point-icon">🚀</span> QQ stratejileri, <span class="highlight">anti-virülans</span> tedavisinin öncüsüdür.</li>
+                         <li><span class="point-icon">🔬</span> Araştırmalar, enfeksiyon kontrolünde <span class="highlight">devrim</span> yaratabilir.</li>
+                      </ul>
+                  </div>
+                   <div class="visual-content">
+                       <img src="https://images.unsplash.com/photo-1581093450021-ae165d9c7ef8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Hedefe ulaşma veya başarı soyut görseli">
+                   </div>
+             </div>
+         </section>
+
+          <section class="slide" id="slide14">
+              <div class="slide-content single-column references-slide">
+                  <h2>Kaynaklar & İlham</h2>
+                  <p>Bu sunumda yararlanılan temel çalışmalar:</p>
+                  <ol class="references-list compact">
+                      <li>Miller, M. B., & Bassler, B. L. (2001). Annu Rev Microbiol, 55(1), 165-199.</li>
+                      <li>Fuqua, C., et al. (2001). Annu Rev Genet, 35(1), 439-468.</li>
+                      <li>Reading, N. C., & Sperandio, V. (2006). FEMS Microbiol Lett, 254(1), 1-11.</li>
+                      <li>Xavier, K. B., & Bassler, B. L. (2003). Curr Opin Microbiol, 6(2), 191-197.</li>
+                      <li>Davies, D. G., et al. (1998). Science, 280(5361), 295-298.</li>
+                      <li>Rutherford, S. T., & Bassler, B. L. (2012). Cold Spring Harb Perspect Med, 2(11), a012427.</li>
+                      <li>Lee, J., & Zhang, L. (2015). Protein Cell, 6(1), 26-41.</li>
+                      <li>Novick, R. P. (2003). Mol Microbiol, 48(6), 1429-1449.</li>
+                      <li>Dong, Y. H., et al. (2001). Nature, 411(6839), 813-817.</li>
+                      <li>LaSarre, B., & Federle, M. J. (2013). Microbiol Mol Biol Rev, 77(1), 73-111.</li>
+                  </ol>
+                   <p class="note">Detaylı bilgi ve güncel çalışmalar için literatür taraması önerilir.</p>
+             </div>
+         </section>
+
+         <section class="slide" id="slide15">
+             <div class="slide-content two-column">
+                 <div class="text-content final-slide-text">
+                     <h2>Teşekkürler & Tartışma</h2>
+                     <h3>Sorularınız?</h3>
+                     <p>Bu mikroskobik iletişim dünyasını keşfettiğiniz için teşekkür ederim.</p>
+                     <p class="contact-info"><strong>Sait Ramazan Gülbay</strong><br>[E-posta Adresinizi Buraya]</p>
+                 </div>
+                  <div class="visual-content">
+                      <img src="https://images.unsplash.com/photo-1516534775068-ba3e7458af70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Soru işaretleri veya tartışma ortamı">
+                  </div>
+             </div>
+         </section>
+
+
+    </div> <div class="progress-indicator" id="progressIndicator">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <nav class="navigation-controls" id="navControls">
+        <button id="prevBtn" aria-label="Önceki Slayt" disabled>&lt;</button>
+        <span id="slideCounter" aria-live="polite">1 / 15</span>
+        <button id="nextBtn" aria-label="Sonraki Slayt">&gt;</button>
+    </nav>
+    <script>
+        // DOM Elementlerini Seçme (Tekrar Kontrol)
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+        const progressBar = document.getElementById('progressBar');
+        const navControls = document.getElementById('navControls'); // Navigasyon varlığını kontrol için
+        const progressIndicator = document.getElementById('progressIndicator');
+
+        // CSS'ten geçiş süresini alma
+        const transitionSpeed = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--transition-speed') || '0.7') * 1000; // 0.7s = 700ms
+
+        // Durum Değişkenleri
+        let currentSlide = 1;
+        const totalSlides = slides.length;
+        let isTransitioning = false; // Aynı anda birden fazla geçişi engellemek için bayrak
+
+        /** UI Güncelleme Fonksiyonu */
+        function updateUI(slideIndex) {
+            if (!prevBtn || !nextBtn || !slideCounter || !progressBar) {
+                console.error("UI elements not found!");
+                return;
+            }
+            prevBtn.disabled = (slideIndex === 1);
+            nextBtn.disabled = (slideIndex === totalSlides);
+            slideCounter.textContent = `${slideIndex} / ${totalSlides}`;
+            const progressPercent = (slideIndex / totalSlides) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+             // Hata ayıklama için log
+             // console.log(`UI Updated: Slide ${slideIndex}, Progress: ${progressPercent}%`);
+        }
+
+        /** Slayt Gösterme Fonksiyonu */
+        function showSlide(slideIndex) {
+             if (isTransitioning) return; // Eğer geçiş devam ediyorsa yenisini başlatma
+
+            const targetSlide = document.getElementById(`slide${slideIndex}`);
+            if (!targetSlide) {
+                console.error(`Slide with index ${slideIndex} not found.`);
+                return;
+            }
+
+            const currentActiveSlide = document.querySelector('.slide.active');
+
+            if (currentActiveSlide && currentActiveSlide.id === targetSlide.id) {
+                return; // Zaten aktif olan slaytı tekrar gösterme
+            }
+
+             isTransitioning = true; // Geçiş başladı
+             // console.log(`Transitioning from ${currentActiveSlide?.id} to ${targetSlide.id}`);
+
+
+            // Mevcut slaytı çıkar
+            if (currentActiveSlide) {
+                currentActiveSlide.classList.remove('active');
+                currentActiveSlide.classList.add('exiting');
+
+                // Geçiş bittikten sonra 'exiting' sınıfını temizle
+                setTimeout(() => {
+                     // DOM'dan kaldırılmamışsa ve hala 'exiting' ise temizle
+                    if (document.body.contains(currentActiveSlide) && currentActiveSlide.classList.contains('exiting')) {
+                        currentActiveSlide.classList.remove('exiting');
+                         // console.log(`Cleaned up exiting class from ${currentActiveSlide.id}`);
+                    }
+                     // isTransitioning bayrağını burada false yapmak yerine,
+                     // yeni slayt tamamen göründükten sonra yapmak daha güvenli olabilir.
+                }, transitionSpeed); // CSS'deki süre kadar bekle
+            }
+
+            // Yeni slaytı göster
+            targetSlide.classList.remove('exiting'); // Önemli: Hızlı geri dönüşte kalmış olabilir
+            targetSlide.classList.add('active');
+            targetSlide.scrollTop = 0; // İçeriği başa sar
+
+            // Yeni slaytın animasyonu bittikten sonra geçiş bayrağını sıfırla
+             setTimeout(() => {
+                 isTransitioning = false;
+                 // console.log("Transition finished.");
+             }, transitionSpeed); // Geçiş süresi kadar sonra
+
+            // UI elemanlarını güncelle
+            updateUI(slideIndex);
+        }
+
+        /** Yönlü Slayt Değiştirme */
+        function changeSlide(direction) {
+            const newSlideIndex = currentSlide + direction;
+            if (newSlideIndex >= 1 && newSlideIndex <= totalSlides) {
+                currentSlide = newSlideIndex;
+                showSlide(currentSlide);
+            }
+        }
+
+        // === Olay Dinleyicileri ===
+         if (prevBtn && nextBtn) { // Butonların varlığını kontrol et
+            prevBtn.addEventListener('click', () => changeSlide(-1));
+            nextBtn.addEventListener('click', () => changeSlide(1));
+         } else {
+             console.error("Navigation buttons not found!");
+         }
+
+
+        document.addEventListener('keydown', (event) => {
+            if (document.activeElement === prevBtn || document.activeElement === nextBtn) {
+               if (event.key === 'Enter' || event.key === ' ') { return; }
+            }
+            if (['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', ' ', 'PageDown', 'PageUp'].includes(event.key)) {
+                event.preventDefault();
+            }
+            if (event.key === 'ArrowRight' || event.key === ' ' || event.key === 'PageDown' || event.key === 'ArrowDown') {
+                if (nextBtn && !nextBtn.disabled) { changeSlide(1); }
+            } else if (event.key === 'ArrowLeft' || event.key === 'PageUp' || event.key === 'ArrowUp') {
+                if (prevBtn && !prevBtn.disabled) { changeSlide(-1); }
+            }
+        });
+
+        // === Başlangıç Ayarları ===
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOM Loaded. Initializing presentation...");
+            if (totalSlides > 0) {
+                 // Navigasyon elemanlarının varlığını kontrol et
+                 if (!navControls || !progressIndicator) {
+                      console.error("Navigation or progress bar container not found in HTML!");
+                 }
+
+                // İlk slaytın 'active' sınıfı HTML'de zaten var.
+                // Başlangıç UI durumunu ayarla.
+                updateUI(currentSlide);
+                 console.log(`Presentation initialized with ${totalSlides} slides. Current slide: ${currentSlide}`);
+
+                 // Gerekirse ilk slaytın stillerini zorla uygula (CSS önceliği sorunlarına karşı)
+                  const firstSlide = document.getElementById('slide1');
+                  if (firstSlide && firstSlide.classList.contains('active')) {
+                      requestAnimationFrame(() => { // Tarayıcının stilleri işlemesi için bekle
+                          firstSlide.style.opacity = 1;
+                          firstSlide.style.visibility = 'visible';
+                          firstSlide.style.transform = 'translateX(0) scale(1) rotateY(0deg)';
+                          firstSlide.style.pointerEvents = 'auto'; // Tıklanabilir yap
+                          console.log("Ensured first slide is visible.");
+                      });
+                  } else {
+                      console.error("First slide does not have 'active' class in HTML!");
+                  }
+
+            } else {
+                console.warn("Sunum için slayt bulunamadı.");
+                if(navControls) navControls.style.display = 'none';
+                if(progressIndicator) progressIndicator.style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+</html>
