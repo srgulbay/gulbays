@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quorum Sensing Sunumu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #005f73;
+            --secondary-color: #0a9396;
+            --accent-color: #94d2bd;
+            --background-color: #e9d8a6;
+            --text-color: #001219;
+            --light-text: #f8f9fa;
+            --slide-bg: #ffffff;
+            --footer-bg: #f1f1f1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Lato', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow: hidden; /* Prevent scrollbars on body */
+        }
+
+        .presentation-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: var(--slide-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 60px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease-in-out, visibility 0.6s;
+            text-align: center;
+            overflow-y: auto; /* Enable scrolling within a slide if content overflows */
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 1;
+        }
+
+        .slide-content {
+            max-width: 900px;
+            width: 100%;
+            margin: auto;
+        }
+
+        .slide h1 {
+            color: var(--primary-color);
+            font-size: 2.8em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .slide h2 {
+            color: var(--secondary-color);
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: left;
+            color: var(--text-color);
+        }
+
+        .slide ul {
+            list-style-position: inside;
+            text-align: left;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .slide code {
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        .slide img {
+            max-width: 80%;
+            max-height: 300px; /* Adjust as needed */
+            height: auto;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .slide .citation {
+            font-size: 0.8em;
+            color: #555;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+         .references li {
+            font-size: 0.9em;
+            margin-bottom: 8px;
+         }
+
+        /* Specific Slide Styles */
+        #slide1 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+        #slide1 h1, #slide1 h2, #slide1 p {
+            color: var(--light-text);
+        }
+
+        #slide1 h1 { font-size: 3.5em; }
+        #slide1 h2 { font-size: 1.5em; font-weight: 300; margin-top: 10px; }
+        #slide1 p { font-size: 1.1em; margin-top: 30px; }
+
+
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            border-radius: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .nav-button {
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background-color: var(--primary-color);
+        }
+
+        .nav-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .slide-footer {
+            position: absolute;
+            bottom: 15px;
+            left: 20px;
+            font-size: 0.8em;
+            color: #aaa;
+            z-index: 2;
+        }
+        .slide-number {
+             position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 0.8em;
+            color: #aaa;
+            z-index: 2;
+        }
+
+         /* Simple Diagram Styles */
+        .diagram {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        .diagram-step {
+            text-align: center;
+            max-width: 150px;
+        }
+        .diagram-step img {
+             width: 60px; /* Smaller images for diagrams */
+             height: 60px;
+             margin-bottom: 10px;
+        }
+         .diagram-step p {
+             font-size: 0.9em;
+             text-align: center;
+             margin-bottom: 0;
+         }
+        .arrow {
+            font-size: 2em;
+            color: var(--secondary-color);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 20px 30px;
+            }
+            .slide h1 { font-size: 2em; }
+            .slide h2 { font-size: 1.5em; }
+            .slide p, .slide li { font-size: 1em; }
+            .slide img { max-width: 90%; }
+            .diagram { flex-direction: column; }
+            .arrow { transform: rotate(90deg); margin: 10px 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+
+        <div class="slide active" id="slide1">
+            <div class="slide-content">
+                <h1>Quorum Sensing</h1>
+                <h2>Bakteriyel İletişimden Tıbbi Uygulamalara</h2>
+                <p>[Sunan: Adınız Soyadınız]</p>
+                <p>Tıbbi Mikrobiyoloji Kongresi - [Tarih]</p>
+            </div>
+            <div class="slide-footer">[Kongre Adı/Logosu]</div>
+             <div class="slide-number">1 / 15</div>
+        </div>
+
+        <div class="slide" id="slide2">
+             <div class="slide-content">
+                <h1>Giriş: Bakterilerin Gizli Dili</h1>
+                <h2>Bu Sunumda Neler Var?</h2>
+                <ul>
+                    <li>Quorum Sensing (QS) nedir? Temel kavramlar.</li>
+                    <li>QS mekanizmaları nasıl çalışır?</li>
+                    <li>Gram-pozitif ve Gram-negatif bakterilerde QS farklılıkları.</li>
+                    <li>QS'in tıbbi mikrobiyolojideki önemi: Patojenez, biyofilm ve antibiyotik direnci.</li>
+                    <li>Tedavi hedefi olarak QS: Quorum Quenching (QQ) stratejileri.</li>
+                    <li>Örnekler ve gelecek perspektifleri.</li>
+                </ul>
+                <img src="https://via.placeholder.com/600x300/0A9396/FFFFFF?text=Bakteriyel+Koloni" alt="Bakteri kolonisi illüstrasyonu">
+             </div>
+              <div class="slide-footer">Giriş</div>
+             <div class="slide-number">2 / 15</div>
+        </div>
+
+        <div class="slide" id="slide3">
+            <div class="slide-content">
+                <h1>Quorum Sensing (QS) Nedir?</h1>
+                <h2>Yoğunluğa Bağlı Karar Verme</h2>
+                <p>Quorum Sensing, bakterilerin hücre yoğunluğunu algılamak ve buna yanıt olarak gen ekspresyonunu topluca düzenlemek için kullandıkları bir iletişim mekanizmasıdır <span class="citation">[1]</span>.</p>
+                <p>Basitçe: Bakteriler, belirli bir eşik yoğunluğa ulaştıklarında "çoğunluk" olduklarını anlar ve bazı davranışları (örneğin saldırı, savunma) koordine şekilde başlatırlar.</p>
+                <p><strong>Analoji:</strong> Kalabalık bir odada fısıltıyla konuşmak yerine, yeterli kişi toplandığında hep birlikte bağırmak gibi düşünülebilir.</p>
+                <img src="https://via.placeholder.com/500x250/94D2BD/001219?text=Yoğunluk+Algılama" alt="Yoğunluk algılama konsepti">
+             </div>
+             <div class="slide-footer">Tanım</div>
+              <div class="slide-number">3 / 15</div>
+        </div>
+
+         <div class="slide" id="slide4">
+            <div class="slide-content">
+                <h1>Temel QS Mekanizması</h1>
+                <h2>Sinyal -> Algılama -> Yanıt</h2>
+                 <p>QS sistemleri genellikle şu temel adımları içerir <span class="citation">[2]</span>:</p>
+                 <div class="diagram">
+                     <div class="diagram-step">
+                         <img src="https://via.placeholder.com/100/005F73/FFFFFF?text=Sinyal" alt="Sinyal Molekülü">
+                         <p><strong>1. Sinyal Üretimi:</strong> Bakteriler, 'otoindükleyici' (AI) adı verilen küçük sinyal molekülleri üretir ve çevreye salar.</p>
+                     </div>
+                     <div class="arrow">➔</div>
+                     <div class="diagram-step">
+                          <img src="https://via.placeholder.com/100/0A9396/FFFFFF?text=Birikim" alt="Molekül Birikimi">
+                          <p><strong>2. Sinyal Birikimi:</strong> Popülasyon yoğunluğu arttıkça, ortamdaki AI konsantrasyonu da artar.</p>
+                     </div>
+                      <div class="arrow">➔</div>
+                      <div class="diagram-step">
+                          <img src="https://via.placeholder.com/100/94D2BD/001219?text=Algılama" alt="Reseptör">
+                          <p><strong>3. Sinyal Algılama:</strong> AI molekülleri belirli bir eşik konsantrasyona ulaştığında, bakteriyel reseptörlere bağlanır.</p>
+                     </div>
+                     <div class="arrow">➔</div>
+                     <div class="diagram-step">
+                         <img src="https://via.placeholder.com/100/E9D8A6/001219?text=Yanıt" alt="Gen Ekspresyonu">
+                         <p><strong>4. Koordineli Yanıt:</strong> Reseptör aktivasyonu, belirli genlerin (örn. virülans faktörleri, biyofilm oluşumu) ekspresyonunu topluca değiştirir.</p>
+                     </div>
+                 </div>
+             </div>
+              <div class="slide-footer">Mekanizma</div>
+               <div class="slide-number">4 / 15</div>
+        </div>
+
+        <div class="slide" id="slide5">
+            <div class="slide-content">
+                 <h1>Anahtar Bileşenler</h1>
+                 <h2>Otoindükleyiciler ve Reseptörler</h2>
+                 <p><strong>Otoindükleyiciler (Autoinducers - AI):</strong></p>
+                 <ul>
+                    <li>Bakteriler tarafından üretilen kimyasal sinyal molekülleridir.</li>
+                    <li>Farklı bakteri türleri farklı AI'lar kullanır.</li>
+                    <li>Örnekler: Açil-homoserin laktonlar (AHLs - Gram-negatiflerde yaygın), Otoindükleyici peptitler (AIPs - Gram-pozitiflerde yaygın), Autoinducer-2 (AI-2 - Türler arası iletişim) <span class="citation">[3]</span>.</li>
+                 </ul>
+                 <p><strong>Reseptörler:</strong></p>
+                 <ul>
+                    <li>AI moleküllerini tanıyan ve bağlayan proteinlerdir.</li>
+                    <li>Genellikle sitoplazmik transkripsiyon faktörleri veya membran sensör kinazlarıdır.</li>
+                    <li>AI bağlanması, reseptörün konformasyonunu değiştirerek sinyal iletimini başlatır.</li>
+                 </ul>
+                  <img src="https://via.placeholder.com/550x280/005F73/FFFFFF?text=AI+Molekül+ve+Reseptör" alt="Otoindükleyici molekül ve reseptör etkileşimi">
+            </div>
+             <div class="slide-footer">Bileşenler</div>
+             <div class="slide-number">5 / 15</div>
+        </div>
+
+        <div class="slide" id="slide6">
+            <div class="slide-content">
+                 <h1>QS Sistem Tipleri</h1>
+                 <h2>Gram-Pozitif vs. Gram-Negatif</h2>
+                 <p><strong>Gram-Negatif Bakteriler:</strong></p>
+                 <ul>
+                    <li>Genellikle <strong>Açil-Homoserin Lakton (AHL)</strong> sinyallerini kullanır (örn: LuxI/LuxR sistemi) <span class="citation">[2]</span>.</li>
+                    <li>AHL'ler genellikle hücre zarından serbestçe difüze olabilir.</li>
+                    <li>Reseptörler (LuxR benzeri proteinler) genellikle sitoplazmadadır ve AHL bağlandığında DNA'ya bağlanarak gen ekspresyonunu düzenler.</li>
+                 </ul>
+                 <p><strong>Gram-Pozitif Bakteriler:</strong></p>
+                 <ul>
+                    <li>Genellikle modifiye edilmiş <strong>Oligo-peptitleri (Autoinducing Peptides - AIPs)</strong> sinyal olarak kullanır <span class="citation">[3]</span>.</li>
+                    <li>AIP'ler aktif taşıma ile hücre dışına salınır.</li>
+                    <li>Algılama genellikle hücre zarındaki iki bileşenli sistem (sensör kinaz / yanıt regülatörü) tarafından yapılır.</li>
+                 </ul>
+                 <p><strong>Türler Arası İletişim:</strong> Autoinducer-2 (AI-2), hem Gram-pozitif hem de Gram-negatif bakteriler tarafından üretilip algılanabilen "evrensel" bir sinyal molekülüdür <span class="citation">[4]</span>.</p>
+            </div>
+              <div class="slide-footer">Sistem Tipleri</div>
+             <div class="slide-number">6 / 15</div>
+        </div>
+
+        <div class="slide" id="slide7">
+             <div class="slide-content">
+                <h1>QS Tarafından Düzenlenen Davranışlar</h1>
+                <h2>Kolektif Aksiyonun Gücü</h2>
+                <p>Bakteriler, yeterli çoğunluğa ulaştıklarında QS aracılığıyla birçok önemli süreci koordine ederler:</p>
+                <ul>
+                    <li><strong>Biyofilm Oluşumu:</strong> Yüzeylere yapışma ve koruyucu matris üretimi <span class="citation">[5]</span>.</li>
+                    <li><strong>Virülans Faktörlerinin Salgılanması:</strong> Toksinler, enzimler (proteazlar, hemolizinler) gibi hastalık yapıcı moleküllerin üretimi <span class="citation">[1, 6]</span>.</li>
+                    <li><strong>Biyolüminesans:</strong> Işık üretimi (örneğin, <i>Vibrio fischeri</i>).</li>
+                    <li><strong>Sporülasyon:</strong> Zorlu koşullara dayanıklı sporların oluşturulması.</li>
+                    <li><strong>Konjugasyon:</strong> Genetik materyal aktarımı.</li>
+                    <li><strong>Antibiyotik Üretimi/Direnci:</strong> Bazı antibiyotiklerin üretimi veya direnç mekanizmalarının aktivasyonu.</li>
+                </ul>
+                 <img src="https://via.placeholder.com/600x300/0A9396/FFFFFF?text=Biyofilm+%26+Virülans" alt="Biyofilm ve Virülans Faktörleri">
+             </div>
+             <div class="slide-footer">Fonksiyonlar</div>
+             <div class="slide-number">7 / 15</div>
+        </div>
+
+        <div class="slide" id="slide8">
+            <div class="slide-content">
+                 <h1>QS ve Patojenez</h1>
+                 <h2>Hastalık Gelişimindeki Rolü</h2>
+                 <p>Birçok patojen bakteri, konakçı savunma mekanizmalarından kaçınmak ve enfeksiyonu başlatmak için QS sistemlerini kullanır <span class="citation">[6]</span>.</p>
+                 <ul>
+                    <li><strong>Erken Evrelerde Gizlenme:</strong> Düşük yoğunlukta iken QS aktif değildir, bakteri bağışıklık sisteminden gizlenebilir.</li>
+                    <li><strong>Koordineli Saldırı:</strong> Yeterli sayıya ulaşıldığında (quorum), QS aktive olur ve virülans faktörleri (toksinler, doku yıkıcı enzimler) eş zamanlı olarak salgılanır. Bu, bağışıklık sisteminin başa çıkmasını zorlaştırır.</li>
+                    <li><strong>Örnek Patojenler:</strong>
+                        <ul>
+                            <li><i>Pseudomonas aeruginosa:</i> Kistik fibrozis hastalarında akciğer enfeksiyonları, yanık yarası enfeksiyonları (AHL ve PQS sistemleri) <span class="citation">[7]</span>.</li>
+                            <li><i>Staphylococcus aureus:</i> Cilt enfeksiyonları, pnömoni, sepsis (AIP tabanlı Agr sistemi) <span class="citation">[8]</span>.</li>
+                            <li><i>Vibrio cholerae:</i> Kolera (Kolera toksini üretimi QS ile düzenlenir).</li>
+                        </ul>
+                    </li>
+                 </ul>
+            </div>
+             <div class="slide-footer">Patojenez</div>
+             <div class="slide-number">8 / 15</div>
+        </div>
+
+        <div class="slide" id="slide9">
+             <div class="slide-content">
+                <h1>QS, Biyofilmler ve Direnç</h1>
+                <h2>Tedavideki Zorluklar</h2>
+                <p><strong>Biyofilm ve QS İlişkisi:</strong></p>
+                <ul>
+                    <li>QS, biyofilm oluşumunun birçok aşamasını (yapışma, matris üretimi, olgunlaşma) düzenler <span class="citation">[5]</span>.</li>
+                    <li>Biyofilm içindeki bakteriler, planktonik (serbest yüzen) formlarına göre antibiyotiklere ve konak bağışıklık sistemine karşı <strong>100-1000 kat daha dirençlidir</strong>.</li>
+                    <li>Tıbbi cihaz kaynaklı enfeksiyonlar (kateterler, implantlar) genellikle biyofilm kaynaklıdır ve QS önemli bir rol oynar.</li>
+                </ul>
+                 <p><strong>Antibiyotik Direnci ve QS:</strong></p>
+                 <ul>
+                    <li>QS, bazı durumlarda doğrudan antibiyotik direnç genlerinin (örn. efluks pompaları) ekspresyonunu artırabilir.</li>
+                    <li>Biyofilm yapısı, antibiyotiklerin penetrasyonunu fiziksel olarak engelleyebilir.</li>
+                    <li>Biyofilm içindeki yavaş metabolizma da antibiyotik etkinliğini azaltır.</li>
+                 </ul>
+                 <img src="https://via.placeholder.com/500x250/94D2BD/001219?text=Biyofilm+Direnci" alt="Biyofilm ve antibiyotik direnci ilişkisi">
+             </div>
+             <div class="slide-footer">Biyofilm ve Direnç</div>
+              <div class="slide-number">9 / 15</div>
+        </div>
+
+        <div class="slide" id="slide10">
+             <div class="slide-content">
+                <h1>Tedavi Hedefi: Quorum Quenching (QQ)</h1>
+                <h2>Bakteriyel İletişimi Bozmak</h2>
+                <p>Antibiyotik direncindeki artış, yeni tedavi stratejilerine olan ihtiyacı artırmıştır. Quorum Quenching (QQ), bakterilerin QS sistemlerini hedef alarak enfeksiyonları kontrol etmeyi amaçlayan yenilikçi bir yaklaşımdır <span class="citation">[9, 10]</span>.</p>
+                <p><strong>QQ Stratejileri:</strong></p>
+                <ul>
+                    <li><strong>Sinyal Sentezinin İnhibisyonu:</strong> Otoindükleyici (AI) üretimini sağlayan enzimleri bloke etmek.</li>
+                    <li><strong>Sinyal Moleküllerinin Yıkımı:</strong> AI'ları parçalayan enzimler (örn. AHLazlar, Laktonazlar) kullanmak.</li>
+                    <li><strong>Sinyal Algılamanın Engellenmesi:</strong> AI'ların reseptörlere bağlanmasını engelleyen antagonist moleküller kullanmak.</li>
+                </ul>
+                <p><strong>Avantajları:</strong> QQ stratejileri, bakterileri doğrudan öldürmek yerine iletişimlerini bozduğu için, klasik antibiyotiklere kıyasla direnç gelişimine daha az seçilim baskısı uygulama potansiyeline sahiptir <span class="citation">[10]</span>.</p>
+                 <img src="https://via.placeholder.com/550x250/E9D8A6/001219?text=Quorum+Quenching+Stratejileri" alt="Quorum Quenching Mekanizmaları">
+             </div>
+              <div class="slide-footer">Quorum Quenching</div>
+               <div class="slide-number">10 / 15</div>
+        </div>
+
+        <div class="slide" id="slide11">
+            <div class="slide-content">
+                <h1>Örnekler ve Klinik Önem</h1>
+                <h2>QS'in Tıptaki Yansımaları</h2>
+                <p><strong><i>Pseudomonas aeruginosa:</i></strong></p>
+                <ul>
+                    <li>İki ana AHL tabanlı QS sistemi (Las ve Rhl) ve PQS sistemi bulunur.</li>
+                    <li>Biyofilm oluşumu, proteaz, elastaz, ekzotoksin A gibi birçok virülans faktörünü kontrol eder <span class="citation">[7]</span>.</li>
+                    <li>Özellikle kistik fibrozisli hastalarda kronik akciğer enfeksiyonlarının ve ventilatör ilişkili pnömoninin önemli bir etkenidir. QS inhibitörleri bu bakteriye karşı potansiyel tedavi ajanı olarak araştırılmaktadır.</li>
+                </ul>
+                 <p><strong><i>Staphylococcus aureus:</i></strong></p>
+                 <ul>
+                    <li>Agr sistemi (AIP tabanlı) en bilinen QS sistemidir.</li>
+                    <li>Hemolizinler, toksinler (TSST-1), proteazlar gibi virülans faktörlerini ve biyofilm oluşumunu düzenler <span class="citation">[8]</span>.</li>
+                    <li>MRSA (Metisiline Dirençli S. aureus) enfeksiyonlarının tedavisindeki zorluklar, Agr sistemini hedef alan QQ yaklaşımlarına ilgiyi artırmıştır.</li>
+                 </ul>
+                  <img src="https://via.placeholder.com/600x250/005F73/FFFFFF?text=P.+aeruginosa+%26+S.+aureus" alt="Pseudomonas aeruginosa ve Staphylococcus aureus">
+            </div>
+            <div class="slide-footer">Örnekler</div>
+             <div class="slide-number">11 / 15</div>
+        </div>
+
+         <div class="slide" id="slide12">
+            <div class="slide-content">
+                 <h1>Zorluklar ve Gelecek Perspektifleri</h1>
+                 <h2>QS Araştırmalarının Yarını</h2>
+                 <p><strong>Mevcut Zorluklar:</strong></p>
+                 <ul>
+                    <li><strong>Karmaşıklık:</strong> Birçok bakteride birden fazla ve birbiriyle etkileşen QS sistemi bulunur.</li>
+                    <li><strong>Spesifiklik:</strong> Patojenlere özgü QS sistemlerini hedeflerken, yararlı kommensal bakterilerin QS'ini bozmamak önemlidir.</li>
+                    <li><strong>İlaç Geliştirme:</strong> Etkili, stabil ve düşük toksisiteye sahip QQ ajanlarının geliştirilmesi ve klinik çalışmalara taşınması zordur.</li>
+                    <li><strong>Direnç Potansiyeli:</strong> QQ ajanlarına karşı da zamanla direnç gelişebilir.</li>
+                 </ul>
+                 <p><strong>Gelecek Yönelimleri:</strong></p>
+                 <ul>
+                    <li>Yeni ve daha spesifik QQ moleküllerinin keşfi ve tasarımı.</li>
+                    <li>QS inhibitörlerinin antibiyotiklerle kombine kullanımı (sinerjistik etki).</li>
+                    <li>QS'in konak-patojen etkileşimlerindeki rolünün daha derinlemesine anlaşılması.</li>
+                    <li>QS tabanlı tanı yöntemlerinin geliştirilmesi.</li>
+                 </ul>
+            </div>
+             <div class="slide-footer">Gelecek</div>
+             <div class="slide-number">12 / 15</div>
+        </div>
+
+        <div class="slide" id="slide13">
+            <div class="slide-content">
+                 <h1>Sonuç</h1>
+                 <h2>Önemli Çıkarımlar</h2>
+                 <ul>
+                    <li>Quorum Sensing, bakterilerin popülasyon yoğunluğuna bağlı olarak gen ekspresyonunu koordine etmelerini sağlayan kritik bir iletişim mekanizmasıdır.</li>
+                    <li>Patojen bakterilerde virülans faktörlerinin üretimi ve biyofilm oluşumu gibi süreçlerde merkezi bir rol oynar.</li>
+                    <li>QS, tıbbi mikrobiyolojide enfeksiyonların anlaşılması ve tedavisi için önemli bir hedeftir.</li>
+                    <li>Quorum Quenching (QQ) stratejileri, antibiyotik direncine karşı mücadelede umut verici, yenilikçi bir yaklaşım sunmaktadır.</li>
+                    <li>Bu alandaki araştırmalar, enfeksiyon hastalıklarıyla mücadelede yeni kapılar açma potansiyeline sahiptir.</li>
+                 </ul>
+                  <img src="https://via.placeholder.com/500x250/0A9396/FFFFFF?text=Özet+ve+Anahtar+Noktalar" alt="Sunum özeti">
+            </div>
+             <div class="slide-footer">Sonuç</div>
+              <div class="slide-number">13 / 15</div>
+        </div>
+
+         <div class="slide" id="slide14">
+             <div class="slide-content" style="text-align: left;">
+                 <h1>Referanslar</h1>
+                 <p>Bu sunumda kullanılan bilgilerin dayandığı temel kaynaklar (Örnek Referanslar):</p>
+                 <ol class="references">
+                     <li>Miller, M. B., & Bassler, B. L. (2001). Quorum sensing in bacteria. <i>Annual review of microbiology, 55</i>(1), 165-199.</li>
+                     <li>Fuqua, C., Parsek, M. R., & Greenberg, E. P. (2001). Regulation of gene expression by cell-to-cell communication: acyl-homoserine lactone quorum sensing. <i>Annual Reviews in Genetics, 35</i>(1), 439-468.</li>
+                     <li>Reading, N. C., & Sperandio, V. (2006). Quorum sensing: the many languages of bacteria. <i>FEMS microbiology letters, 254</i>(1), 1-11.</li>
+                     <li>Xavier, K. B., & Bassler, B. L. (2003). LuxS quorum sensing: more than just a numbers game. <i>Current opinion in microbiology, 6</i>(2), 191-197.</li>
+                     <li>Davies, D. G., Parsek, M. R., Pearson, J. P., Iglewski, B. H., Costerton, J. W., & Greenberg, E. P. (1998). The involvement of cell-to-cell signals in the development of a bacterial biofilm. <i>Science, 280</i>(5361), 295-298.</li>
+                     <li>Rutherford, S. T., & Bassler, B. L. (2012). Bacterial quorum sensing: its role in virulence and possibilities for its control. <i>Cold Spring Harbor perspectives in medicine, 2</i>(11), a012427.</li>
+                     <li>Lee, J., & Zhang, L. (2015). The hierarchy quorum sensing network in Pseudomonas aeruginosa. <i>Protein & cell, 6</i>(1), 26-41.</li>
+                     <li>Novick, R. P. (2003). Autoinduction and signal transduction in the regulation of staphylococcal virulence. <i>Molecular microbiology, 48</i>(6), 1429-1449.</li>
+                     <li>Dong, Y. H., Wang, L. H., Xu, J. L., Zhang, H. B., Zhang, X. F., & Zhang, L. H. (2001). Quenching quorum-sensing-dependent bacterial infection by an N-acyl homoserine lactonase. <i>Nature, 411</i>(6839), 813-817.</li>
+                     <li>LaSarre, B., & Federle, M. J. (2013). Exploiting quorum sensing to confuse bacterial pathogens. <i>Microbiology and Molecular Biology Reviews, 77</i>(1), 73-111.</li>
+                 </ol>
+                 <p style="font-size: 0.9em; margin-top: 20px;">Not: Bu referans listesi konunun temelini oluşturan önemli makalelerden seçilmiştir. Daha detaylı ve güncel literatür taraması önerilir.</p>
+             </div>
+             <div class="slide-footer">Referanslar</div>
+              <div class="slide-number">14 / 15</div>
+        </div>
+
+        <div class="slide" id="slide15">
+            <div class="slide-content">
+                <h1>Teşekkürler</h1>
+                <h2>Sorularınız?</h2>
+                <p>Dinlediğiniz için teşekkür ederim.</p>
+                <p>Varsa sorularınızı alabilirim.</p>
+                 <p style="margin-top: 30px; font-size: 1.2em;">İletişim: [E-posta Adresiniz]</p>
+                  <img src="https://via.placeholder.com/400x200/0A9396/FFFFFF?text=Soru+%26+Cevap" alt="Soru işareti ikonu">
+            </div>
+             <div class="slide-footer">Teşekkür</div>
+             <div class="slide-number">15 / 15</div>
+        </div>
+
+    </div>
+
+    <div class="navigation">
+        <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)" disabled>Önceki</button>
+        <span id="slideCounter" style="margin: 0 10px; color: var(--text-color); font-weight: bold;">1 / 15</span>
+        <button class="nav-button" id="nextBtn" onclick="changeSlide(1)">Sonraki</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+
+        function showSlide(n) {
+            // Hide all slides
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Show the target slide
+            const targetSlide = document.getElementById(`slide${n}`);
+            if (targetSlide) {
+                targetSlide.classList.add('active');
+            }
+
+            // Update navigation buttons and counter
+            prevBtn.disabled = (n === 1);
+            nextBtn.disabled = (n === totalSlides);
+            slideCounter.textContent = `${n} / ${totalSlides}`;
+
+            // Update slide number footer on the active slide
+             slides.forEach((slide, index) => {
+                const slideNumElement = slide.querySelector('.slide-number');
+                if(slideNumElement) {
+                    slideNumElement.textContent = `${index + 1} / ${totalSlides}`;
+                }
+            });
+        }
+
+        function changeSlide(direction) {
+            const newSlideIndex = currentSlide + direction;
+            if (newSlideIndex >= 1 && newSlideIndex <= totalSlides) {
+                currentSlide = newSlideIndex;
+                showSlide(currentSlide);
+            }
+        }
+
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', () => {
+            showSlide(currentSlide);
+
+             // Add keyboard navigation
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'ArrowRight') {
+                    changeSlide(1);
+                } else if (event.key === 'ArrowLeft') {
+                    changeSlide(-1);
+                }
+            });
+        });
+
+    </script>
+
+</body>
+</html>
