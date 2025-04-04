@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quorum Sensing: Bilimsel Bir Deneyim - Alpine.js</title>
+    <title>Quorum Sensing: Bilimsel Bir Deneyim - Alpine.js (Tam İçerik)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
             --slide-bg-gradient: radial-gradient(circle at 10% 90%, rgba(72, 169, 166, 0.1), transparent 50%),
                                  radial-gradient(circle at 90% 10%, rgba(0, 119, 182, 0.1), transparent 50%),
                                  linear-gradient(175deg, var(--bg-light) 40%, var(--bg-medium-light) 100%);
-            --transition-speed: 0.6s; /* Biraz hızlandırdık */
+            --transition-speed: 0.6s;
             --font-main: 'Lato', sans-serif;
             --font-heading: 'Roboto Slab', serif;
             --shadow-color-light: rgba(90, 103, 125, 0.15);
@@ -59,36 +59,33 @@
             overflow-y: auto; z-index: 1; pointer-events: none;
         }
 
-        /* Aktif slayt stilleri Alpine tarafından yönetilecek */
-        .slide.active {
-             opacity: 1; visibility: visible;
-             transform: translateX(0) translateZ(0) rotateY(0deg);
-             z-index: 2; pointer-events: auto;
-        }
-
         /* Alpine geçiş stilleri */
-        .alpine-enter { /* Giriş başlangıcı */
+        [x-cloak] { display: none !important; } /* Alpine yüklenene kadar içeriği gizle */
+
+        .alpine-enter {
              opacity: 0;
              transform: translateX(50%) translateZ(-200px) rotateY(-30deg);
              transform-origin: center right;
         }
-        .alpine-enter-active { /* Giriş animasyonu */
+        .alpine-enter-active {
             transition: opacity var(--transition-speed) ease-out, transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .alpine-enter-to { /* Giriş bitişi */
+        .alpine-enter-to {
             opacity: 1;
             transform: translateX(0) translateZ(0) rotateY(0deg);
         }
-        .alpine-leave { /* Çıkış başlangıcı */
+        .alpine-leave {
             opacity: 1;
             transform: translateX(0) translateZ(0) rotateY(0deg);
         }
-        .alpine-leave-active { /* Çıkış animasyonu */
+        .alpine-leave-active {
             transition: opacity var(--transition-speed) ease-out, transform var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
             position: absolute; /* Kaymayı önlemek için çıkarken pozisyonu sabitle */
             width: 100%;
+            top: 0; /* Mutlaka top değeri verilmeli */
+            left: 0;
         }
-        .alpine-leave-to { /* Çıkış bitişi */
+        .alpine-leave-to {
             opacity: 0;
             transform: translateX(-50%) translateZ(-200px) rotateY(30deg);
             transform-origin: center left;
@@ -139,6 +136,11 @@
         .agenda-list li { margin-bottom: 0.6em; }
         .agenda-number { display: inline-block; width: 25px; font-weight: bold; color: var(--primary-accent); }
         .agenda-detail { color: var(--text-medium); font-size: 0.9em; }
+        .component-section { margin-bottom: 1.2em; }
+        .component-section ul { padding-left: 10px; }
+        .component-section li { margin-bottom: 0.3em; }
+        .pathogen-examples { margin-top: 1em; }
+        .advantage { margin-top: 1em; }
 
         /* Görsel ve Özel Alan Stilleri (Önceki CSS ile aynı) */
         .slide img { max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 5px 15px var(--shadow-color-light); display: block; margin: 1em auto; border: 1px solid rgba(0, 119, 182, 0.15); transition: transform 0.4s ease, box-shadow 0.4s ease; }
@@ -173,7 +175,7 @@
         .title-slide .presenter-info { margin-top: 2em; color: var(--text-medium); }
         .title-slide .presenter-info strong { color: var(--text-dark); }
         .references-slide .slide-content { background: rgba(232, 239, 243, 0.8); backdrop-filter: blur(8px); padding: 25px;}
-        .references-slide h2 { border-bottom-color: var(--primary-accent); color: var(--primary-accent); }
+        .references-slide h2 { border-bottom-color: var(--primary-accent); color: var(--primary-accent); margin-bottom: 0.6em; }
         .references-list.compact { list-style: none; padding-left: 0;}
         .references-list.compact li { font-size: 0.7rem; line-height: 1.3; margin-bottom: 3px; color: var(--text-medium);}
         .final-slide-text { text-align: center; max-width: 700px;}
@@ -225,69 +227,65 @@
         }
     </style>
 </head>
-<body x-data="presentation()">
-
-    <div class="presentation-container">
+<body x-data="presentation()" x-cloak> <div class="presentation-container">
         <div class="background-effects"></div>
 
         <template x-for="(slide, index) in slides" :key="index">
-            <section class="slide"
-                     :id="'slide' + (index + 1)"
-                     x-show="currentSlide === index + 1"
-                     x-transition:enter="alpine-enter"
-                     x-transition:enter-start="alpine-enter-active"
-                     x-transition:enter-end="alpine-enter-to"
-                     x-transition:leave="alpine-leave"
-                     x-transition:leave-start="alpine-leave-active"
-                     x-transition:leave-end="alpine-leave-to">
+            <div x-show="currentSlide === index + 1"
+                 x-transition:enter="alpine-enter-active"
+                 x-transition:enter-start="alpine-enter"
+                 x-transition:enter-end="alpine-enter-to"
+                 x-transition:leave="alpine-leave-active"
+                 x-transition:leave-start="alpine-leave"
+                 x-transition:leave-end="alpine-leave-to">
+                <section class="slide" :id="'slide' + (index + 1)">
 
-                <div x-show="slide.type === 'title'" class="slide-content title-slide">
-                    <div class="title-text-wrapper">
-                       <h1 class="main-title" x-html="slide.title"></h1>
-                       <h2 class="subtitle" x-html="slide.subtitle"></h2>
+                    <div x-show="slide.type === 'title'" class="slide-content title-slide">
+                        <div class="title-text-wrapper">
+                           <h1 class="main-title" x-html="slide.title"></h1>
+                           <h2 class="subtitle" x-html="slide.subtitle"></h2>
+                        </div>
+                        <div class="presenter-info">
+                            <p class="presenter"><strong>Sunan:</strong> <span x-text="slide.presenter"></span></p>
+                            <p class="event-info" x-text="slide.event"></p>
+                        </div>
                     </div>
-                    <div class="presenter-info">
-                        <p class="presenter"><strong>Sunan:</strong> <span x-text="slide.presenter"></span></p>
-                        <p class="event-info" x-text="slide.event"></p>
+
+                    <div x-show="slide.type === 'two-column'"
+                         :class="['slide-content', 'two-column', slide.reversed ? 'reversed' : '']">
+                        <div class="text-content" x-html="slide.htmlContent"></div>
+                        <div class="visual-content" x-show="slide.imageSrc">
+                             <img :src="slide.imageSrc" :alt="slide.imageAlt">
+                        </div>
                     </div>
-                 </div>
 
-                 <div x-show="slide.type === 'two-column'"
-                      :class="['slide-content', 'two-column', slide.reversed ? 'reversed' : '']">
-                    <div class="text-content" x-html="slide.htmlContent"></div>
-                    <div class="visual-content" x-show="slide.imageSrc">
-                         <img :src="slide.imageSrc" :alt="slide.imageAlt">
+                    <div x-show="slide.type === 'single-column'" class="slide-content single-column">
+                         <div class="text-content" x-html="slide.htmlContentTop"></div>
+                         <div x-show="slide.htmlContentDiagram" class="animated-diagram mechanism-diagram" x-html="slide.htmlContentDiagram"></div>
+                         <div x-show="slide.htmlContentComparison" class="comparison-container detailed" x-html="slide.htmlContentComparison"></div>
+                         <p x-show="slide.note" class="note" x-html="slide.note"></p> <div class="visual-content lower-visual" x-show="slide.imageSrcBottom">
+                              <img :src="slide.imageSrcBottom" :alt="slide.imageAltBottom">
+                         </div>
                     </div>
-                 </div>
 
-                 <div x-show="slide.type === 'single-column'" class="slide-content single-column">
-                      <div class="text-content" x-html="slide.htmlContentTop"></div>
-                      <div x-show="slide.htmlContentDiagram" class="animated-diagram mechanism-diagram" x-html="slide.htmlContentDiagram"></div>
-                      <div x-show="slide.htmlContentComparison" class="comparison-container detailed" x-html="slide.htmlContentComparison"></div>
-                      <p x-show="slide.note" class="universal-signal note" x-html="slide.note"></p>
-                      <div class="visual-content lower-visual" x-show="slide.imageSrcBottom">
-                           <img :src="slide.imageSrcBottom" :alt="slide.imageAltBottom">
-                      </div>
-                 </div>
+                    <div x-show="slide.type === 'references'" class="slide-content references-slide">
+                           <h2 x-text="slide.title"></h2>
+                           <ul class="references-list compact" x-html="slide.htmlContent"></ul>
+                    </div>
 
-                 <div x-show="slide.type === 'references'" class="slide-content references-slide">
-                        <h2 x-text="slide.title"></h2>
-                        <ul class="references-list compact" x-html="slide.htmlContent"></ul>
-                  </div>
+                    <div x-show="slide.type === 'final'" class="slide-content single-column">
+                         <div class="final-slide-text">
+                             <h2 class="subtitle" x-text="slide.title"></h2>
+                             <p x-html="slide.text"></p>
+                             <div class="contact-info">
+                                 <p><strong><span x-text="slide.contactName"></span></strong></p>
+                                 <p><span x-text="slide.contactEmail"></span></p>
+                             </div>
+                         </div>
+                    </div>
 
-                  <div x-show="slide.type === 'final'" class="slide-content single-column">
-                      <div class="final-slide-text">
-                          <h2 class="subtitle" x-text="slide.title"></h2>
-                          <p x-html="slide.text"></p>
-                          <div class="contact-info">
-                              <p><strong x-text="slide.contactName"></strong></p>
-                              <p><span x-text="slide.contactEmail"></span></p>
-                          </div>
-                      </div>
-                  </div>
-
-            </section>
-        </template>
+                </section>
+            </div> </template>
 
     </div>
 
@@ -306,12 +304,16 @@
         </div>
     </div>
 
-     <audio id="presentationAudio" src="path/to/your/audio.mp3" preload="metadata"></audio> <script>
+     <audio id="presentationAudio" src="" preload="metadata"></audio>
+
+
+    <script>
         function presentation() {
             return {
                 currentSlide: 1,
                 audioElement: null,
                 audioPlaying: false,
+                // SLAYT İÇERİKLERİ (Orijinal HTML'den Dolduruldu)
                 slides: [
                     // SLAYT 1: Başlık
                     {
@@ -319,7 +321,7 @@
                         title: 'QUORUM SENSING',
                         subtitle: 'Bakteriyel Fısıltılardan Biyoteknolojik Senfonilere',
                         presenter: 'Sait Ramazan Gülbay',
-                        event: 'Tıbbi Mikrobiyoloji Kongresi - 5 Nisan 2025' // Tarih güncel :)
+                        event: `Tıbbi Mikrobiyoloji Kongresi - 5 Nisan 2025` // Tarih güncel
                     },
                     // SLAYT 2: Giriş & Ajanda
                     {
@@ -336,7 +338,7 @@
                                 <li><span class="agenda-number">V.</span> Müdahale Sanatı: <span class="agenda-detail">Quorum Quenching</span></li>
                                 <li><span class="agenda-number">VI.</span> Ufuktaki Gelişmeler: <span class="agenda-detail">Gelecek</span></li>
                             </ul>`,
-                        imageSrc: 'https://images.unsplash.com/photo-1531297484001-80022131c5a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=460&q=80', // Daha küçük boyut
+                        imageSrc: 'https://images.unsplash.com/photo-1531297484001-80022131c5a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=460&q=80',
                         imageAlt: 'Teknolojik arayüz veya veri görselleştirmesi'
                     },
                      // SLAYT 3: Konsept
@@ -374,7 +376,7 @@
                            <div class="diagram-node step4">
                                <span class="node-icon">💡</span><span class="node-label">Yanıt (Gen İfadesi)</span>
                            </div>`,
-                         htmlContentComparison: null, // Bu slaytta karşılaştırma yok
+                         htmlContentComparison: null,
                          note: null
                     },
                     // SLAYT 5: Anahtar Oyuncular
@@ -465,7 +467,7 @@
                                 <li><strong>Algıla:</strong> Yeterli sayıya ulaş.</li>
                                 <li><strong>Saldır:</strong> Eş zamanlı virülans.</li>
                             </ol>
-                            <p class="pathogen-examples" style="margin-top: 1em;"><strong>Örnekler:</strong> <i>P. aeruginosa</i> <span class="citation">[7]</span>, <i>S. aureus</i> <span class="citation">[8]</span>.</p>`,
+                            <p class="pathogen-examples"><strong>Örnekler:</strong> <i>P. aeruginosa</i> <span class="citation">[7]</span>, <i>S. aureus</i> <span class="citation">[8]</span>.</p>`,
                         imageSrc: 'https://images.unsplash.com/photo-1579154284327-b79d72e93a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=460&q=80',
                         imageAlt: 'Enfeksiyon veya hastalıkla ilgili medikal illüstrasyon'
                      },
@@ -487,7 +489,7 @@
                                 <li>QS, <span class="highlight">direnç genlerini</span> aktive edebilir.</li>
                                 <li>Fiziksel bariyer + Yavaş metabolizma.</li>
                             </ul>`,
-                        imageSrc: 'https://images.unsplash.com/photo-1617896044912-0b0f5a7ab0e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=387&q=80', // Dikey resim için w küçültüldü
+                        imageSrc: 'https://images.unsplash.com/photo-1617896044912-0b0f5a7ab0e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=387&q=80',
                         imageAlt: 'Antibiyotik hapları veya direnç konsepti'
                       },
                       // SLAYT 10: Quorum Quenching
@@ -504,7 +506,7 @@
                                 <li><span class="icon">✂️</span>Sinyali Parçala</li>
                                 <li><span class="icon">🔒</span>Sinyal Algılamayı Boz</li>
                             </ul>
-                            <p class="advantage" style="margin-top:1em;"><strong>Avantajı:</strong> Direnç <span class="highlight">baskısını azaltabilir</span> <span class="citation">[10]</span>.</p>`,
+                            <p class="advantage"><strong>Avantajı:</strong> Direnç <span class="highlight">baskısını azaltabilir</span> <span class="citation">[10]</span>.</p>`,
                         imageSrc: 'https://images.unsplash.com/photo-1529480771378-c600a2854359?ixlib=rb-4.0.3&auto=format&fit=crop&w=460&q=80',
                         imageAlt: 'Hedefe yönelik strateji veya müdahale'
                       },
@@ -540,7 +542,7 @@
                             </div>`,
                          note: null
                     },
-                     // SLAYT 12: Referanslar (Örnek)
+                     // SLAYT 12: Referanslar
                      {
                          type: 'references',
                          title: 'Referanslar',
@@ -555,7 +557,6 @@
                             <li>[8] Thoendel, M., et al. (2011). The agr quorum sensing system in Staphylococcus aureus. Future microbiology, 6(1), 63-77.</li>
                             <li>[9] Dong, Y. H., et al. (2001). Quenching quorum-sensing-dependent bacterial infection by an N-acyl homoserine lactonase. Nature, 411(6839), 813-817.</li>
                             <li>[10] Kalia, V. C. (Ed.). (2015). Quorum sensing vs quorum quenching: a battle with no end in sight. Springer India.</li>
-                            <li>(Diğer referanslar eklenebilir...)</li>
                         `
                      },
                      // SLAYT 13: Final
@@ -566,58 +567,87 @@
                          contactName: 'Sait Ramazan Gülbay',
                          contactEmail: 'sait.ramazan.gulbay@ornekmail.com' // Gerçek e-posta adresinizle değiştirin
                      }
-
                 ],
                 get totalSlides() {
                     return this.slides.length;
                 },
                 get progress() {
-                    // İlk slaytı 0% değil, bir miktar ilerlemiş göstermek için +1
-                    // Son slaytta %100 olması için (currentSlide / totalSlides)
                     return (this.currentSlide / this.totalSlides) * 100;
                 },
                 nextSlide() {
                     if (this.currentSlide < this.totalSlides) {
                         this.currentSlide++;
+                        this.scrollToTop(); // Slayt değişince üste kaydır
                     }
                 },
                 prevSlide() {
                     if (this.currentSlide > 1) {
                         this.currentSlide--;
+                        this.scrollToTop(); // Slayt değişince üste kaydır
                     }
+                },
+                scrollToTop() {
+                    // Aktif slayt elementini bul ve içeriğini en üste kaydır
+                    this.$nextTick(() => { // DOM güncellendikten sonra çalıştır
+                        const activeSlideElement = this.$root.querySelector(`#slide${this.currentSlide} .slide-content`);
+                        if (activeSlideElement) {
+                            activeSlideElement.scrollTop = 0;
+                        }
+                    });
                 },
                  init() {
                      // Klavye navigasyonu
                      window.addEventListener('keydown', (e) => {
-                         if (e.key === 'ArrowRight') {
+                         if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { // Sağ ok, PageDown veya Boşluk
+                             e.preventDefault(); // Boşluk tuşunun sayfayı kaydırmasını engelle
                              this.nextSlide();
-                         } else if (e.key === 'ArrowLeft') {
+                         } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { // Sol ok veya PageUp
+                             e.preventDefault();
                              this.prevSlide();
+                         } else if (e.key === 'Home') { // Home tuşu
+                            e.preventDefault();
+                            this.currentSlide = 1;
+                            this.scrollToTop();
+                         } else if (e.key === 'End') { // End tuşu
+                            e.preventDefault();
+                            this.currentSlide = this.totalSlides;
+                            this.scrollToTop();
                          }
                      });
 
                      // Ses elementini bul
                      this.audioElement = this.$root.querySelector('#presentationAudio');
                      if(this.audioElement) {
-                         // Ses bittiğinde durumu güncelle
                         this.audioElement.onended = () => {
                            this.audioPlaying = false;
-                         };
+                        };
                      } else {
-                         console.warn("Audio element not found!");
+                         console.warn("Audio element (#presentationAudio) not found!");
                      }
                  },
                  toggleAudio() {
-                    if (!this.audioElement || !this.audioElement.src || this.audioElement.src.endsWith('audio.mp3')) {
-                        alert("Lütfen geçerli bir ses dosyası yolu belirtin.");
+                    if (!this.audioElement) {
+                        alert("Ses elementi bulunamadı.");
                         return;
+                     }
+                     // SRC kontrolü: Eğer src boşsa veya varsayılan placeholder ise uyarı ver
+                     if (!this.audioElement.src || this.audioElement.getAttribute('src') === "") {
+                         alert("Lütfen <audio> etiketine geçerli bir ses dosyası (src) yolu belirtin.");
+                         return;
                      }
 
                      if (this.audioPlaying) {
                          this.audioElement.pause();
                      } else {
-                         this.audioElement.play().catch(error => console.error("Audio play failed:", error));
+                         // Play promise'ini ele alarak hataları yakala (örn. kullanıcı etkileşimi olmadan otomatik oynatma engeli)
+                         this.audioElement.play().catch(error => {
+                             console.error("Audio play failed:", error);
+                             // Kullanıcıya bir hata mesajı göstermek iyi olabilir
+                             // alert("Ses çalınamadı. Tarayıcı ayarları veya dosya yolu hatası olabilir.");
+                             this.audioPlaying = false; // Hata durumunda state'i düzelt
+                         });
                      }
+                     // State'i sadece başarılı başlatma/durdurma sonrası değiştir (play() promise'i bunu zorlaştırır, basit toggle yapıyoruz)
                      this.audioPlaying = !this.audioPlaying;
                  }
             }
