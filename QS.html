@@ -3,39 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quorum Sensing Sunumu - Sait Ramazan Gülbay</title>
+    <title>Quorum Sensing Deneyimi - Sait Ramazan Gülbay</title>
     <link rel="stylesheet" href="slides-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
 </head>
 <body>
 
     <div class="presentation-container">
+         <div class="background-effects"></div>
 
-        <section class="slide" id="slide1">
+        <section class="slide active" id="slide1">
             <div class="slide-content title-slide">
-                 <h1>Quorum Sensing</h1>
-                 <h2>Bakterilerin Sosyal Ağı: İletişimden Enfeksiyona</h2>
-                 <p class="presenter"><strong>Sunan:</strong> Sait Ramazan Gülbay</p>
-                 <p class="event-info">Tıbbi Mikrobiyoloji Kongresi - 5 Nisan 2025</p>
-                 <img src="placeholder-images/title-background.jpg" alt="Başlık Arka Planı Konsept" class="background-image">
+                 <div class="title-text-wrapper">
+                     <h1 class="main-title">QUORUM SENSING</h1>
+                     <h2 class="subtitle">Bakteriyel Fısıltılardan Biyoteknolojik Senfonilere</h2>
+                 </div>
+                 <div class="presenter-info">
+                     <p class="presenter"><strong>Sunan:</strong> Sait Ramazan Gülbay</p>
+                     <p class="event-info">Tıbbi Mikrobiyoloji Kongresi - 5 Nisan 2025</p>
+                 </div>
+                 <div class="title-visual-elements">
+                     </div>
             </div>
         </section>
 
         <section class="slide" id="slide2">
-             <div class="slide-content two-column">
-                <div class="text-content">
-                    <h2>Giriş: Mikroskobik Dünyanın Fısıltıları</h2>
-                    <h3>Yol Haritamız</h3>
-                    <ul>
-                        <li>Quorum Sensing (QS) kavramı: Nedir, neden önemlidir?</li>
-                        <li>İşleyiş Mekanizması: Bakteriler nasıl "konuşur"?</li>
-                        <li>Sistem Çeşitliliği: Gram (+/-) ve evrensel diller.</li>
-                        <li>Tıbbi Boyut: Hastalıklar, <span class="highlight">biyofilmler</span> ve <span class="highlight">direnç</span> ile ilişkisi.</li>
-                        <li>Müdahale Yolları: Quorum Quenching (QQ) ile iletişimi kesmek.</li>
-                        <li>Vakalar ve İleriye Bakış.</li>
+             <div class="slide-content two-column reversed"> <div class="text-content">
+                    <h2>Giriş: Mikroskobik Sosyal Ağ</h2>
+                    <h3>Keşif Yolculuğumuz</h3>
+                    <ul class="agenda-list">
+                        <li><span class="agenda-number">I.</span> QS Nedir? <span class="agenda-detail">Temel Kavramlar ve Önemi</span></li>
+                        <li><span class="agenda-number">II.</span> İşleyiş Sırları: <span class="agenda-detail">Sinyaller, Reseptörler</span></li>
+                        <li><span class="agenda-number">III.</span> Bakteriyel Lehçeler: <span class="agenda-detail">Gram Farklılıkları</span></li>
+                        <li><span class="agenda-number">IV.</span> Klinik Yankılar: <span class="agenda-detail">Hastalıklar, Biyofilm, Direnç</span></li>
+                        <li><span class="agenda-number">V.</span> Müdahale Sanatı: <span class="agenda-detail">Quorum Quenching</span></li>
+                        <li><span class="agenda-number">VI.</span> Ufuktaki Gelişmeler: <span class="agenda-detail">Gelecek Perspektifleri</span></li>
                     </ul>
                 </div>
                  <div class="visual-content">
-                     <img src="placeholder-images/communication-network.jpg" alt="Soyut iletişim ağı veya bakteri kolonisi">
+                     <img src="https://images.unsplash.com/photo-1555664424-778a1e5e1b48?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Soyut teknolojik ağ bağlantıları">
                  </div>
              </div>
         </section>
@@ -43,14 +52,14 @@
         <section class="slide" id="slide3">
             <div class="slide-content two-column">
                  <div class="text-content">
-                    <h2>Quorum Sensing: <span class="highlight">Yeterli Çoğunluk</span> Algısı</h2>
-                    <h3>Bakteriyel Demokrasi mi?</h3>
-                    <p>Quorum Sensing, bakterilerin popülasyon yoğunluğunu algılayarak, belirli bir eşiğe ulaşıldığında <span class="highlight">topluluk olarak</span> gen ifadelerini değiştirdikleri bir <span class="highlight">hücrelerarası iletişim</span> sistemidir <span class="citation">[1]</span>.</p>
-                    <p>Yani, tekil bakterilerin yap(a)mayacağı işleri (örn. güçlü bir enfeksiyon başlatmak), yeterli sayıya ulaştıklarında <span class="highlight">koordineli</span> bir şekilde yapmalarını sağlar.</p>
-                    <p><strong>Temel Fikir:</strong> Azken sessiz kal, çoğalınca harekete geç!</p>
+                    <h2>Konsept: <span class="highlight">Yeterli Çoğunluk</span> Algısı</h2>
+                    <h3>Bakteriler Nasıl "Anlaşır"?</h3>
+                    <p>Basitçe, QS, bakterilerin ortamdaki <span class="highlight">kendi nüfus yoğunluklarını</span> algılamalarını ve belirli bir kritik eşik aşıldığında <span class="highlight">toplu davranışları</span> (örneğin saldırı veya savunma) senkronize etmelerini sağlayan bir <span class="highlight">sinyal sistemidir</span> <span class="citation">[1]</span>.</p>
+                    <p>Tek bir bakterinin etkisi sınırlıyken, <span class="highlight">"ordu"</span> yeterli sayıya ulaştığında QS ile koordineli hareket ederler.</p>
+                    <p class="analogy"><strong>Analoji:</strong> Bir konserde yeterli kalabalık oluşunca başlayan alkış tufanı gibi.</p>
                 </div>
                  <div class="visual-content">
-                     <img src="placeholder-images/density-crowd.jpg" alt="Yoğunluk veya kalabalık konsepti">
+                     <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Kalabalık veya birlikte hareket eden soyut formlar">
                  </div>
             </div>
         </section>
@@ -58,42 +67,58 @@
          <section class="slide" id="slide4">
             <div class="slide-content single-column">
                 <div class="text-content">
-                    <h2>QS Mekanizması: <span class="highlight">Adım Adım</span> İletişim</h2>
-                    <h3>Sinyal → Birikim → Algılama → Yanıt</h3>
-                     <p>QS sisteminin özeti şöyledir <span class="citation">[2]</span>:</p>
+                    <h2>İşleyiş: <span class="highlight">4 Adımda</span> İletişim Döngüsü</h2>
+                    <h3>Sinyal Moleküllerinin Yolculuğu <span class="citation">[2]</span></h3>
                 </div>
-                 <div class="diagram-placeholder">
-                     <ol>
-                         <li><strong>Üret & Sal:</strong> Bakteriler <span class="highlight">otoindükleyici (AI)</span> sinyal molekülleri üretip ortama salar.</li>
-                         <li><strong>Biriktir:</strong> Hücre yoğunluğu arttıkça ortamdaki AI konsantrasyonu <span class="highlight">yükselir</span>.</li>
-                         <li><strong>Algıla:</strong> AI seviyesi eşiği aşınca, reseptörler tarafından <span class="highlight">algılanır</span>.</li>
-                         <li><strong>Yanıt Ver:</strong> Algılama, hedef genlerin (örn. virülans) ifadesini <span class="highlight">topluca değiştirir</span>.</li>
-                     </ol>
-                     <img src="placeholder-images/mechanism-diagram.png" alt="QS Mekanizma Şeması Placeholder">
+                 <div class="animated-diagram mechanism-diagram">
+                     <div class="diagram-node step1">
+                         <span class="node-icon">🧬</span>
+                         <span class="node-label">Üretim & Salınım (AI Sinyali)</span>
+                     </div>
+                     <div class="diagram-arrow">→</div>
+                     <div class="diagram-node step2">
+                         <span class="node-icon">📈</span>
+                         <span class="node-label">Yoğunluk Artışı & Sinyal Birikimi</span>
+                     </div>
+                      <div class="diagram-arrow">→</div>
+                      <div class="diagram-node step3">
+                          <span class="node-icon">🔑</span>
+                          <span class="node-label">Eşik Değer & Reseptör Bağlanması</span>
+                     </div>
+                     <div class="diagram-arrow">→</div>
+                     <div class="diagram-node step4">
+                          <span class="node-icon">💡</span>
+                          <span class="node-label">Koordineli Gen İfadesi (Yanıt)</span>
+                     </div>
                  </div>
              </div>
         </section>
 
         <section class="slide" id="slide5">
-            <div class="slide-content two-column">
+            <div class="slide-content two-column reversed">
                  <div class="text-content">
-                     <h2>Anahtar Oyuncular: <span class="highlight">Mesaj ve Postacı</span></h2>
-                     <h3>Otoindükleyiciler (AI) & Reseptörler</h3>
-                     <p><strong>Otoindükleyiciler (AI'lar):</strong></p>
-                     <ul>
-                        <li>Bakterilerin <span class="highlight">kimyasal "kelimeleri"</span>. Farklı diller (moleküller) kullanılır.</li>
-                        <li><span class="highlight">Açil-homoserin laktonlar (AHL):</span> Genellikle Gram-negatiflerin dili.</li>
-                        <li><span class="highlight">Otoindükleyici peptitler (AIP):</span> Genellikle Gram-pozitiflerin dili.</li>
-                         <li><span class="highlight">Autoinducer-2 (AI-2):</span> Farklı türler arasında konuşulan <span class="highlight">"lingua franca"</span> (ortak dil) <span class="citation">[3, 4]</span>.</li>
-                     </ul>
-                     <p><strong>Reseptörler:</strong></p>
-                     <ul>
-                        <li>Bu kimyasal mesajları <span class="highlight">"dinleyen"</span> proteinler.</li>
-                        <li>Mesajı alınca hücre içine sinyal iletirler ve gen ifadesini tetiklerler.</li>
-                     </ul>
+                     <h2>Anahtar Oyuncular: <span class="highlight">Moleküler Alfabe</span></h2>
+                     <h3>Sinyaller (AI) ve Alıcılar (Reseptörler)</h3>
+                     <div class="component-section">
+                         <h4>Otoindükleyiciler (AI'lar): Kimyasal "Harfler"</h4>
+                         <ul>
+                            <li><span class="highlight term">AHL (Açil-Homoserin Lakton):</span> Gram (-) özel <span class="tag g-neg">G-</span></li>
+                            <li><span class="highlight term">AIP (Otoindükleyici Peptit):</span> Gram (+) özel <span class="tag g-pos">G+</span></li>
+                            <li><span class="highlight term">AI-2 (Autoinducer-2):</span> Evrensel Dil <span class="tag g-uni">Evrensel</span> <span class="citation">[3, 4]</span></li>
+                             <li>Ve diğerleri (PQS, DSFs...)</li>
+                         </ul>
+                     </div>
+                      <div class="component-section">
+                         <h4>Reseptörler: "Kulaklar"</h4>
+                         <ul>
+                            <li>Sinyalleri tanıyan ve bağlayan proteinler.</li>
+                            <li>Bağlanma sonrası hücre içi sinyal yollarını aktive ederler.</li>
+                            <li>Gen ifadesini düzenleyen anahtarlar gibi çalışırlar.</li>
+                         </ul>
+                     </div>
                 </div>
                  <div class="visual-content">
-                      <img src="placeholder-images/molecule-receptor.jpg" alt="Molekül ve reseptör etkileşimi soyut görseli">
+                      <img src="https://images.unsplash.com/photo-1635110927455-1515e3d91955?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Soyut molekül ve reseptör bağlantısı">
                  </div>
             </div>
         </section>
@@ -101,72 +126,77 @@
         <section class="slide" id="slide6">
             <div class="slide-content single-column">
                 <div class="text-content">
-                     <h2>Dil Farklılıkları: <span class="highlight">Gram (+) vs Gram (-)</span></h2>
-                     <h3>Temel Sistemler ve Farkları</h3>
-                      <p>QS mekanizmaları bakterinin Gram tipine göre farklılık gösterir:</p>
-                      <div class="comparison-container">
-                          <div class="comparison-item gram-negative">
-                             <h4>Gram-Negatif (örn. <i>P. aeruginosa</i>)</h4>
-                             <ul>
-                                <li>Sinyal: Genellikle <span class="highlight">AHL</span> molekülleri <span class="citation">[2]</span>.</li>
-                                <li>Taşınım: <span class="highlight">Kolayca geçer</span>.</li>
-                                <li>Algılama: <span class="highlight">Sitoplazmada</span>.</li>
-                             </ul>
-                          </div>
-                           <div class="comparison-item gram-positive">
-                             <h4>Gram-Pozitif (örn. <i>S. aureus</i>)</h4>
-                             <ul>
-                                <li>Sinyal: Genellikle <span class="highlight">Peptit (AIP)</span> <span class="citation">[3]</span>.</li>
-                                <li>Taşınım: <span class="highlight">Aktif taşıma</span>.</li>
-                                <li>Algılama: <span class="highlight">Hücre zarında</span>.</li>
-                             </ul>
-                          </div>
-                     </div>
-                      <p class="universal-signal">Bir de <span class="highlight">AI-2</span> var: Türler arası iletişimi sağlayan <span class="highlight">evrensel</span> bir sinyal <span class="citation">[4]</span>.</p>
+                     <h2>Sistem Mimarileri: <span class="highlight">Gram (+) vs Gram (-)</span></h2>
+                     <h3>Farklı Yapılar, Ortak Amaç</h3>
                 </div>
+                 <div class="comparison-container detailed">
+                      <div class="comparison-item gram-negative detailed-card">
+                         <div class="card-header g-neg-header">
+                            <span class="icon">➖</span> Gram-Negatif (örn. <i>P. aeruginosa</i>)
+                         </div>
+                         <div class="card-body">
+                            <ul>
+                               <li>Sinyal: Genellikle <span class="highlight">AHL</span> <span class="citation">[2]</span></li>
+                               <li>Geçiş: Membrandan <span class="highlight">pasif difüzyon</span></li>
+                               <li>Algılama: Genellikle <span class="highlight">sitoplazmik</span> LuxR-tipi proteinler</li>
+                               <li>Özellik: Sinyal hücre içine girer.</li>
+                           </ul>
+                         </div>
+                      </div>
+                       <div class="comparison-item gram-positive detailed-card">
+                           <div class="card-header g-pos-header">
+                                <span class="icon">➕</span> Gram-Pozitif (örn. <i>S. aureus</i>)
+                            </div>
+                           <div class="card-body">
+                                <ul>
+                                   <li>Sinyal: Genellikle <span class="highlight">Peptit (AIP)</span> <span class="citation">[3]</span></li>
+                                   <li>Geçiş: <span class="highlight">Aktif transport</span> ile dışarı</li>
+                                   <li>Algılama: Genellikle <span class="highlight">membran</span> sensör kinazları</li>
+                                   <li>Özellik: Sinyal dışarıda algılanır.</li>
+                               </ul>
+                           </div>
+                       </div>
+                 </div>
+                  <p class="universal-signal note">**Evrensel Sinyal (AI-2):** Farklı türler arasında köprü kurar <span class="citation">[4]</span>.</p>
             </div>
         </section>
 
         <section class="slide" id="slide7">
              <div class="slide-content two-column">
                  <div class="text-content">
-                    <h2>Neden "Konuşuyorlar"? <span class="highlight">QS'in Kontrol Ettiği Davranışlar</span></h2>
-                    <h3>Topluluğun Gücüyle Yapılanlar</h3>
-                    <p>Yeterli çoğunluk algılandığında, QS şu gibi kritik süreçleri tetikler:</p>
-                    <ul>
-                        <li><span class="highlight">Biyofilm Oluşumu:</span> Yüzeylere tutunup koruyucu bir kalkan (matris) oluşturma <span class="citation">[5]</span>.</li>
-                        <li><span class="highlight">Virülans Faktörleri:</span> Toksin, proteaz gibi hastalık yapıcı silahların üretimi <span class="citation">[1, 6]</span>.</li>
-                        <li>Biyolüminesans: Işık saçma (<i>Vibrio fischeri</i>).</li>
-                        <li>Sporülasyon ve Antibiyotik Üretimi/Direnci.</li>
-                        <li>Gen Transferi (Konjugasyon).</li>
+                    <h2>Kolektif Eylemler: <span class="highlight">QS Ne Yapar?</span></h2>
+                    <h3>Bireyselden Topluluğa Geçiş</h3>
+                    <p>QS, bakterilerin tek başlarına verimsiz olacak birçok davranışı koordine etmesini sağlar:</p>
+                    <ul class="icon-list">
+                        <li><span class="icon">🛡️</span><span class="highlight">Biyofilm Oluşumu:</span> Dirençli kaleler inşa etmek <span class="citation">[5]</span>.</li>
+                        <li><span class="icon">☠️</span><span class="highlight">Virülans Faktörleri:</span> Toksin ve enzim salgılayarak saldırmak <span class="citation">[1, 6]</span>.</li>
+                        <li><span class="icon">💡</span>Biyolüminesans: Ortamı aydınlatmak (<i>V. fischeri</i>).</li>
+                        <li><span class="icon">💊</span>Antibiyotik Üretimi/Direnci: Rekabet ve savunma.</li>
+                        <li><span class="icon">🧬</span>Gen Transferi (Konjugasyon): Genetik bilgi alışverişi.</li>
+                        <li><span class="icon">⏳</span>Sporülasyon: Zor koşullara hazırlanmak.</li>
                     </ul>
                  </div>
                  <div class="visual-content">
-                     <img src="placeholder-images/biofilm-virulence.jpg" alt="Biyofilm yapısı veya bakteri virülansı konsepti">
+                     <img src="https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1032&q=80" alt="Biyofilm dokusu veya bakteri kolonisi altında hücreler">
                  </div>
              </div>
         </section>
 
         <section class="slide" id="slide8">
-            <div class="slide-content two-column">
+            <div class="slide-content two-column reversed">
                 <div class="text-content">
-                     <h2>QS ve Hastalıklar: <span class="highlight">Sessiz Başlangıç, Koordineli Saldırı</span></h2>
-                     <h3>Patojenezdeki Kritik Rolü</h3>
-                     <p>Patojen bakteriler, QS'i <span class="highlight">stratejik bir silah</span> olarak kullanır <span class="citation">[6]</span>:</p>
-                     <ul>
-                        <li><strong>Gizlenme Fazı:</strong> Düşük sayıda iken QS kapalıdır, immün sistemden saklanırlar.</li>
-                        <li><strong>Saldırı Fazı:</strong> Yeterli sayıya (quorum) ulaşınca, QS açılır ve virülans faktörleri <span class="highlight">eş zamanlı</span> salgılanır.</li>
-                        <li><strong>Önemli Patojenler ve QS:</strong>
-                            <ul>
-                                <li><i>Pseudomonas aeruginosa:</i> Kistik fibrozis, yanık enfeksiyonları (Las/Rhl/PQS sistemleri) <span class="citation">[7]</span>.</li>
-                                <li><i>Staphylococcus aureus:</i> Cilt enfeksiyonları, sepsis (Agr sistemi) <span class="citation">[8]</span>.</li>
-                                <li><i>Vibrio cholerae:</i> Kolera toksini üretimi.</li>
-                            </ul>
-                        </li>
-                     </ul>
+                     <h2>Klinik Sahne: <span class="highlight">QS ve Enfeksiyonlar</span></h2>
+                     <h3>Hastalıkların Sessiz Orkestra Şefi</h3>
+                     <p>Patojenler, QS'i enfeksiyon sürecinde <span class="highlight">akıllıca</span> kullanır <span class="citation">[6]</span>:</p>
+                     <ol class="step-list">
+                         <li><span class="step-number">1</span><strong>Gizlenme:</strong> Düşük yoğunlukta virülans genleri kapalı tutulur, bağışıklık sisteminden kaçılır.</li>
+                         <li><span class="step-number">2</span><strong>Çoğalma & Algılama:</strong> Kritik yoğunluğa ulaşılınca QS sistemi aktive olur.</li>
+                         <li><span class="step-number">3</span><strong>Koordineli Saldırı:</strong> Tüm popülasyon aynı anda virülans faktörlerini (toksinler vb.) salgılar, konak savunması zorlanır.</li>
+                     </ol>
+                      <p class="pathogen-examples"><strong>Örnekler:</strong> <i>P. aeruginosa</i> <span class="citation">[7]</span>, <i>S. aureus</i> <span class="citation">[8]</span>, <i>V. cholerae</i>.</p>
                 </div>
                 <div class="visual-content">
-                     <img src="placeholder-images/pathogen-infection.jpg" alt="Patojen bakteri veya enfeksiyon hücresi illüstrasyonu">
+                     <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Mikroskop altında patojen bakteri veya enfekte doku">
                 </div>
             </div>
         </section>
@@ -174,43 +204,42 @@
         <section class="slide" id="slide9">
              <div class="slide-content two-column">
                 <div class="text-content">
-                    <h2>İnatçı Düşmanlar: <span class="highlight">Biyofilmler ve Direnç</span></h2>
-                    <h3>QS'in Tedaviyi Zorlaştırmadaki Rolü</h3>
-                    <p><strong>Biyofilm Kalesi ve QS:</strong></p>
+                    <h2>Aşil Topuğu: <span class="highlight">Biyofilm ve Direnç Duvarı</span></h2>
+                    <h3>Tedavideki Büyük Engel</h3>
+                     <h4>Biyofilm Kalkanı:</h4>
                     <ul>
-                        <li>QS, biyofilm oluşumunun <span class="highlight">anahtar düzenleyicisidir</span> <span class="citation">[5]</span>.</li>
-                        <li>Biyofilm içindeki bakteriler, antibiyotiklere ve bağışıklık sistemine karşı <strong class="highlight">olağanüstü</strong> direnç gösterir.</li>
-                        <li>Tıbbi cihaz enfeksiyonlarının baş sorumlusudur.</li>
+                        <li>QS, biyofilm oluşumunu <span class="highlight">tetikler ve yönetir</span> <span class="citation">[5]</span>.</li>
+                        <li>Bu yapı, bakterileri antibiyotiklerden (<span class="highlight">~1000x</span> daha dirençli!) ve bağışıklıktan korur.</li>
+                        <li>Özellikle <span class="highlight">implant ve kateter</span> enfeksiyonlarında baş belasıdır.</li>
                     </ul>
-                     <p><strong>Direnç Mekanizmaları ve QS:</strong></p>
+                     <h4>Direnç Mekanizmaları:</h4>
                      <ul>
-                        <li>QS, bazen doğrudan <span class="highlight">direnç genlerini</span> aktive eder.</li>
-                        <li>Biyofilm matrisi <span class="highlight">fiziksel bir bariyer</span> oluşturur.</li>
-                        <li>Biyofilmdeki <span class="highlight">yavaş metabolizma</span> etkinliği düşürür.</li>
+                        <li>QS, <span class="highlight">efluks pompaları</span> gibi direnç genlerini aktive edebilir.</li>
+                        <li>Fiziksel bariyer + Yavaş metabolizma = <span class="highlight">Antibiyotik etkisizliği</span>.</li>
                      </ul>
                 </div>
                  <div class="visual-content">
-                     <img src="placeholder-images/biofilm-resistance.jpg" alt="Antibiyotik direnci veya biyofilm kaplı yüzey">
+                     <img src="https://images.unsplash.com/photo-1607619056574-74848f815646?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Antibiyotik kapsülleri ve dirençli bakteri konsepti">
                  </div>
              </div>
         </section>
 
         <section class="slide" id="slide10">
-             <div class="slide-content two-column">
+             <div class="slide-content two-column reversed">
                  <div class="text-content">
-                    <h2>Yeni Silahlar: <span class="highlight">Quorum Quenching (QQ)</span></h2>
-                    <h3>Bakterilerin İletişimini Sabote Etmek</h3>
-                    <p>Artan antibiyotik direnci, <span class="highlight">alternatif stratejiler</span> gerektiriyor. Quorum Quenching (QQ), bakterilerin QS sistemini hedefleyerek enfeksiyonları kontrol altına almayı amaçlar <span class="citation">[9, 10]</span>.</p>
-                    <p><strong>QQ Yaklaşımları:</strong></p>
-                    <ul>
-                        <li><span class="highlight">Sinyal Üretimini Durdur:</span> AI sentezleyen enzimleri inhibe etmek.</li>
-                        <li><span class="highlight">Sinyali Yok Et:</span> AI'ları parçalayan enzimler kullanmak.</li>
-                        <li><span class="highlight">Sinyali Engelle:</span> AI'ların reseptörlere bağlanmasını bloke etmek.</li>
+                    <h2>Karşı Hamle: <span class="highlight">Quorum Quenching (QQ)</span></h2>
+                    <h3>Bakteriyel İletişimi "Hacklemek"</h3>
+                    <p>Antibiyotik direncine karşı <span class="highlight">yenilikçi bir strateji</span>: Bakterilerin iletişimini kesmek! <span class="citation">[9, 10]</span></p>
+                    <p><strong>QQ Taktikleri:</strong></p>
+                    <ul class="icon-list">
+                        <li><span class="icon">🚫</span><strong>Sinyal Üretimini Engelle:</strong> Sentez enzimlerini bloke et.</li>
+                        <li><span class="icon">✂️</span><strong>Sinyali Parçala:</strong> Sinyal moleküllerini yıkan enzimler (AHLaz vb.) kullan.</li>
+                        <li><span class="icon">🔒</span><strong>Sinyal Algılamayı Boz:</strong> Reseptörleri bloke eden antagonistler kullan.</li>
                     </ul>
-                    <p><strong>Potansiyel Avantaj:</strong> Bakteriyi öldürmek yerine <span class="highlight">"susturmak"</span>, direnç gelişim baskısını azaltabilir <span class="citation">[10]</span>.</p>
+                    <p class="advantage"><strong>Avantajı:</strong> Doğrudan öldürmediği için direnç gelişim <span class="highlight">baskısını azaltma potansiyeli</span> <span class="citation">[10]</span>.</p>
                  </div>
                  <div class="visual-content">
-                     <img src="placeholder-images/quenching-concept.jpg" alt="İletişimi kesme veya engelleme konsepti">
+                     <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Kesilmiş iletişim hattı veya kilitlenmiş sinyal konsepti">
                  </div>
              </div>
         </section>
@@ -218,106 +247,116 @@
         <section class="slide" id="slide11">
             <div class="slide-content single-column">
                 <div class="text-content">
-                    <h2>Sahadan Örnekler: <span class="highlight">P. aeruginosa ve S. aureus</span></h2>
-                    <h3>QS'in Klinik Yansımaları</h3>
-                     <div class="comparison-container">
-                          <div class="comparison-item pathogen-pa">
-                             <h4><i>Pseudomonas aeruginosa</i></h4>
-                             <ul>
-                               <li>Çoklu QS sistemleri ile <span class="highlight">karmaşık iletişim ağı</span> <span class="citation">[7]</span>.</li>
-                               <li>Kistik fibrozis ve <span class="highlight">biyofilm</span> enfeksiyonlarında başrol.</li>
-                               <li>QS inhibitörleri <span class="highlight">potansiyel tedavi hedefi</span>.</li>
-                           </ul>
-                        </div>
-                         <div class="comparison-item pathogen-sa">
-                             <h4><i>Staphylococcus aureus</i></h4>
-                             <ul>
-                               <li>Agr sistemi ile <span class="highlight">toksin üretimini</span> ve biyofilmi kontrol eder <span class="citation">[8]</span>.</li>
-                               <li><span class="highlight">MRSA</span> patojenitesinde önemli.</li>
-                               <li>QQ ajanları <span class="highlight">aktif araştırma konusu</span>.</li>
-                           </ul>
-                        </div>
-                   </div>
+                    <h2>Vaka Çalışmaları: <span class="highlight">Kritik Patojenler</span></h2>
+                    <h3>QS'in Klinik Arenadaki İzleri</h3>
                 </div>
-                 <div class="visual-content"> <img src="placeholder-images/bacteria-microscope.jpg" alt="Bakteri mikroskop görüntüsü veya illüstrasyonu">
-                </div>
+                 <div class="comparison-container detailed">
+                      <div class="comparison-item pathogen-pa detailed-card">
+                          <div class="card-header g-neg-header"><span class="icon">🦠</span><i>Pseudomonas aeruginosa</i></div>
+                          <div class="card-body">
+                               <ul>
+                                   <li><strong>Sistem:</strong> Karmaşık (Las, Rhl, PQS) <span class="citation">[7]</span>.</li>
+                                   <li><strong>Etki:</strong> Kistik fibrozis, yanıklar, VİP.</li>
+                                   <li><strong>Hedef:</strong> QQ ajanları için <span class="highlight">öncelikli</span>.</li>
+                               </ul>
+                          </div>
+                      </div>
+                       <div class="comparison-item pathogen-sa detailed-card">
+                            <div class="card-header g-pos-header"><span class="icon">➕</span><i>Staphylococcus aureus</i></div>
+                            <div class="card-body">
+                               <ul>
+                                   <li><strong>Sistem:</strong> Agr (AIP tabanlı) <span class="citation">[8]</span>.</li>
+                                   <li><strong>Etki:</strong> Cilt enf., sepsis, <span class="highlight">MRSA</span>.</li>
+                                   <li><strong>Hedef:</strong> Agr inhibitörleri <span class="highlight">araştırılıyor</span>.</li>
+                               </ul>
+                           </div>
+                       </div>
+                 </div>
+                  <div class="visual-content lower-visual"> <img src="https://images.unsplash.com/photo-1579165466941-d7e3e4f6f52d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="Petri kabında bakteri kültürü">
+                 </div>
             </div>
         </section>
 
          <section class="slide" id="slide12">
             <div class="slide-content two-column">
                 <div class="text-content">
-                     <h2>Geleceğe Bakış: <span class="highlight">Fırsatlar ve Engeller</span></h2>
-                     <h3>QS Araştırmalarında Sonraki Adımlar</h3>
-                     <p><strong>Aşılması Gerekenler:</strong></p>
-                     <ul>
-                        <li>Sistemlerin <span class="highlight">karmaşıklığı</span>.</li>
-                        <li><span class="highlight">Spesifiklik</span> (yararlı florayı koruma).</li>
-                        <li><span class="highlight">İlaç Geliştirme</span> zorlukları.</li>
-                        <li>Olası <span class="highlight">QQ direnci</span>.</li>
-                     </ul>
-                     <p><strong>Ufuktaki Yenilikler:</strong></p>
-                     <ul>
-                        <li>Daha <span class="highlight">hedefe yönelik</span> QQ molekülleri.</li>
-                        <li>QQ ajanları + <span class="highlight">antibiyotik kombinasyonları</span>.</li>
-                        <li>Konak-patojen-QS etkileşiminin daha iyi anlaşılması.</li>
-                        <li>QS tabanlı <span class="highlight">hızlı tanı</span>.</li>
-                     </ul>
+                     <h2>Yarının Vizyonu: <span class="highlight">Engeller ve Fırsatlar</span></h2>
+                     <h3>QS Araştırmalarında Ufuk Turu</h3>
+                      <div class="dual-list">
+                          <div class="list-section challenges">
+                              <h4>⚠️ Engeller</h4>
+                              <ul>
+                                 <li>Sistemlerin karmaşıklığı</li>
+                                 <li>Spesifik hedefleme zorluğu</li>
+                                 <li>İlaç geliştirme maliyeti/süresi</li>
+                                 <li>QQ'ya karşı direnç olasılığı</li>
+                              </ul>
+                          </div>
+                           <div class="list-section opportunities">
+                               <h4>✨ Fırsatlar</h4>
+                              <ul>
+                                 <li>Yeni nesil, spesifik QQ ajanları</li>
+                                 <li>Antibiyotiklerle <span class="highlight">sinerjistik</span> kombinasyonlar</li>
+                                 <li>Konak-patojen etkileşim bilgisi</li>
+                                 <li>QS tabanlı <span class="highlight">hızlı tanı yöntemleri</span></li>
+                              </ul>
+                          </div>
+                     </div>
                 </div>
                 <div class="visual-content">
-                      <img src="placeholder-images/future-research.jpg" alt="Gelecek teknoloji veya laboratuvar araştırması">
+                      <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Geleceğe bakan laboratuvar veya bilimsel araştırma">
                 </div>
             </div>
         </section>
 
         <section class="slide" id="slide13">
-            <div class="slide-content two-column"> <div class="text-content">
-                     <h2>Özet: <span class="highlight">Alınacak Mesajlar</span></h2>
-                     <h3>QS'in Tıbbi Mikrobiyolojideki Yeri</h3>
-                     <ul>
-                        <li>QS, bakterilerin <span class="highlight">kolektif davranışlarını</span> yönetir.</li>
-                        <li>Patojen <span class="highlight">virülansını</span> ve <span class="highlight">biyofilmi</span> etkiler.</li>
-                        <li>Tedavide <span class="highlight">kritik bir hedef</span> potansiyeli taşır.</li>
-                        <li>Quorum Quenching (QQ), <span class="highlight">umut vadeden, yenilikçi</span> bir yaklaşımdır.</li>
-                        <li>Bu alan, enfeksiyon kontrolünde <span class="highlight">yeni paradigmalar</span> yaratabilir.</li>
+            <div class="slide-content two-column reversed">
+                <div class="text-content">
+                     <h2>Sonuç: <span class="highlight">Anahtar Çıkarımlar</span></h2>
+                     <h3>QS'in Mikrobiyolojideki Mirası</h3>
+                     <ul class="summary-points">
+                        <li><span class="point-icon">🔑</span> QS, bakteriyel <span class="highlight">kolektif zekanın</span> dilidir.</li>
+                        <li><span class="point-icon">🎯</span> Enfeksiyon ve dirençte <span class="highlight">merkezi</span> bir oyuncudur.</li>
+                        <li><span class="point-icon">💡</span> Tedavi için <span class="highlight">yeni ve heyecan verici</span> hedefler sunar.</li>
+                        <li><span class="point-icon">🚀</span> QQ stratejileri, <span class="highlight">anti-virülans</span> tedavisinin öncüsüdür.</li>
+                        <li><span class="point-icon">🔬</span> Araştırmalar, enfeksiyon kontrolünde <span class="highlight">devrim</span> yaratabilir.</li>
                      </ul>
                  </div>
                   <div class="visual-content">
-                      <img src="placeholder-images/summary-checklist.jpg" alt="Özet veya anahtar noktalar konsepti">
+                      <img src="https://images.unsplash.com/photo-1581093450021-ae165d9c7ef8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Hedefe ulaşma veya başarı soyut görseli">
                   </div>
             </div>
         </section>
 
          <section class="slide" id="slide14">
              <div class="slide-content single-column references-slide">
-                 <h2>Referanslar</h2>
-                 <p>Başvurulan temel kaynaklar:</p>
-                 <ol class="references-list">
-                     <li>Miller, M. B., & Bassler, B. L. (2001). Quorum sensing in bacteria. <i>Annual review of microbiology, 55</i>(1), 165-199.</li>
-                     <li>Fuqua, C., Parsek, M. R., & Greenberg, E. P. (2001). Regulation of gene expression by cell-to-cell communication: acyl-homoserine lactone quorum sensing. <i>Annual Reviews in Genetics, 35</i>(1), 439-468.</li>
-                     <li>Reading, N. C., & Sperandio, V. (2006). Quorum sensing: the many languages of bacteria. <i>FEMS microbiology letters, 254</i>(1), 1-11.</li>
-                     <li>Xavier, K. B., & Bassler, B. L. (2003). LuxS quorum sensing: more than just a numbers game. <i>Current opinion in microbiology, 6</i>(2), 191-197.</li>
-                     <li>Davies, D. G., Parsek, M. R., Pearson, J. P., Iglewski, B. H., Costerton, J. W., & Greenberg, E. P. (1998). The involvement of cell-to-cell signals in the development of a bacterial biofilm. <i>Science, 280</i>(5361), 295-298.</li>
-                     <li>Rutherford, S. T., & Bassler, B. L. (2012). Bacterial quorum sensing: its role in virulence and possibilities for its control. <i>Cold Spring Harbor perspectives in medicine, 2</i>(11), a012427.</li>
-                     <li>Lee, J., & Zhang, L. (2015). The hierarchy quorum sensing network in Pseudomonas aeruginosa. <i>Protein & cell, 6</i>(1), 26-41.</li>
-                     <li>Novick, R. P. (2003). Autoinduction and signal transduction in the regulation of staphylococcal virulence. <i>Molecular microbiology, 48</i>(6), 1429-1449.</li>
-                     <li>Dong, Y. H., Wang, L. H., Xu, J. L., Zhang, H. B., Zhang, X. F., & Zhang, L. H. (2001). Quenching quorum-sensing-dependent bacterial infection by an N-acyl homoserine lactonase. <i>Nature, 411</i>(6839), 813-817.</li>
-                     <li>LaSarre, B., & Federle, M. J. (2013). Exploiting quorum sensing to confuse bacterial pathogens. <i>Microbiology and Molecular Biology Reviews, 77</i>(1), 73-111.</li>
+                 <h2>Kaynaklar & İlham</h2>
+                 <p>Bu sunumda yararlanılan temel çalışmalar:</p>
+                 <ol class="references-list compact"> <li>Miller, M. B., & Bassler, B. L. (2001). Annu Rev Microbiol, 55(1), 165-199.</li>
+                     <li>Fuqua, C., et al. (2001). Annu Rev Genet, 35(1), 439-468.</li>
+                     <li>Reading, N. C., & Sperandio, V. (2006). FEMS Microbiol Lett, 254(1), 1-11.</li>
+                     <li>Xavier, K. B., & Bassler, B. L. (2003). Curr Opin Microbiol, 6(2), 191-197.</li>
+                     <li>Davies, D. G., et al. (1998). Science, 280(5361), 295-298.</li>
+                     <li>Rutherford, S. T., & Bassler, B. L. (2012). Cold Spring Harb Perspect Med, 2(11), a012427.</li>
+                     <li>Lee, J., & Zhang, L. (2015). Protein Cell, 6(1), 26-41.</li>
+                     <li>Novick, R. P. (2003). Mol Microbiol, 48(6), 1429-1449.</li>
+                     <li>Dong, Y. H., et al. (2001). Nature, 411(6839), 813-817.</li>
+                     <li>LaSarre, B., & Federle, M. J. (2013). Microbiol Mol Biol Rev, 77(1), 73-111.</li>
                  </ol>
-                  <p class="note">Not: Liste örnektir, güncel ve spesifik çalışmalarla zenginleştirilmelidir.</p>
+                  <p class="note">Detaylı bilgi ve güncel çalışmalar için literatür taraması önerilir.</p>
             </div>
         </section>
 
         <section class="slide" id="slide15">
             <div class="slide-content two-column">
-                <div class="text-content">
-                    <h2>Teşekkürler</h2>
-                    <h3>Sorularınız & Katkılarınız?</h3>
-                    <p>İlginiz ve dinlediğiniz için teşekkür ederim.</p>
-                    <p class="contact-info"><strong>Sait Ramazan Gülbay</strong><br>[E-posta Adresiniz Buraya]</p>
+                <div class="text-content final-slide-text">
+                    <h2>Teşekkürler & Tartışma</h2>
+                    <h3>Sorularınız?</h3>
+                    <p>Bu mikroskobik iletişim dünyasını keşfettiğiniz için teşekkür ederim.</p>
+                    <p class="contact-info"><strong>Sait Ramazan Gülbay</strong><br>[E-posta Adresinizi Buraya]</p>
                 </div>
                  <div class="visual-content">
-                     <img src="placeholder-images/question-thanks.jpg" alt="Soru işareti veya teşekkür grafiği">
+                     <img src="https://images.unsplash.com/photo-1516534775068-ba3e7458af70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Soru işaretleri veya tartışma ortamı">
                  </div>
             </div>
         </section>
@@ -326,17 +365,20 @@
         <div class="progress-bar" id="progressBar"></div>
     </div>
     <nav class="navigation-controls" id="navControls">
-        <button id="prevBtn" aria-label="Önceki Slayt" disabled>&lt;</button> <span id="slideCounter" aria-live="polite">1 / 15</span>
-        <button id="nextBtn" aria-label="Sonraki Slayt">&gt;</button> </nav>
+        <button id="prevBtn" aria-label="Önceki Slayt" disabled>&lt;</button>
+        <span id="slideCounter" aria-live="polite">1 / 15</span>
+        <button id="nextBtn" aria-label="Sonraki Slayt">&gt;</button>
+    </nav>
 
     <script>
+        // Önceki adımdaki JavaScript kodu buraya yapıştırılacak.
         // DOM Elementlerini Seçme
         const slides = document.querySelectorAll('.slide');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const slideCounter = document.getElementById('slideCounter');
         const progressBar = document.getElementById('progressBar');
-        // CSS'ten geçiş süresini alma (ms cinsinden)
+        // CSS'ten geçiş süresini alma (ms cinsinden) - fallback değeri eklendi
         const transitionSpeed = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--transition-speed') || '0.6') * 1000;
 
         // Durum Değişkenleri
@@ -348,14 +390,9 @@
          * @param {number} slideIndex Gösterilen slaytın indeksi (1 tabanlı).
          */
         function updateUI(slideIndex) {
-            // Butonları etkinleştir/devre dışı bırak
             prevBtn.disabled = (slideIndex === 1);
             nextBtn.disabled = (slideIndex === totalSlides);
-
-            // Sayacı güncelle
             slideCounter.textContent = `${slideIndex} / ${totalSlides}`;
-
-            // İlerleme çubuğunu güncelle
             const progressPercent = (slideIndex / totalSlides) * 100;
             progressBar.style.width = `${progressPercent}%`;
         }
@@ -373,41 +410,36 @@
 
             const currentActiveSlide = document.querySelector('.slide.active');
 
-            // Eğer hedef slayt zaten aktifse veya geçiş halindeyse işlem yapma
             if (currentActiveSlide && currentActiveSlide.id === targetSlide.id) {
                 return;
             }
 
             // --- Geçiş Başlangıcı ---
-
-            // 1. Mevcut aktif slayt varsa, çıkış animasyonunu başlat
             if (currentActiveSlide) {
                 currentActiveSlide.classList.remove('active');
                 currentActiveSlide.classList.add('exiting');
-
-                // Geçiş bittikten sonra 'exiting' sınıfını temizle
-                // Bu, slayta hızla geri dönülürse çakışmaları önler
+                // Önemli: 'exiting' sınıfını temizle
                 setTimeout(() => {
-                    // Hâlâ 'exiting' ise kaldır (başka bir geçiş başlamamışsa)
                     if (currentActiveSlide.classList.contains('exiting')) {
-                        currentActiveSlide.classList.remove('exiting');
+                       currentActiveSlide.classList.remove('exiting');
                     }
                 }, transitionSpeed);
             }
 
-            // 2. Hedef slaytın giriş animasyonunu başlat
-            // requestAnimationFrame, tarayıcının sınıf değişikliklerini ayrı ayrı işlemesine yardımcı olur
-            requestAnimationFrame(() => {
-                 targetSlide.classList.remove('exiting'); // Hızlı geri dönüşte kalmış olabilecek 'exiting'i temizle
+            // --- Hedef Slaytı Aktif Et ---
+             // `exiting` sınıfını kaldır (hızlı geri dönüş ihtimaline karşı)
+             targetSlide.classList.remove('exiting');
+
+             // `active` sınıfını eklemeden önce kısa bir gecikme ekleyerek
+             // tarayıcının önceki sınıf kaldırma işlemini tamamlamasına izin ver.
+             // Bu, özellikle karmaşık geçişlerde önemlidir.
+             setTimeout(() => {
                  targetSlide.classList.add('active');
-                 // Yeni slaytın içeriğini en üste kaydır
-                 targetSlide.scrollTop = 0;
-            });
+                 targetSlide.scrollTop = 0; // İçeriği başa sar
+             }, 50); // 50ms gibi küçük bir gecikme
 
 
             // --- Geçiş Sonu ---
-
-            // 3. UI elemanlarını güncelle
             updateUI(slideIndex);
         }
 
@@ -417,65 +449,50 @@
          */
         function changeSlide(direction) {
             const newSlideIndex = currentSlide + direction;
-            // Sınırları kontrol et
             if (newSlideIndex >= 1 && newSlideIndex <= totalSlides) {
-                currentSlide = newSlideIndex; // Mevcut slayt indeksini güncelle
+                currentSlide = newSlideIndex;
                 showSlide(currentSlide);
             }
         }
 
         // === Olay Dinleyicileri ===
-
-        // Buton Tıklamaları
         prevBtn.addEventListener('click', () => changeSlide(-1));
         nextBtn.addEventListener('click', () => changeSlide(1));
 
-        // Klavye Navigasyonu
         document.addEventListener('keydown', (event) => {
-            // Odak navigasyon kontrollerindeyse ve Enter/Space basılırsa varsayılan davranışı engelleme
             if (document.activeElement === prevBtn || document.activeElement === nextBtn) {
-               if (event.key === 'Enter' || event.key === ' ') {
-                   return; // Butonun kendi click olayını işlemesine izin ver
-               }
+               if (event.key === 'Enter' || event.key === ' ') { return; }
             }
-
-            // Ok tuşları ve diğer gezinme tuşları için sayfa kaydırmayı engelle
             if (['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', ' ', 'PageDown', 'PageUp'].includes(event.key)) {
                 event.preventDefault();
             }
-
-            // Slayt geçişlerini tetikle
             if (event.key === 'ArrowRight' || event.key === ' ' || event.key === 'PageDown' || event.key === 'ArrowDown') {
-                // Sonraki buton aktifse sonraki slayta geç
-                if (!nextBtn.disabled) {
-                    changeSlide(1);
-                }
+                if (!nextBtn.disabled) { changeSlide(1); }
             } else if (event.key === 'ArrowLeft' || event.key === 'PageUp' || event.key === 'ArrowUp') {
-                // Önceki buton aktifse önceki slayta geç
-                if (!prevBtn.disabled) {
-                    changeSlide(-1);
-                }
+                if (!prevBtn.disabled) { changeSlide(-1); }
             }
         });
 
         // === Başlangıç Ayarları ===
         document.addEventListener('DOMContentLoaded', () => {
-            // HTML'de zaten ilk slayt 'active' olduğu için,
-            // sadece UI'yi başlangıç durumuna getir.
             if (totalSlides > 0) {
+                // HTML'de ilk slayt zaten 'active' olduğu için, sadece UI'yi ayarla
                 updateUI(currentSlide);
-                 // İlk slaytın animasyonlarının başlaması için küçük bir gecikme gerekebilir.
-                 // Ancak CSS'deki .slide.active kuralı bunu zaten halletmeli.
+                // İlk slaytın doğru şekilde göründüğünden emin ol (CSS halletmeli ama yedek)
+                 const firstSlide = document.getElementById('slide1');
+                 if (firstSlide && firstSlide.classList.contains('active')) {
+                     firstSlide.style.opacity = 1;
+                     firstSlide.style.visibility = 'visible';
+                     firstSlide.style.transform = 'translateX(0) scale(1) rotateY(0deg)';
+                 }
             } else {
-                console.warn("No slides found for the presentation.");
-                // Navigasyonu gizle veya hata mesajı göster
+                console.warn("Sunum için slayt bulunamadı.");
                 const navControls = document.getElementById('navControls');
                 const progressIndicator = document.getElementById('progressIndicator');
                 if(navControls) navControls.style.display = 'none';
                 if(progressIndicator) progressIndicator.style.display = 'none';
             }
         });
-        console.log("HTML structure loaded. Waiting for slides-style.css and JavaScript.");
     </script>
 
 </body>
