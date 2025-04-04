@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quorum Sensing: Bilimsel Sunum - Vanilla JS (Yeniden Tasarım)</title>
+    <title>Quorum Sensing: Sunum - Vanilla JS (Basitleştirilmiş)</title>
     <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABKUlEQVQ4T62SMUtCURSGv3uLE2aKFkGIKRwNKFbS0NgZ4CrEFlY+gk2ShIWiCYFK+gJFFKpkiQ1EX8D+gkTFNKH6NTJt95vP9/fec73lL6MEkD2DSgVqY1wiEkGeBnR2CjYM8REK9sAEv0iRjOI4t7tgKnwEvYTIhU8ck8jzBYwd1jGLmg5URO1V8iGeqRoi0iA6BVihaM80mowrpBM92gCJZge54KOwDDoHNaTHnw8Abt1Hk7Rgm92ALf8Fe1P3yO2p0MvhJvG95B/6w5w1L4OTbP+7QC/b8mZ9GzB/hAVnHcF+84uGYYgF8BzOcbmJZfM5gCUeP8heAT0qnAa0lpFz4wAAAABJRU5ErkJggg==" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet" />
     <style>
-        /* === Değişkenler ve Temel Ayarlar === */
+        /* === Değişkenler ve Temel Ayarlar (Yenilenmiş) === */
         :root {
-            --bg-light: #f8f9fa; /* Biraz daha açık arka plan */
+            --bg-light: #f8f9fa;
             --bg-medium-light: #e9ecef;
-            --primary-accent: #005f73; /* Daha koyu mavi tonu */
-            --secondary-accent: #0a9396; /* Turkuaz tonu */
-            --highlight: #ee9b00; /* Vurgu rengi */
+            --primary-accent: #005f73;
+            --secondary-accent: #0a9396;
+            --highlight: #ee9b00;
             --text-dark: #212529;
             --text-medium: #495057;
-            --card-bg: rgba(255, 255, 255, 0.9); /* Kart arka planı */
-            --glass-bg: rgba(255, 255, 255, 0.96); /* İçerik arka planı daha opak */
-            --glass-border: rgba(0, 95, 115, 0.2); /* Sınır rengi güncellendi */
-            --slide-bg-gradient: linear-gradient(175deg, var(--bg-light) 60%, var(--bg-medium-light) 100%); /* Daha sade gradient */
-            --transition-duration: 0.5s; /* Geçiş süresi */
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --glass-bg: rgba(255, 255, 255, 0.96);
+            --glass-border: rgba(0, 95, 115, 0.2);
+            --slide-bg-gradient: linear-gradient(175deg, var(--bg-light) 60%, var(--bg-medium-light) 100%);
+            --transition-duration: 0.4s; /* Biraz daha hızlı geçiş */
             --font-main: 'Lato', sans-serif;
             --font-heading: 'Roboto Slab', serif;
             --shadow-color-light: rgba(0, 0, 0, 0.08);
@@ -32,17 +32,11 @@
         * { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: var(--primary-accent) var(--bg-medium-light); }
         html { font-size: 16px; }
         body {
-            font-family: var(--font-main);
-            background: var(--bg-light);
-            color: var(--text-dark);
-            min-height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            line-height: 1.65;
-            position: relative;
+            font-family: var(--font-main); background: var(--bg-light); color: var(--text-dark);
+            min-height: 100vh; width: 100vw; overflow: hidden; line-height: 1.65; position: relative;
         }
 
-        /* --- Arka Plan --- */
+        /* Arka Plan */
         .background-effects {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10;
             background: radial-gradient(circle at 15% 85%, rgba(10, 147, 150, 0.06), transparent 50%),
@@ -50,66 +44,59 @@
             opacity: 0.8;
         }
 
-        /* --- Sunum Konteyneri --- */
-        .presentation-container {
-            width: 100%; height: 100%; position: relative; overflow: hidden;
-            /* Perspective kaldırıldı, basit animasyon için gereksiz */
-        }
+        /* Sunum Konteyneri (perspective kaldırıldı) */
+        .presentation-container { width: 100%; height: 100%; position: relative; overflow: hidden; }
 
-        /* --- Slayt Temel Stilleri (Basitleştirilmiş Geçiş) --- */
+        /* Slayt Temel Stilleri (Basit Geçiş) */
         .slide {
             width: 100%; height: 100%;
             position: absolute; top: 0; left: 0;
             background: var(--slide-bg-gradient);
             display: flex; justify-content: center; align-items: center;
-            padding: clamp(30px, 4vh, 50px) clamp(40px, 5vw, 70px); /* Biraz daha az padding */
+            padding: clamp(30px, 4vh, 50px) clamp(40px, 5vw, 70px);
             opacity: 0;
             visibility: hidden;
-            /* Sadece opacity ve visibility geçişi */
-            transition: opacity var(--transition-duration) ease-in-out, visibility 0s linear var(--transition-duration);
-            overflow-y: auto; /* İçerik kaydırma */
-            z-index: 1; /* Pasif slaytlar arkada */
+            /* Sadece Opacity Geçişi */
+            transition: opacity var(--transition-duration) ease-in-out;
+            overflow-y: auto;
             pointer-events: none;
+            /* z-index başlangıçta düşük */
+            z-index: 1;
         }
         .slide.active {
             opacity: 1;
             visibility: visible;
-            transition: opacity var(--transition-duration) ease-in-out, visibility 0s linear 0s; /* Aktif olurken visibility hemen değişir */
-            z-index: 2; /* Aktif slayt önde */
             pointer-events: auto;
+            /* Aktif slayt en önde */
+            z-index: 2;
         }
-        /* .exiting sınıfı kaldırıldı, sadece aktif/pasif durumu yönetiliyor */
+        /* .exiting sınıfı kaldırıldı */
 
 
-        /* --- Slayt İçerik Stilleri --- */
+        /* Slayt İçeriği */
         .slide-content {
-            max-width: 1100px; /* Biraz daraltıldı */
-            width: 100%;
-            padding: clamp(20px, 2.5vw, 40px);
-            background: var(--glass-bg);
-            border-radius: 8px; /* Daha yumuşak köşe */
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 6px 20px 0 var(--shadow-color-medium); /* Gölge güncellendi */
-            /* backdrop-filter kaldırıldı, performans için */
-            max-height: calc(100vh - 140px); /* Navigasyon/progress bar için daha fazla pay */
-            overflow-y: auto;
+            max-width: 1100px; width: 100%;
+            padding: clamp(20px, 2.5vw, 40px); background: var(--glass-bg);
+            border-radius: 8px; border: 1px solid var(--glass-border);
+            box-shadow: 0 6px 20px 0 var(--shadow-color-medium);
+            max-height: calc(100vh - 140px); overflow-y: auto;
         }
         .slide-content::-webkit-scrollbar { width: 7px; }
         .slide-content::-webkit-scrollbar-thumb { background-color: rgba(0, 95, 115, 0.4); border-radius: 3px; }
         .slide-content::-webkit-scrollbar-thumb:hover { background-color: var(--primary-accent); }
 
-        /* --- Layout & Tipografi & Diğer Stiller --- */
-        /* Genel stiller öncekiyle büyük ölçüde aynı tutuldu, sadece bazı başlık ve layout ince ayarları yapıldı */
+        /* --- Layout, Tipografi, Kartlar, Diagramlar vb. --- */
+        /* Bu kısımdaki stiller öncekiyle aynı, tekrar eklemeye gerek yok, sadece gerekli olanlar kaldı */
         .slide-content.two-column { display: flex; align-items: center; gap: clamp(30px, 3.5vw, 50px); }
         .slide-content.two-column.reversed { flex-direction: row-reverse; }
         .two-column .text-content { flex: 1.1; min-width: 0; }
         .two-column .visual-content { flex: 0.9; max-width: 420px; text-align: center; }
-        .slide-content.single-column { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 15px; } /* Gap azaltıldı */
+        .slide-content.single-column { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 15px; }
         .single-column .text-content { width: 100%; max-width: 850px; text-align: left; }
         .slide h1.main-title { font-family: var(--font-heading); font-size: clamp(2.8rem, 5.5vw, 4.5rem); color: var(--text-dark); margin-bottom: 0.1em; font-weight: 700; letter-spacing: 0.5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.05); }
         .slide h2.subtitle { font-family: var(--font-main); font-size: clamp(1.2rem, 2vw, 1.5rem); color: var(--primary-accent); font-weight: 400; margin-top: 0.4em; margin-bottom: 1.3em; letter-spacing: 0.3px; }
         .slide h2 { font-family: var(--font-heading); font-size: clamp(1.6rem, 3vw, 2.3rem); color: var(--primary-accent); margin-bottom: 0.8em; font-weight: 700; border-bottom: 1px solid var(--secondary-accent); padding-bottom: 0.25em; display: inline-block; letter-spacing: 0.3px; }
-        .single-column > .text-content > h2 { border-bottom: none; display: block; text-align: center; } /* Tek kolon başlıkları ortalı */
+        .single-column > .text-content > h2 { border-bottom: none; display: block; text-align: center; }
         .slide h3 { font-family: var(--font-heading); font-size: clamp(1.05rem, 2vw, 1.3rem); color: var(--text-dark); margin-bottom: 0.8em; font-weight: 400; opacity: 0.9; }
         .single-column > .text-content > h3 { text-align: center; }
         .slide h4 { font-family: var(--font-heading); font-size: clamp(0.95rem, 1.7vw, 1.1rem); color: var(--secondary-accent); margin-bottom: 0.5em; font-weight: 700; letter-spacing: 0.1px; }
@@ -129,102 +116,55 @@
         .tag.g-neg { background-color: var(--secondary-accent); color: var(--bg-light); }
         .tag.g-pos { background-color: var(--primary-accent); color: var(--bg-light); }
         .tag.g-uni { background-color: var(--highlight); color: var(--text-dark); }
-        .agenda-list { list-style: none; padding-left: 0;}
-        .agenda-list li { margin-bottom: 0.5em; }
+        .agenda-list { list-style: none; padding-left: 0;} .agenda-list li { margin-bottom: 0.5em; }
         .agenda-number { display: inline-block; width: 22px; font-weight: bold; color: var(--primary-accent); }
         .agenda-detail { color: var(--text-medium); font-size: 0.88em; }
-        .component-section { margin-bottom: 1em; }
-        .component-section ul { padding-left: 8px; }
-        .component-section li { margin-bottom: 0.25em; }
-        .pathogen-examples { margin-top: 0.9em; }
-        .advantage { margin-top: 0.9em; }
+        .component-section { margin-bottom: 1em; } .component-section ul { padding-left: 8px; } .component-section li { margin-bottom: 0.25em; }
+        .pathogen-examples { margin-top: 0.9em; } .advantage { margin-top: 0.9em; }
         .slide img { max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 4px 12px var(--shadow-color-light); display: block; margin: 0.8em auto; border: 1px solid rgba(0, 95, 115, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .slide img:hover { transform: scale(1.015); box-shadow: 0 8px 20px var(--shadow-color-medium); }
         .animated-diagram { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; margin-top: 18px; padding: 8px; }
         .diagram-node { padding: 8px; background: rgba(255, 255, 255, 0.7); border-radius: 5px; min-width: 120px; border: 1px solid transparent; transition: transform 0.2s ease, border-color 0.2s ease; color: var(--text-dark); text-align: center; }
         .diagram-node:hover { border-color: var(--primary-accent); transform: translateY(-3px); }
-        .node-icon { display: block; font-size: 1.8rem; margin-bottom: 5px; }
-        .node-label { font-size: 0.75rem; color: var(--text-dark); font-weight: 400; }
+        .node-icon { display: block; font-size: 1.8rem; margin-bottom: 5px; } .node-label { font-size: 0.75rem; font-weight: 400; }
         .diagram-arrow { font-size: 1.4rem; color: var(--primary-accent); opacity: 0.7; margin: 0 4px; align-self: center; }
         .comparison-container.detailed { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; margin-top: 1.3em;}
         .detailed-card { background: none; padding: 0; border: none; box-shadow: 0 3px 8px var(--shadow-color-light); border-radius: 5px; overflow:hidden; flex: 1; min-width: 200px; max-width: 280px;}
         .card-header { display: flex; align-items: center; gap: 6px; padding: 7px 10px; border-radius: 5px 5px 0 0; font-weight: 700; font-size: 0.95rem; font-family: var(--font-heading); }
         .card-header .icon { font-size: 1rem; }
-        .g-neg-header { background: var(--secondary-accent); color: var(--bg-light); }
-        .g-pos-header { background: var(--primary-accent); color: var(--bg-light); }
-        .pathogen-pa .card-header { background: #ae445a; color: var(--bg-light);} /* Renk güncellendi */
-        .pathogen-sa .card-header { background: #c94e00; color: var(--bg-light);} /* Renk güncellendi */
+        .g-neg-header { background: var(--secondary-accent); color: var(--bg-light); } .g-pos-header { background: var(--primary-accent); color: var(--bg-light); }
+        .pathogen-pa .card-header { background: #ae445a; color: var(--bg-light);} .pathogen-sa .card-header { background: #c94e00; color: var(--bg-light);}
         .card-body { padding: 10px; background: var(--card-bg); border-radius: 0 0 5px 5px; border: 1px solid var(--glass-border); border-top: none; }
-        .card-body ul { margin: 0; padding-left: 3px; list-style: none; }
-        .card-body li { font-size: 0.8rem; color: var(--text-medium); margin-bottom: 0.4em; }
+        .card-body ul { margin: 0; padding-left: 3px; list-style: none; } .card-body li { font-size: 0.8rem; color: var(--text-medium); margin-bottom: 0.4em; }
         .card-body li::before { content: "•"; color: inherit; opacity: 0.6; display: inline-block; width: 1em; margin-left: -1em; font-size: 0.9em; }
-        .icon-list { list-style: none; padding-left: 0; }
-        .icon-list li { list-style: none; padding-left: 28px; position: relative; margin-bottom: 8px; }
+        .icon-list { list-style: none; padding-left: 0; } .icon-list li { list-style: none; padding-left: 28px; position: relative; margin-bottom: 8px; }
         .icon-list li .icon { position: absolute; left: 0; top: 1px; font-size: 1rem; color: var(--primary-accent); }
         .step-list { list-style: none; padding-left: 0; counter-reset: step-counter; margin-top: 0.9em;}
         .step-list li { counter-increment: step-counter; position: relative; margin-left: 6px; padding-left: 25px; margin-bottom: 0.6em; }
         .step-list li::before { content: counter(step-counter); position: absolute; left: -8px; top: 2px; background-color: var(--secondary-accent); color: var(--bg-light); width: 18px; height: 18px; border-radius: 50%; font-size: 0.7em; font-weight: bold; text-align: center; line-height: 18px; }
         .title-slide .slide-content { background: none; border: none; box-shadow: none; text-align: center; }
-        .title-slide .presenter-info { margin-top: 1.8em; color: var(--text-medium); }
-        .title-slide .presenter-info strong { color: var(--text-dark); }
-        .references-slide .slide-content { background: rgba(233, 236, 239, 0.9); padding: 20px;} /* Referans arka planı */
+        .title-slide .presenter-info { margin-top: 1.8em; color: var(--text-medium); } .title-slide .presenter-info strong { color: var(--text-dark); }
+        .references-slide .slide-content { background: rgba(233, 236, 239, 0.9); padding: 20px;}
         .references-slide h2 { border-bottom-color: var(--primary-accent); color: var(--primary-accent); margin-bottom: 0.5em; }
-        .references-list.compact { list-style: none; padding-left: 0;}
-        .references-list.compact li { font-size: 0.68rem; line-height: 1.35; margin-bottom: 2px; color: var(--text-medium);}
+        .references-list.compact { list-style: none; padding-left: 0;} .references-list.compact li { font-size: 0.68rem; line-height: 1.35; margin-bottom: 2px; color: var(--text-medium);}
         .final-slide-text { text-align: center; max-width: 650px;}
-        .final-slide-text .contact-info { margin-top: 1.3em; font-weight: 400; color: var(--text-dark); }
-        .final-slide-text .contact-info strong { color: var(--text-dark); }
+        .final-slide-text .contact-info { margin-top: 1.3em; font-weight: 400; color: var(--text-dark); } .final-slide-text .contact-info strong { color: var(--text-dark); }
         /* --- Bitiş: Diğer Stiller --- */
 
         /* --- Navigasyon & İlerleme --- */
-        .navigation-area {
-            position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100;
-            display: flex; flex-direction: column; align-items: center; padding-bottom: 12px;
-        }
-        .progress-indicator {
-            width: 90%; max-width: 900px; height: 4px; /* Daha ince */
-            background-color: rgba(0, 95, 115, 0.15); border-radius: 2px;
-            overflow: hidden; margin-bottom: 12px;
-        }
-        .progress-bar {
-            height: 100%; background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
-            transition: width 0.3s ease-out;
-        }
-        .navigation-controls {
-            background: rgba(248, 249, 250, 0.9); /* Daha opak kontrol arka planı */
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(0, 95, 115, 0.15);
-            display: flex; align-items: center; gap: 12px; /* Daha az boşluk */
-            padding: 8px 18px; border-radius: 25px; /* Daha küçük */
-            box-shadow: 0 3px 12px var(--shadow-color-light);
-        }
-        .nav-button, #audioControlBtn {
-            background-color: var(--primary-accent); color: var(--bg-light);
-            border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer;
-            font-size: 1.3rem; font-weight: bold; line-height: 35px; text-align: center; padding: 0;
-            box-shadow: 0 1px 4px var(--shadow-color-light); transition: all 0.25s ease;
-            display: flex; justify-content: center; align-items: center;
-        }
-        .nav-button:hover:not(:disabled), #audioControlBtn:hover {
-            background-color: var(--secondary-accent); color: var(--bg-light);
-            transform: translateY(-1px) scale(1.05); box-shadow: 0 3px 8px var(--shadow-color-medium);
-        }
-        .nav-button:disabled {
-            background-color: rgba(173, 181, 189, 0.7); /* Daha belirgin disabled rengi */
-            color: rgba(73, 80, 87, 0.5); box-shadow: none; transform: none; cursor: not-allowed;
-        }
-        #slideCounter {
-            font-size: 0.85rem; font-weight: 700; color: var(--text-medium);
-            min-width: 45px; text-align: center;
-        }
+        .navigation-area { position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; display: flex; flex-direction: column; align-items: center; padding-bottom: 12px; }
+        .progress-indicator { width: 90%; max-width: 900px; height: 4px; background-color: rgba(0, 95, 115, 0.15); border-radius: 2px; overflow: hidden; margin-bottom: 12px; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent)); transition: width 0.3s ease-out; }
+        .navigation-controls { background: rgba(248, 249, 250, 0.9); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(0, 95, 115, 0.15); display: flex; align-items: center; gap: 12px; padding: 8px 18px; border-radius: 25px; box-shadow: 0 3px 12px var(--shadow-color-light); }
+        .nav-button, #audioControlBtn { background-color: var(--primary-accent); color: var(--bg-light); border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-size: 1.3rem; font-weight: bold; line-height: 35px; text-align: center; padding: 0; box-shadow: 0 1px 4px var(--shadow-color-light); transition: all 0.25s ease; display: flex; justify-content: center; align-items: center; }
+        .nav-button:hover:not(:disabled), #audioControlBtn:hover { background-color: var(--secondary-accent); color: var(--bg-light); transform: translateY(-1px) scale(1.05); box-shadow: 0 3px 8px var(--shadow-color-medium); }
+        .nav-button:disabled { background-color: rgba(173, 181, 189, 0.7); color: rgba(73, 80, 87, 0.5); box-shadow: none; transform: none; cursor: not-allowed; }
+        #slideCounter { font-size: 0.85rem; font-weight: 700; color: var(--text-medium); min-width: 45px; text-align: center; }
         #audioControlBtn { background-color: var(--secondary-accent); }
         #audioControlBtn.playing { background-color: var(--highlight); color: var(--text-dark); }
 
         /* --- Erişilebilirlik --- */
-        .nav-button:focus-visible, #audioControlBtn:focus-visible {
-            outline: 2px solid var(--highlight); outline-offset: 1px;
-            background-color: var(--highlight); color: var(--text-dark);
-        }
+        .nav-button:focus-visible, #audioControlBtn:focus-visible { outline: 2px solid var(--highlight); outline-offset: 1px; background-color: var(--highlight); color: var(--text-dark); }
 
         /* --- Responsive Tasarım --- */
         @media (max-width: 992px) {
@@ -271,32 +211,30 @@
 
     <script>
         // === SLAYT VERİLERİ ===
-        // (Veri yapısı öncekiyle aynı, içerik de aynı kalıyor)
         const slidesData = [
-            { type: 'title', title: 'QUORUM SENSING', subtitle: 'Bakteriyel Fısıltılardan Biyoteknolojik Senfonilere', presenter: 'Sait Ramazan Gülbay', event: 'Tıbbi Mikrobiyoloji Kongresi - 5 Nisan 2025' },
-            { type: 'two-column', reversed: true, htmlContent: `<h2>Giriş: Mikroskobik Sosyal Ağ</h2><h3>Keşif Yolculuğumuz</h3><ul class="agenda-list"><li><span class="agenda-number">I.</span> QS Nedir? <span class="agenda-detail">Temel Kavramlar</span></li><li><span class="agenda-number">II.</span> İşleyiş Sırları: <span class="agenda-detail">Mekanizma</span></li><li><span class="agenda-number">III.</span> Bakteriyel Lehçeler: <span class="agenda-detail">Gram Farklılıkları</span></li><li><span class="agenda-number">IV.</span> Klinik Yankılar: <span class="agenda-detail">Hastalıklar</span></li><li><span class="agenda-number">V.</span> Müdahale Sanatı: <span class="agenda-detail">Quorum Quenching</span></li><li><span class="agenda-number">VI.</span> Ufuktaki Gelişmeler: <span class="agenda-detail">Gelecek</span></li></ul>`, imageSrc: 'https://images.unsplash.com/photo-1531297484001-80022131c5a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=420&q=80', imageAlt: 'Teknolojik arayüz' },
-            { type: 'two-column', reversed: false, htmlContent: `<h2>Konsept: <span class="highlight">Yeterli Çoğunluk</span> Algısı</h2><h3>Bakteriler Nasıl "Anlaşır"?</h3><p>QS, bakterilerin <span class="highlight">nüfus yoğunluklarını</span> algılayıp, kritik eşik aşılınca <span class="highlight">toplu davranışları</span> (örn. saldırı) senkronize ettikleri <span class="highlight">sinyal sistemidir</span> <span class="citation">[1]</span>.</p><p>Tekil bakteri etkisizken, <span class="highlight">"ordu"</span> yeterli sayıya ulaştığında koordineli hareket eder.</p><p class="analogy"><strong>Analoji:</strong> Konserde yeterli kalabalık oluşunca başlayan alkış.</p>`, imageSrc: 'https://images.unsplash.com/photo-1461773511539-9f8f653f65d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=420&q=80', imageAlt: 'Grup etkileşimi' },
-            { type: 'single-column', htmlContentTop: `<h2>İşleyiş: <span class="highlight">4 Adımda</span> İletişim Döngüsü</h2><h3>Sinyal Moleküllerinin Yolculuğu <span class="citation">[2]</span></h3>`, htmlContentDiagram: `<div class="diagram-node"> <span class="node-icon">🧬</span><span class="node-label">Üretim & Salınım (AI)</span></div> <div class="diagram-arrow">→</div> <div class="diagram-node"> <span class="node-icon">📈</span><span class="node-label">Birikim (Yoğunluk↑)</span></div> <div class="diagram-arrow">→</div> <div class="diagram-node"> <span class="node-icon">🔑</span><span class="node-label">Algılama (Reseptör)</span></div> <div class="diagram-arrow">→</div> <div class="diagram-node"> <span class="node-icon">💡</span><span class="node-label">Yanıt (Gen İfadesi)</span></div>` },
-            { type: 'two-column', reversed: true, htmlContent: `<h2>Anahtar Oyuncular: <span class="highlight">Moleküler Alfabe</span></h2><h3>Sinyaller (AI) ve Alıcılar (Reseptörler)</h3><div class="component-section"><h4>Otoindükleyiciler (AI'lar)</h4><ul><li><span class="highlight term">AHL:</span> <span class="tag g-neg">G-</span></li><li><span class="highlight term">AIP:</span> <span class="tag g-pos">G+</span></li><li><span class="highlight term">AI-2:</span> <span class="tag g-uni">Evrensel</span> <span class="citation">[3, 4]</span></li><li>Diğerleri...</li></ul></div><div class="component-section"><h4>Reseptörler</h4><ul><li>Sinyalleri tanıyan proteinler.</li><li>Hücre içi sinyali aktive eder.</li><li>Gen ifadesini düzenler.</li></ul></div>`, imageSrc: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&auto=format&fit=crop&w=420&q=80', imageAlt: 'Bilimsel araştırma' },
-            { type: 'single-column', htmlContentTop: `<h2>Sistem Mimarileri: <span class="highlight">Gram (+) vs Gram (-)</span></h2><h3>Farklı Yapılar, Ortak Amaç</h3>`, htmlContentComparison: `<div class="comparison-item detailed-card"><div class="card-header g-neg-header"><span class="icon">➖</span> Gram-Negatif</div><div class="card-body"><ul><li>Sinyal: <span class="highlight">AHL</span> <span class="citation">[2]</span></li><li>Geçiş: <span class="highlight">Pasif difüzyon</span></li><li>Algılama: <span class="highlight">Sitoplazmik</span></li></ul></div></div><div class="comparison-item detailed-card"><div class="card-header g-pos-header"><span class="icon">➕</span> Gram-Pozitif</div><div class="card-body"><ul><li>Sinyal: <span class="highlight">Peptit (AIP)</span> <span class="citation">[3]</span></li><li>Geçiş: <span class="highlight">Aktif transport</span></li><li>Algılama: <span class="highlight">Membran</span></li></ul></div></div>`, note: `**Evrensel Sinyal (AI-2):** Türler arası köprü <span class="citation">[4]</span>.` },
-            { type: 'two-column', reversed: false, htmlContent: `<h2>Kolektif Eylemler: <span class="highlight">QS Ne Yapar?</span></h2><h3>Bireyselden Topluluğa</h3><ul class="icon-list"><li><span class="icon">🛡️</span><span class="highlight">Biyofilm Oluşumu</span> <span class="citation">[5]</span></li><li><span class="icon">☠️</span><span class="highlight">Virülans Faktörleri</span> <span class="citation">[1, 6]</span></li><li><span class="icon">💡</span>Biyolüminesans</li><li><span class="icon">💊</span>Antibiyotik/Direnç</li><li><span class="icon">🧬</span>Gen Transferi</li><li><span class="icon">⏳</span>Sporülasyon</li></ul>`, imageSrc: 'https://images.unsplash.com/photo-1606165093857-3635f885b4ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=420&q=80', imageAlt: 'Bakteri görünümü' },
-            { type: 'two-column', reversed: true, htmlContent: `<h2>Klinik Sahne: <span class="highlight">QS ve Enfeksiyonlar</span></h2><h3>Hastalıkların Orkestra Şefi</h3><p>Patojenler QS'i stratejik kullanır <span class="citation">[6]</span>:</p><ol class="step-list"><li><strong>Gizlen:</strong> Azken sessiz kal.</li><li><strong>Algıla:</strong> Yeterli sayıya ulaş.</li><li><strong>Saldır:</strong> Eş zamanlı virülans.</li></ol><p class="pathogen-examples"><strong>Örnekler:</strong> <i>P. aeruginosa</i> <span class="citation">[7]</span>, <i>S. aureus</i> <span class="citation">[8]</span>.</p>`, imageSrc: 'https://images.unsplash.com/photo-1579154284327-b79d72e93a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=420&q=80', imageAlt: 'Enfeksiyon illüstrasyonu' },
-            { type: 'two-column', reversed: false, htmlContent: `<h2>Aşil Topuğu: <span class="highlight">Biyofilm ve Direnç</span></h2><h3>Tedavideki Engel</h3><h4>Biyofilm Kalkanı:</h4><ul><li>QS, oluşumu <span class="highlight">yönetir</span> <span class="citation">[5]</span>.</li><li>Antibiyotiklere (<span class="highlight">~1000x</span>) karşı korur.</li><li><span class="highlight">İmplant/Kateter</span> enfeksiyonları.</li></ul><h4 style="margin-top:1em;">Direnç Mekanizmaları:</h4><ul><li>QS, <span class="highlight">direnç genlerini</span> aktive edebilir.</li><li>Fiziksel bariyer + Yavaş metabolizma.</li></ul>`, imageSrc: 'https://images.unsplash.com/photo-1617896044912-0b0f5a7ab0e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=350&q=80', imageAlt: 'Antibiyotik direnci' }, // Resim boyutu ayarlandı
-            { type: 'two-column', reversed: true, htmlContent: `<h2>Karşı Hamle: <span class="highlight">Quorum Quenching</span></h2><h3>İletişimi Sabote Etmek</h3><p>Antibiyotik direncine <span class="highlight">yenilikçi</span> bir strateji <span class="citation">[9, 10]</span>.</p><p><strong>QQ Taktikleri:</strong></p><ul class="icon-list"><li><span class="icon">🚫</span>Sinyal Üretimini Engelle</li><li><span class="icon">✂️</span>Sinyali Parçala</li><li><span class="icon">🔒</span>Sinyal Algılamayı Boz</li></ul><p class="advantage"><strong>Avantajı:</strong> Direnç <span class="highlight">baskısını azaltabilir</span> <span class="citation">[10]</span>.</p>`, imageSrc: 'https://images.unsplash.com/photo-1529480771378-c600a2854359?ixlib=rb-4.0.3&auto=format&fit=crop&w=420&q=80', imageAlt: 'Strateji müdahalesi' },
-            { type: 'single-column', htmlContentTop: `<h2>Vaka Çalışmaları: <span class="highlight">Kritik Patojenler</span></h2><h3>Klinik Yansımalar</h3>`, htmlContentComparison: `<div class="comparison-item detailed-card"><div class="card-header g-neg-header"><span class="icon">🦠</span><i>P. aeruginosa</i></div><div class="card-body"><ul><li><strong>Sistem:</strong> Karmaşık <span class="citation">[7]</span>.</li><li><strong>Etki:</strong> Kistik fibrozis, yanıklar.</li><li><strong>Hedef:</strong> Biyofilm, virülans.</li><li><strong>QQ Pot.:</strong> Yüksek.</li></ul></div></div><div class="comparison-item detailed-card"><div class="card-header" style="background:#c94e00; color:var(--bg-light);"><span class="icon">🦠</span><i>S. aureus</i></div><div class="card-body"><ul><li><strong>Sistem:</strong> Agr (AIP) <span class="citation">[8]</span>.</li><li><strong>Etki:</strong> MRSA, deri enf., sepsis.</li><li><strong>Hedef:</strong> Toksinler, biyofilm.</li><li><strong>QQ Pot.:</strong> Araştırılıyor.</li></ul></div></div>` },
-            { type: 'references', title: 'Referanslar', htmlContent: `<li>[1] Miller & Bassler (2001) Annu Rev Microbiol</li><li>[2] Papenfort & Bassler (2016) Nat Rev Microbiol</li><li>[3] Novick (2003) Mol Microbiol</li><li>[4] Xavier & Bassler (2003) Curr Opin Microbiol</li><li>[5] Davies et al. (1998) Science</li><li>[6] Rutherford & Bassler (2012) Cold Spring Harb Perspect Med</li><li>[7] Lee & Zhang (2015) Protein Cell</li><li>[8] Thoendel et al. (2011) Future Microbiol</li><li>[9] Dong et al. (2001) Nature</li><li>[10] Kalia (Ed.) (2015) Quorum Sensing vs Quorum Quenching</li>` },
-            { type: 'final', title: 'Teşekkürler & İletişim', text: `Quorum Sensing'in karmaşık dünyasına yaptığımız bu yolculukta bana katıldığınız için teşekkür ederim. Bu mekanizmayı anlamak, enfeksiyonlarla mücadelede ve biyoteknolojide yeni kapılar aralamaktadır.`, contactName: 'Sait Ramazan Gülbay', contactEmail: 'sait.ramazan.gulbay@ornekmail.com' }
+             { type: 'title', title: 'QUORUM SENSING', subtitle: 'Bakteriyel Fısıltılardan Biyoteknolojik Senfonilere', presenter: 'Sait Ramazan Gülbay', event: 'Tıbbi Mikrobiyoloji Kongresi - 5 Nisan 2025' },
+             { type: 'two-column', reversed: true, htmlContent: `<h2>Giriş: Mikroskobik Sosyal Ağ</h2><h3>Keşif Yolculuğumuz</h3><ul class="agenda-list"><li><span class="agenda-number">I.</span> QS Nedir? <span class="agenda-detail">Temel Kavramlar</span></li><li><span class="agenda-number">II.</span> İşleyiş Sırları: <span class="agenda-detail">Mekanizma</span></li><li><span class="agenda-number">III.</span> Bakteriyel Lehçeler: <span class="agenda-detail">Gram Farklılıkları</span></li><li><span class="agenda-number">IV.</span> Klinik Yankılar: <span class="agenda-detail">Hastalıklar</span></li><li><span class="agenda-number">V.</span> Müdahale Sanatı: <span class="agenda-detail">Quorum Quenching</span></li><li><span class="agenda-number">VI.</span> Ufuktaki Gelişmeler: <span class="agenda-detail">Gelecek</span></li></ul>`, imageSrc: 'https://images.unsplash.com/photo-1531297484001-80022131c5a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=420&q=80', imageAlt: 'Teknolojik arayüz' },
+             { type: 'two-column', reversed: false, htmlContent: `<h2>Konsept: <span class="highlight">Yeterli Çoğunluk</span> Algısı</h2><h3>Bakteriler Nasıl "Anlaşır"?</h3><p>QS, bakterilerin <span class="highlight">nüfus yoğunluklarını</span> algılayıp, kritik eşik aşılınca <span class="highlight">toplu davranışları</span> (örn. saldırı) senkronize ettikleri <span class="highlight">sinyal sistemidir</span> <span class="citation">[1]</span>.</p><p>Tekil bakteri etkisizken, <span class="highlight">"ordu"</span> yeterli sayıya ulaştığında koordineli hareket eder.</p><p class="analogy"><strong>Analoji:</strong> Konserde yeterli kalabalık oluşunca başlayan alkış.</p>`, imageSrc: 'https://images.unsplash.com/photo-1461773511539-9f8f653f65d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=420&q=80', imageAlt: 'Grup etkileşimi' },
+             { type: 'single-column', htmlContentTop: `<h2>İşleyiş: <span class="highlight">4 Adımda</span> İletişim Döngüsü</h2><h3>Sinyal Moleküllerinin Yolculuğu <span class="citation">[2]</span></h3>`, htmlContentDiagram: `<div class="diagram-node"> <span class="node-icon">🧬</span><span class="node-label">Üretim & Salınım (AI)</span></div> <div class="diagram-arrow">→</div> <div class="diagram-node"> <span class="node-icon">📈</span><span class="node-label">Birikim (Yoğunluk↑)</span></div> <div class="diagram-arrow">→</div> <div class="diagram-node"> <span class="node-icon">🔑</span><span class="node-label">Algılama (Reseptör)</span></div> <div class="diagram-arrow">→</div> <div class="diagram-node"> <span class="node-icon">💡</span><span class="node-label">Yanıt (Gen İfadesi)</span></div>` },
+             { type: 'two-column', reversed: true, htmlContent: `<h2>Anahtar Oyuncular: <span class="highlight">Moleküler Alfabe</span></h2><h3>Sinyaller (AI) ve Alıcılar (Reseptörler)</h3><div class="component-section"><h4>Otoindükleyiciler (AI'lar)</h4><ul><li><span class="highlight term">AHL:</span> <span class="tag g-neg">G-</span></li><li><span class="highlight term">AIP:</span> <span class="tag g-pos">G+</span></li><li><span class="highlight term">AI-2:</span> <span class="tag g-uni">Evrensel</span> <span class="citation">[3, 4]</span></li><li>Diğerleri...</li></ul></div><div class="component-section"><h4>Reseptörler</h4><ul><li>Sinyalleri tanıyan proteinler.</li><li>Hücre içi sinyali aktive eder.</li><li>Gen ifadesini düzenler.</li></ul></div>`, imageSrc: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&auto=format&fit=crop&w=420&q=80', imageAlt: 'Bilimsel araştırma' },
+             { type: 'single-column', htmlContentTop: `<h2>Sistem Mimarileri: <span class="highlight">Gram (+) vs Gram (-)</span></h2><h3>Farklı Yapılar, Ortak Amaç</h3>`, htmlContentComparison: `<div class="comparison-item detailed-card"><div class="card-header g-neg-header"><span class="icon">➖</span> Gram-Negatif</div><div class="card-body"><ul><li>Sinyal: <span class="highlight">AHL</span> <span class="citation">[2]</span></li><li>Geçiş: <span class="highlight">Pasif difüzyon</span></li><li>Algılama: <span class="highlight">Sitoplazmik</span></li></ul></div></div><div class="comparison-item detailed-card"><div class="card-header g-pos-header"><span class="icon">➕</span> Gram-Pozitif</div><div class="card-body"><ul><li>Sinyal: <span class="highlight">Peptit (AIP)</span> <span class="citation">[3]</span></li><li>Geçiş: <span class="highlight">Aktif transport</span></li><li>Algılama: <span class="highlight">Membran</span></li></ul></div></div>`, note: `**Evrensel Sinyal (AI-2):** Türler arası köprü <span class="citation">[4]</span>.` },
+             { type: 'two-column', reversed: false, htmlContent: `<h2>Kolektif Eylemler: <span class="highlight">QS Ne Yapar?</span></h2><h3>Bireyselden Topluluğa</h3><ul class="icon-list"><li><span class="icon">🛡️</span><span class="highlight">Biyofilm Oluşumu</span> <span class="citation">[5]</span></li><li><span class="icon">☠️</span><span class="highlight">Virülans Faktörleri</span> <span class="citation">[1, 6]</span></li><li><span class="icon">💡</span>Biyolüminesans</li><li><span class="icon">💊</span>Antibiyotik/Direnç</li><li><span class="icon">🧬</span>Gen Transferi</li><li><span class="icon">⏳</span>Sporülasyon</li></ul>`, imageSrc: 'https://images.unsplash.com/photo-1606165093857-3635f885b4ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=420&q=80', imageAlt: 'Bakteri görünümü' },
+             { type: 'two-column', reversed: true, htmlContent: `<h2>Klinik Sahne: <span class="highlight">QS ve Enfeksiyonlar</span></h2><h3>Hastalıkların Orkestra Şefi</h3><p>Patojenler QS'i stratejik kullanır <span class="citation">[6]</span>:</p><ol class="step-list"><li><strong>Gizlen:</strong> Azken sessiz kal.</li><li><strong>Algıla:</strong> Yeterli sayıya ulaş.</li><li><strong>Saldır:</strong> Eş zamanlı virülans.</li></ol><p class="pathogen-examples"><strong>Örnekler:</strong> <i>P. aeruginosa</i> <span class="citation">[7]</span>, <i>S. aureus</i> <span class="citation">[8]</span>.</p>`, imageSrc: 'https://images.unsplash.com/photo-1579154284327-b79d72e93a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=420&q=80', imageAlt: 'Enfeksiyon illüstrasyonu' },
+             { type: 'two-column', reversed: false, htmlContent: `<h2>Aşil Topuğu: <span class="highlight">Biyofilm ve Direnç</span></h2><h3>Tedavideki Engel</h3><h4>Biyofilm Kalkanı:</h4><ul><li>QS, oluşumu <span class="highlight">yönetir</span> <span class="citation">[5]</span>.</li><li>Antibiyotiklere (<span class="highlight">~1000x</span>) karşı korur.</li><li><span class="highlight">İmplant/Kateter</span> enfeksiyonları.</li></ul><h4 style="margin-top:1em;">Direnç Mekanizmaları:</h4><ul><li>QS, <span class="highlight">direnç genlerini</span> aktive edebilir.</li><li>Fiziksel bariyer + Yavaş metabolizma.</li></ul>`, imageSrc: 'https://images.unsplash.com/photo-1617896044912-0b0f5a7ab0e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=350&q=80', imageAlt: 'Antibiyotik direnci' },
+             { type: 'two-column', reversed: true, htmlContent: `<h2>Karşı Hamle: <span class="highlight">Quorum Quenching</span></h2><h3>İletişimi Sabote Etmek</h3><p>Antibiyotik direncine <span class="highlight">yenilikçi</span> bir strateji <span class="citation">[9, 10]</span>.</p><p><strong>QQ Taktikleri:</strong></p><ul class="icon-list"><li><span class="icon">🚫</span>Sinyal Üretimini Engelle</li><li><span class="icon">✂️</span>Sinyali Parçala</li><li><span class="icon">🔒</span>Sinyal Algılamayı Boz</li></ul><p class="advantage"><strong>Avantajı:</strong> Direnç <span class="highlight">baskısını azaltabilir</span> <span class="citation">[10]</span>.</p>`, imageSrc: 'https://images.unsplash.com/photo-1529480771378-c600a2854359?ixlib=rb-4.0.3&auto=format&fit=crop&w=420&q=80', imageAlt: 'Strateji müdahalesi' },
+             { type: 'single-column', htmlContentTop: `<h2>Vaka Çalışmaları: <span class="highlight">Kritik Patojenler</span></h2><h3>Klinik Yansımalar</h3>`, htmlContentComparison: `<div class="comparison-item detailed-card"><div class="card-header g-neg-header"><span class="icon">🦠</span><i>P. aeruginosa</i></div><div class="card-body"><ul><li><strong>Sistem:</strong> Karmaşık <span class="citation">[7]</span>.</li><li><strong>Etki:</strong> Kistik fibrozis, yanıklar.</li><li><strong>Hedef:</strong> Biyofilm, virülans.</li><li><strong>QQ Pot.:</strong> Yüksek.</li></ul></div></div><div class="comparison-item detailed-card"><div class="card-header" style="background:#c94e00; color:var(--bg-light);"><span class="icon">🦠</span><i>S. aureus</i></div><div class="card-body"><ul><li><strong>Sistem:</strong> Agr (AIP) <span class="citation">[8]</span>.</li><li><strong>Etki:</strong> MRSA, deri enf., sepsis.</li><li><strong>Hedef:</strong> Toksinler, biyofilm.</li><li><strong>QQ Pot.:</strong> Araştırılıyor.</li></ul></div></div>` },
+             { type: 'references', title: 'Referanslar', htmlContent: `<li>[1] Miller & Bassler (2001) Annu Rev Microbiol</li><li>[2] Papenfort & Bassler (2016) Nat Rev Microbiol</li><li>[3] Novick (2003) Mol Microbiol</li><li>[4] Xavier & Bassler (2003) Curr Opin Microbiol</li><li>[5] Davies et al. (1998) Science</li><li>[6] Rutherford & Bassler (2012) Cold Spring Harb Perspect Med</li><li>[7] Lee & Zhang (2015) Protein Cell</li><li>[8] Thoendel et al. (2011) Future Microbiol</li><li>[9] Dong et al. (2001) Nature</li><li>[10] Kalia (Ed.) (2015) Quorum Sensing vs Quorum Quenching</li>` },
+             { type: 'final', title: 'Teşekkürler & İletişim', text: `Quorum Sensing'in karmaşık dünyasına yaptığımız bu yolculukta bana katıldığınız için teşekkür ederim. Bu mekanizmayı anlamak, enfeksiyonlarla mücadelede ve biyoteknolojide yeni kapılar aralamaktadır.`, contactName: 'Sait Ramazan Gülbay', contactEmail: 'sait.ramazan.gulbay@ornekmail.com' }
         ];
 
-        // === SUNUM SINIFI ===
+        // === SUNUM SINIFI (Basitleştirilmiş Geçiş) ===
         class Presentation {
             constructor(slidesData) {
                 this.slidesData = slidesData;
                 this.currentSlideIndex = 0;
                 this.totalSlides = slidesData.length;
-                this.isTransitioning = false;
-                // CSS'ten geçiş süresini al (ms cinsinden)
-                this.transitionDuration = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--transition-duration') || '0.5') * 1000;
+                this.isTransitioning = false; // Geçiş durumunu takip et
+                this.transitionDuration = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--transition-duration') || '0.4') * 1000; // CSS'ten al
                 this.container = document.getElementById('presentation-container');
                 this.prevButton = document.getElementById('prevButton');
                 this.nextButton = document.getElementById('nextButton');
@@ -314,7 +252,7 @@
                 }
                 this.preloadImages();
                 this.attachEventListeners();
-                this.renderSlide(this.currentSlideIndex); // İlk slaytı render et
+                this.renderSlide(this.currentSlideIndex, true); // İlk slaytı animasyonsuz göster
                 this.updateNavigation();
             }
 
@@ -331,7 +269,7 @@
                 this.audioControlButton.addEventListener('click', () => this.toggleAudio());
 
                 window.addEventListener('keydown', (e) => {
-                    if (this.isTransitioning) return; // Geçiş sırasında işlem yapma
+                    if (this.isTransitioning) return; // Geçiş sırasında klavye işlemez
 
                     if (['ArrowRight', 'PageDown', ' '].includes(e.key)) {
                         e.preventDefault(); this.nextSlide();
@@ -347,19 +285,21 @@
                 if (this.audioElement) {
                     this.audioElement.onended = () => {
                         this.audioPlaying = false;
-                        this.updateAudioButton(); // Buton durumunu güncelle
+                        this.updateAudioButton();
                     };
                 }
             }
 
-            renderSlide(index) {
-                if (index < 0 || index >= this.totalSlides) { console.warn("Geçersiz slayt indeksi:", index); return; }
-                // Zaten geçiş yapılıyorsa veya aynı slayta gidiliyorsa işlemi durdur
-                if (this.isTransitioning) return;
-                this.isTransitioning = true; // Geçiş başladı
+            // Render fonksiyonu: ilkYükleme parametresi eklendi
+            renderSlide(index, firstLoad = false) {
+                if (index < 0 || index >= this.totalSlides) return;
+                if (this.isTransitioning && !firstLoad) return; // İlk yükleme hariç geçiş sırasında engelle
+
+                this.isTransitioning = !firstLoad; // Geçiş bayrağını ayarla (ilk yüklemede false)
+                this.updateNavigation(); // Butonları hemen deaktif et (ilk yükleme hariç)
 
                 const slideData = this.slidesData[index];
-                let slideHTML = this.generateSlideHTML(slideData); // HTML oluşturma işini ayrı fonksiyona taşıdık
+                let slideHTML = this.generateSlideHTML(slideData);
 
                 const exitingSlide = this.container.querySelector('.slide.active');
 
@@ -368,55 +308,51 @@
                 newSlide.className = 'slide'; // Başlangıçta 'active' yok
                 newSlide.id = `slide${index + 1}`;
                 newSlide.innerHTML = slideHTML;
-                newSlide.style.zIndex = 2; // Yeni slayt her zaman üstte başlasın
+                // Yeni slaytı direkt konteynere ekle
                 this.container.appendChild(newSlide);
 
-                 // Yeni slayt içeriğini üste kaydır
-                 this.scrollToTop(newSlide);
+                // Yeni slayt içeriğini üste kaydır
+                this.scrollToTop(newSlide);
 
-                 // Yeni slaytı görünür yap (fade in animasyonu için)
-                 // requestAnimationFrame, DOM'a ekleme sonrası stil değişikliğinin fark edilmesini sağlar
-                requestAnimationFrame(() => {
-                    newSlide.classList.add('active');
-                });
+                 // Görünürlük ve Animasyon:
+                 // setTimeout(0) tarayıcının yeni elementi işlemesi için kısa bir mola verir,
+                 // ardından 'active' sınıfı eklenerek CSS transition tetiklenir.
+                 setTimeout(() => {
+                     newSlide.classList.add('active');
 
-                // Eski slaytı gizle (fade out animasyonu için)
-                if (exitingSlide) {
-                    exitingSlide.style.zIndex = 1; // Eski slayt arkada kalsın
-                    exitingSlide.classList.remove('active'); // Opacity 0'a düşecek
-                    // Animasyon bittikten sonra DOM'dan kaldır
-                    setTimeout(() => {
-                        if (exitingSlide.parentNode === this.container) {
-                            this.container.removeChild(exitingSlide);
-                        }
-                    }, this.transitionDuration);
-                }
-
-                // Geçişin bittiğini işaretle ve navigasyonu güncelle
-                setTimeout(() => {
-                    this.isTransitioning = false;
-                    this.updateNavigation(); // Butonları tekrar aktif et
-                }, this.transitionDuration);
-
-                 // Erişilebilirlik: Yeni slayta odaklanma (opsiyonel)
-                 // setTimeout(() => newSlide.focus({ preventScroll: true }), 0);
+                     // Eski slaytı kaldır (varsa ve ilk yükleme değilse)
+                     if (exitingSlide && !firstLoad) {
+                         // Eski slaytın geçişi bittikten sonra DOM'dan kaldır
+                         setTimeout(() => {
+                             if (exitingSlide.parentNode === this.container) {
+                                 this.container.removeChild(exitingSlide);
+                             }
+                             // Eski slayt kaldırıldıktan sonra geçiş bayrağını sıfırla
+                             this.isTransitioning = false;
+                             this.updateNavigation(); // Butonları tekrar aktif et
+                         }, this.transitionDuration);
+                     } else {
+                         // İlk yükleme veya eski slayt yoksa, geçiş bayrağını hemen sıfırla
+                         this.isTransitioning = false;
+                         this.updateNavigation();
+                     }
+                 }, 0); // 0ms gecikme yeterli olmalı
             }
 
-            // HTML oluşturma mantığını ayıran fonksiyon
+
             generateSlideHTML(slideData) {
                 let html = '';
-                if (slideData.type === 'title') { html = `<div class="slide-content title-slide"><div class="title-text-wrapper"><h1 class="main-title">${slideData.title}</h1><h2 class="subtitle">${slideData.subtitle}</h2></div><div class="presenter-info"><p class="presenter"><strong>Sunan:</strong> ${slideData.presenter}</p><p class="event-info">${slideData.event}</p></div></div>`; }
-                else if (slideData.type === 'two-column') { html = `<div class="slide-content two-column ${slideData.reversed ? 'reversed' : ''}"><div class="text-content">${slideData.htmlContent}</div>${slideData.imageSrc ? `<div class="visual-content"><img src="${slideData.imageSrc}" alt="${slideData.imageAlt || ''}"></div>` : ''}</div>`; }
-                else if (slideData.type === 'single-column') { html = `<div class="slide-content single-column"><div class="text-content">${slideData.htmlContentTop || ''}</div>${slideData.htmlContentDiagram ? `<div class="animated-diagram mechanism-diagram">${slideData.htmlContentDiagram}</div>` : ''}${slideData.htmlContentComparison ? `<div class="comparison-container detailed">${slideData.htmlContentComparison}</div>` : ''}${slideData.note ? `<p class="note">${slideData.note}</p>` : ''}${slideData.imageSrcBottom ? `<div class="visual-content lower-visual"><img src="${slideData.imageSrcBottom}" alt="${slideData.imageAltBottom || ''}"></div>` : ''}</div>`; }
-                else if (slideData.type === 'references') { html = `<div class="slide-content references-slide"><h2>${slideData.title}</h2><ul class="references-list compact">${slideData.htmlContent}</ul></div>`; }
-                else if (slideData.type === 'final') { html = `<div class="slide-content single-column"><div class="final-slide-text"><h2 class="subtitle">${slideData.title}</h2><p>${slideData.text}</p><div class="contact-info"><p><strong>${slideData.contactName}</strong></p><p>${slideData.contactEmail}</p></div></div></div>`; }
-                return html;
+                 if (slideData.type === 'title') { html = `<div class="slide-content title-slide"><div class="title-text-wrapper"><h1 class="main-title">${slideData.title}</h1><h2 class="subtitle">${slideData.subtitle}</h2></div><div class="presenter-info"><p class="presenter"><strong>Sunan:</strong> ${slideData.presenter}</p><p class="event-info">${slideData.event}</p></div></div>`; }
+                 else if (slideData.type === 'two-column') { html = `<div class="slide-content two-column ${slideData.reversed ? 'reversed' : ''}"><div class="text-content">${slideData.htmlContent}</div>${slideData.imageSrc ? `<div class="visual-content"><img src="${slideData.imageSrc}" alt="${slideData.imageAlt || ''}"></div>` : ''}</div>`; }
+                 else if (slideData.type === 'single-column') { html = `<div class="slide-content single-column"><div class="text-content">${slideData.htmlContentTop || ''}</div>${slideData.htmlContentDiagram ? `<div class="animated-diagram mechanism-diagram">${slideData.htmlContentDiagram}</div>` : ''}${slideData.htmlContentComparison ? `<div class="comparison-container detailed">${slideData.htmlContentComparison}</div>` : ''}${slideData.note ? `<p class="note">${slideData.note}</p>` : ''}${slideData.imageSrcBottom ? `<div class="visual-content lower-visual"><img src="${slideData.imageSrcBottom}" alt="${slideData.imageAltBottom || ''}"></div>` : ''}</div>`; }
+                 else if (slideData.type === 'references') { html = `<div class="slide-content references-slide"><h2>${slideData.title}</h2><ul class="references-list compact">${slideData.htmlContent}</ul></div>`; }
+                 else if (slideData.type === 'final') { html = `<div class="slide-content single-column"><div class="final-slide-text"><h2 class="subtitle">${slideData.title}</h2><p>${slideData.text}</p><div class="contact-info"><p><strong>${slideData.contactName}</strong></p><p>${slideData.contactEmail}</p></div></div></div>`; }
+                 return html;
             }
-
 
             updateNavigation() {
                 this.slideCounter.textContent = `${this.currentSlideIndex + 1} / ${this.totalSlides}`;
-                // Butonları geçiş sırasında da deaktif tut
+                // Geçiş sırasında butonları devre dışı bırak
                 this.prevButton.disabled = (this.currentSlideIndex === 0) || this.isTransitioning;
                 this.nextButton.disabled = (this.currentSlideIndex === this.totalSlides - 1) || this.isTransitioning;
                 const progress = ((this.currentSlideIndex + 1) / this.totalSlides) * 100;
@@ -427,7 +363,8 @@
                 if (index >= 0 && index < this.totalSlides && index !== this.currentSlideIndex && !this.isTransitioning) {
                     this.currentSlideIndex = index;
                     this.renderSlide(this.currentSlideIndex);
-                    this.updateNavigation(); // Navigasyonu hemen güncelle (butonları deaktif etmek için)
+                    // renderSlide içinde updateNavigation çağrılacağı için burada tekrar çağırmaya gerek yok (ama butonları deaktif etmek için hemen çağırılabilir)
+                    this.updateNavigation();
                 }
             }
 
@@ -440,16 +377,21 @@
             }
 
             toggleAudio() {
-                if (!this.audioElement) { alert("Ses elementi bulunamadı."); return; }
-                const currentSrc = this.audioElement.currentSrc || this.audioElement.src;
-                if (!currentSrc) { alert("Lütfen geçerli bir ses dosyası belirtin."); return; }
+                 if (!this.audioElement) { alert("Ses elementi bulunamadı."); return; }
+                 const currentSrc = this.audioElement.currentSrc || this.audioElement.src;
+                 // Örnek URL'yi kontrol etme (isteğe bağlı, kendi dosyanız için kaldırın)
+                 const isPlaceholderAudio = currentSrc.includes("soundhelix.com");
+                 if (!currentSrc || (isPlaceholderAudio && !confirm("Örnek ses dosyası çalınsın mı? Kendi dosyanızı eklemeniz önerilir."))) {
+                     if (!isPlaceholderAudio) alert("Lütfen geçerli bir ses dosyası belirtin.");
+                     return;
+                 }
 
-                this.audioControlButton.disabled = true; // Butonu kilitle
+                this.audioControlButton.disabled = true;
 
                 if (this.audioPlaying) {
                     this.audioElement.pause();
                     this.audioPlaying = false;
-                    this.updateAudioButton(); // İkonu ve durumu güncelle
+                    this.updateAudioButton();
                 } else {
                     const playPromise = this.audioElement.play();
                     if (playPromise !== undefined) {
@@ -465,32 +407,23 @@
                             }
                         });
                     } else {
-                         // Eski tarayıcılar için fallback (promise yoksa)
-                        try {
-                           this.audioElement.play();
-                           this.audioPlaying = true;
-                           this.updateAudioButton();
-                        } catch (error) {
-                            console.error("Ses çalma hatası (eski tarayıcı?):", error);
-                            this.audioPlaying = false;
-                            this.updateAudioButton();
-                        }
+                        try { // Eski tarayıcılar
+                           this.audioElement.play(); this.audioPlaying = true; this.updateAudioButton();
+                        } catch (error) { console.error("Ses çalma hatası:", error); this.audioPlaying = false; this.updateAudioButton(); }
                     }
                 }
             }
 
             updateAudioButton() {
-                 // Yardımcı fonksiyon: Buton ikonunu, sınıfını güncelle ve aktif et
                 this.audioControlButton.innerHTML = `<span>${this.audioPlaying ? '🔈' : '🔊'}</span>`;
                 this.audioControlButton.classList.toggle('playing', this.audioPlaying);
-                // Kısa bir gecikme ile butonu tekrar aktif etmek daha güvenli olabilir
+                // Kısa gecikme ile butonu tekrar aktif et
                 setTimeout(() => { this.audioControlButton.disabled = false; }, 100);
             }
         }
 
         // Sunum başlatılıyor
         document.addEventListener('DOMContentLoaded', () => {
-            // Slayt verileri burada global scope'da tanımlı olduğu için direkt kullanılıyor
             const presentation = new Presentation(slidesData);
             presentation.init();
         });
