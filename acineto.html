@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CRAb Poster - Acinetobacter baumannii</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      padding: 20px;
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .poster-section {
+      margin-bottom: 40px;
+    }
+    .section-title {
+      border-left: 5px solid #0d6efd;
+      padding-left: 10px;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="poster-section">
+      <h1 class="text-center mb-4">Carbapenem Resistance in <i>Acinetobacter baumannii</i></h1>
+      <p class="text-center"><strong>H. Tutan, B. Mazlumoğlu, L. Genç, E.S. Tanriverdi, Z. Çizmeci, M.E. Bulut, E. Aktaş</strong><br>
+      Şişli Etfal, Malatya, Bakırköy Hastaneleri</p>
+    </div>
+
+    <div class="poster-section">
+      <div class="section-title">Background</div>
+      <p>
+        Carbapenem resistance in Gram-negative bacteria via carbapenemase production is a major healthcare concern. CRAb has been classified as a critical priority pathogen by WHO. Genes such as <strong>bla<sub>OXA-23</sub></strong>, <strong>bla<sub>OXA-40</sub></strong>, <strong>bla<sub>OXA-58</sub></strong>, and <strong>bla<sub>NDM</sub></strong> contribute to this resistance. Our study investigates the gene distribution in Türkiye.
+      </p>
+    </div>
+
+    <div class="poster-section">
+      <div class="section-title">Methods</div>
+      <p>
+        A total of 336 CRAb isolates (198 from Şişli, 86 from Bakırköy, 52 from Malatya) collected between Jan 2023 and Oct 2024 were analyzed. Resistance genes were identified using qPCR kits.
+      </p>
+    </div>
+
+    <div class="poster-section">
+      <div class="section-title">Results</div>
+      <ul>
+        <li><strong>bla<sub>OXA-51</sub></strong> detected in all isolates</li>
+        <li><strong>bla<sub>OXA-23</sub></strong>: 305 isolates (90.8%)</li>
+        <li><strong>bla<sub>OXA-40</sub></strong>: 88 isolates (26.2%)</li>
+        <li><strong>bla<sub>NDM</sub></strong>: 21 isolates (6.3%)</li>
+        <li><strong>bla<sub>VIM</sub></strong>: 1 isolate</li>
+        <li><em>Co-productions:</em> 73 isolates had dual genes; some had triple combinations.</li>
+        <li><em>Not detected:</em> bla<sub>OXA-48</sub>, bla<sub>OXA-58</sub>, bla<sub>IMP</sub>, bla<sub>KPC</sub></li>
+      </ul>
+      <canvas id="geneChart" height="200"></canvas>
+    </div>
+
+    <div class="poster-section">
+      <div class="section-title">Conclusion</div>
+      <p>
+        bla<sub>OXA-23</sub> is the most prevalent carbapenemase gene. Co-production and presence of bla<sub>NDM</sub> highlight complex resistance. Local practices impact gene distribution. These findings are critical for global resistance monitoring.
+      </p>
+    </div>
+
+    <footer class="text-center mt-5">
+      <p><small>Poster Generated Interactively - Türkiye</small></p>
+    </footer>
+
+  </div>
+
+  <script>
+    const ctx = document.getElementById('geneChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['OXA-51', 'OXA-23', 'OXA-40', 'NDM', 'VIM'],
+        datasets: [{
+          label: 'Number of Isolates',
+          data: [336, 305, 88, 21, 1],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: {
+            display: true,
+            text: 'Distribution of Carbapenemase Genes in CRAb Isolates'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Number of Isolates'
+            }
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
