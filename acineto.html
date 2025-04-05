@@ -1,140 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>CRAb Interactive Poster</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Bootstrap & Chart.js -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <title>CRAb Scientific Presentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts + Bootstrap + Animate -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+
+  <!-- Reveal.js (Sunum altyapısı) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/night.css">
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- FullPage.js -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullpage.js/dist/fullpage.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/fullpage.js/dist/fullpage.min.js"></script>
-  <!-- Animate.css -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-  <!-- Custom Styles -->
+
+  <!-- Stil -->
   <style>
     body {
-      margin: 0;
-      overflow: hidden;
-      background-color: #000;
-      color: #fff;
-      font-family: 'Segoe UI', sans-serif;
-    }
-    .section {
-      text-align: center;
-      padding: 50px;
+      background: #000;
+      font-family: 'Orbitron', sans-serif;
     }
     h1, h2 {
-      color: #00d4ff;
+      color: #00f5d4;
+      text-shadow: 0 0 10px #00f5d4;
     }
-    .title-shadow {
-      text-shadow: 0 0 20px #0ff;
-    }
-    .bg-stars {
-      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-      background-size: cover;
+    .reveal section img {
+      max-height: 300px;
+      margin: 20px 0;
     }
     canvas {
       margin-top: 30px;
-    }
-    audio {
-      display: none;
     }
   </style>
 </head>
 <body>
 
-<!-- Background Audio -->
-<audio autoplay loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
-</audio>
-<audio id="transition-sound" src="https://www.soundjay.com/button/sounds/button-16.mp3"></audio>
+<div class="reveal">
+  <div class="slides">
 
-<div id="fullpage">
-  <div class="section bg-stars">
-    <h1 class="animate__animated animate__fadeInDown title-shadow">Carbapenem Resistance in <i>Acinetobacter baumannii</i></h1>
-    <h4 class="animate__animated animate__fadeInUp mt-3">H. Tutan, B. Mazlumoğlu, L. Genç, E.S. Tanriverdi, Z. Çizmeci, M.E. Bulut, E. Aktaş</h4>
-    <p class="mt-4">From Three Tertiary Centers in Türkiye</p>
-  </div>
+    <!-- Kapak -->
+    <section data-background="#000" data-transition="zoom">
+      <h1 class="animate__animated animate__fadeInDown">Carbapenem Resistance in <i>Acinetobacter baumannii</i></h1>
+      <h4 class="mt-4 animate__animated animate__fadeInUp">Türkiye'den 3 Merkezi Kapsayan Moleküler Dağılım Sunumu</h4>
+      <p class="mt-3">H. Tutan, B. Mazlumoğlu, L. Genç, E.S. Tanriverdi, Z. Çizmeci, M.E. Bulut, E. Aktaş</p>
+    </section>
 
-  <div class="section bg-dark">
-    <h2 class="animate__animated animate__zoomIn">Background</h2>
-    <p class="mt-4 px-5">Carbapenem resistance via carbapenemase genes like <strong>OXA-23, OXA-40, NDM</strong> is a serious global threat. CRAb is listed as critical by WHO. Our study analyzes these gene distributions in Türkiye.</p>
-  </div>
+    <!-- Arka Plan -->
+    <section data-background="#111" data-transition="convex">
+      <h2>Background</h2>
+      <p class="mt-4">Carbapenem resistance is a major global threat. CRAb is listed as a critical priority pathogen by WHO. Key genes involved are <b>bla<sub>OXA-23</sub></b>, <b>bla<sub>OXA-40</sub></b>, and <b>bla<sub>NDM</sub></b>.</p>
+    </section>
 
-  <div class="section bg-black">
-    <h2 class="animate__animated animate__slideInRight">Methods</h2>
-    <p class="mt-4 px-5">336 CRAb isolates collected across 3 hospitals: Şişli (198), Bakırköy (86), Malatya (52). Resistance genes analyzed using Bioeksen qPCR kits.</p>
-  </div>
+    <!-- Metodoloji -->
+    <section data-background="#000" data-transition="concave">
+      <h2>Methods</h2>
+      <ul class="text-start fs-5 mt-4">
+        <li>336 CRAb isolates (Jan 2023 - Oct 2024)</li>
+        <li>3 Centers: Şişli (198), Bakırköy (86), Malatya (52)</li>
+        <li>Gene detection via Bioeksen qPCR kits</li>
+      </ul>
+    </section>
 
-  <div class="section bg-dark">
-    <h2 class="animate__animated animate__bounceIn">Results</h2>
-    <ul class="list-unstyled fs-5">
-      <li>OXA-51: <strong>336</strong></li>
-      <li>OXA-23: <strong>305 (90.8%)</strong></li>
-      <li>OXA-40: <strong>88 (26.2%)</strong></li>
-      <li>NDM: <strong>21 (6.3%)</strong></li>
-      <li>VIM: <strong>1</strong></li>
-    </ul>
-    <canvas id="geneChart" height="200"></canvas>
-  </div>
+    <!-- Sonuçlar -->
+    <section data-background="#111" data-transition="slide">
+      <h2>Results</h2>
+      <canvas id="geneChart" width="600" height="300"></canvas>
+      <script>
+        setTimeout(() => {
+          const ctx = document.getElementById('geneChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['OXA-51', 'OXA-23', 'OXA-40', 'NDM', 'VIM'],
+              datasets: [{
+                label: 'Isolate Count',
+                data: [336, 305, 88, 21, 1],
+                backgroundColor: 'rgba(0,245,212,0.5)',
+                borderColor: '#00f5d4',
+                borderWidth: 2
+              }]
+            },
+            options: {
+              plugins: {
+                legend: { display: false },
+                title: {
+                  display: true,
+                  text: 'Distribution of Resistance Genes',
+                  color: '#fff'
+                }
+              },
+              scales: {
+                y: {
+                  ticks: { color: '#fff' },
+                  title: { display: true, text: 'Number of Isolates', color: '#fff' }
+                },
+                x: {
+                  ticks: { color: '#fff' }
+                }
+              }
+            }
+          });
+        }, 1000);
+      </script>
+    </section>
 
-  <div class="section bg-black">
-    <h2 class="animate__animated animate__fadeInUp">Conclusion</h2>
-    <p class="mt-4 px-5">Frequent detection of OXA-23, increasing NDM and co-productions indicate complex resistance mechanisms in Türkiye. Local practices shape resistance spread and global infection strategies.</p>
-  </div>
+    <!-- Sonuç ve Yorum -->
+    <section data-background="#000" data-transition="fade">
+      <h2>Conclusion</h2>
+      <p class="mt-4">High frequency of <b>OXA-23</b>, notable co-productions with <b>NDM</b>. Resistance mechanisms are complex and locally shaped. Crucial for global infection control policies.</p>
+    </section>
 
-  <div class="section bg-stars">
-    <h2 class="animate__animated animate__heartBeat">Thank You</h2>
-    <p class="mt-3">Contact: <strong>drsait@example.com</strong> | Türkiye</p>
+    <!-- İletişim -->
+    <section data-background="#111" data-transition="zoom">
+      <h2>Teşekkürler</h2>
+      <p class="mt-3">İletişim: <b>drsait@example.com</b></p>
+      <p class="text-muted">Bu sunum Türkiye'den elde edilen CRAb verileri temelinde hazırlanmıştır.</p>
+    </section>
+
   </div>
 </div>
 
+<!-- Sunumu başlat -->
 <script>
-  new fullpage('#fullpage', {
-    autoScrolling: true,
-    scrollHorizontally: true,
-    navigation: true,
-    controlArrows: true,
-    onLeave: function() {
-      document.getElementById("transition-sound").play();
-    }
-  });
-
-  const ctx = document.getElementById('geneChart').getContext('2d');
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['OXA-51', 'OXA-23', 'OXA-40', 'NDM', 'VIM'],
-      datasets: [{
-        label: 'Number of Isolates',
-        data: [336, 305, 88, 21, 1],
-        backgroundColor: 'rgba(0, 212, 255, 0.6)',
-        borderColor: '#00d4ff',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        title: {
-          display: true,
-          text: 'Distribution of Carbapenemase Genes'
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: { color: '#fff' },
-          title: { display: true, text: 'Isolate Count', color: '#fff' }
-        },
-        x: {
-          ticks: { color: '#fff' }
-        }
-      }
-    }
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    center: true,
+    hash: true,
+    transition: 'slide',
+    backgroundTransition: 'zoom'
   });
 </script>
 
