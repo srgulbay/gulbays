@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İleri Düzey Bilimsel Sunum: A. baumannii Karbapenemaz Gen Dağılımı</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <style>
+        :root {
+            /* Renk Paleti */
+            --color-primary: #0d3b66; /* Koyu Mavi */
+            --color-secondary: #1a7fa8; /* Orta Mavi */
+            --color-accent: #f9a828; /* Altın Sarısı */
+            --color-bg-light: #f4f8fa; /* Çok Açık Gri/Mavi */
+            --color-bg-medium: #ffffff; /* Beyaz */
+            --color-text-dark: #2d3748; /* Koyu Gri */
+            --color-text-light: #f7fafc; /* Çok Açık Gri */
+            --color-border: #e2e8f0; /* Sınır Rengi */
+            --color-success: #48bb78; /* Yeşil */
+            --color-warning: #ed8936; /* Turuncu */
+            --color-danger: #f56565; /* Kırmızımsı */
+            --color-info: #60a5fa; /* Açık Mavi */
+
+            /* Tipografi */
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Inter', sans-serif;
+
+            /* Diğer Ayarlar */
+            --border-radius: 12px;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+             --card-shadow-hover: 0 7px 20px rgba(0, 0, 0, 0.08);
+            --transition-speed: 0.3s;
+            --content-max-width: 1100px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px; /* Temel font boyutu */
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg-light);
+            color: var(--color-text-dark);
+            line-height: 1.7;
+            font-weight: 400; /* Biraz daha dolgun metin */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .main-container {
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Alanı */
+        .poster-header {
+            padding: 70px 0 50px 0; /* Biraz daha kompakt */
+            text-align: center;
+            background: linear-gradient(145deg, var(--color-primary), var(--color-secondary));
+            color: var(--color-text-light);
+            border-bottom-left-radius: var(--border-radius);
+             border-bottom-right-radius: var(--border-radius);
+             margin-bottom: 50px;
+             position: relative;
+             overflow: hidden;
+        }
+         .poster-header::before { /* Dekoratif element */
+            content: '';
+            position: absolute;
+            bottom: -60px; right: -60px;
+            width: 180px; height: 180px;
+            background-color: rgba(255, 255, 255, 0.04);
+            border-radius: 50%;
+            opacity: 0.6;
+            z-index: 0;
+         }
+         .poster-header .main-container { position: relative; z-index: 1; } /* İçeriği öne al */
+
+
+        .poster-header h1 {
+            font-family: var(--font-heading);
+            font-size: 2.6rem; /* Biraz küçültüldü */
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--color-text-light);
+            line-height: 1.3;
+        }
+
+        .poster-header .authors {
+            font-size: 1.05rem; /* Biraz küçültüldü */
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .poster-header .affiliations {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        .poster-header .affiliations span {
+             display: block;
+             margin-bottom: 4px;
+         }
+
+        /* Bölüm Kartları */
+        .section-block {
+            background-color: var(--color-bg-medium);
+            border-radius: var(--border-radius);
+            margin-bottom: 40px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: box-shadow var(--transition-speed) ease-in-out;
+        }
+         .section-block:hover {
+             box-shadow: var(--card-shadow-hover);
+         }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            padding: 18px 25px; /* Biraz daha ince header */
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            border-bottom: 3px solid var(--color-accent);
+        }
+
+        .section-header h2 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem; /* Biraz küçültüldü */
+            font-weight: 500;
+            margin: 0;
+            color: var(--color-text-light);
+        }
+        .section-header i {
+             font-size: 1.2rem;
+             margin-right: 15px;
+             opacity: 0.8;
+        }
+
+        .section-content {
+            padding: 25px 30px 30px 30px; /* İçerik padding */
+        }
+        .section-content p, .section-content ul, .section-content div:not(.chart-container):not(.table-wrapper) {
+             margin-bottom: 1.25rem; /* Paragraflar arası boşluk */
+             font-size: 0.95rem; /* Metin boyutu */
+        }
+         .section-content ul { padding-left: 25px; }
+         .section-content li { margin-bottom: 0.6rem; }
+         .section-content strong { font-weight: 600; color: var(--color-primary); }
+         .section-content i { font-style: italic; } /* Bakteri isimleri için */
+          .section-content code { /* Gen isimleri için */
+             font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+             background-color: #eef3f7;
+             padding: 0.1em 0.4em;
+             border-radius: 4px;
+             font-size: 0.9em;
+         }
+          .section-content code sub { font-size: 0.8em; }
+
+         /* Özel Bölüm Stilleri */
+         .regional-context {
+             background-color: #fff9e6;
+             border-left: 4px solid var(--color-accent);
+             padding: 15px 20px;
+             margin: 25px 0;
+             border-radius: 8px;
+             font-size: 0.9rem; /* Biraz daha küçük */
+             line-height: 1.6;
+         }
+          .regional-context strong { color: #856404; }
+
+         .results-subsection {
+             margin-top: 30px;
+             padding-top: 20px;
+             border-top: 1px solid var(--color-border);
+         }
+          .results-subsection h4 {
+              text-align: center;
+              margin-bottom: 25px;
+              font-weight: 500;
+              color: var(--color-secondary);
+              font-size: 1.25rem;
+          }
+           .results-subsection h5 { /* Donut grafik başlıkları */
+              text-align: center;
+              font-weight: 500;
+              margin-bottom: 15px;
+              color: var(--color-text-dark);
+              font-size: 1rem;
+          }
+
+        /* Tablo Stili */
+        .table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 1rem; /* Tablo altı boşluk */
+        }
+        .styled-table {
+            width: 100%;
+            min-width: 600px; /* Minimum genişlik */
+            border-collapse: collapse;
+            font-size: 0.88rem; /* Tablo fontu küçültüldü */
+        }
+        .styled-table thead {
+            background-color: var(--color-secondary);
+            color: var(--color-text-light);
+            font-weight: 600;
+        }
+        .styled-table th, .styled-table td {
+            padding: 10px 12px; /* Daha kompakt padding */
+            text-align: center;
+            border: 1px solid var(--color-border);
+            white-space: nowrap; /* Satırların kaymasını engelle */
+        }
+         .styled-table td code { padding: 0.1em 0.3em; font-size: 0.95em;}
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: var(--color-bg-light);
+        }
+         .styled-table tbody tr:hover {
+             background-color: #d1eaf5;
+         }
+         .styled-table tfoot {
+             font-weight: 600;
+             background-color: #e9ecef;
+             border-top: 2px solid #ced4da;
+         }
+
+         /* Grafik Alanları */
+        .chart-container {
+            padding: 15px; /* Daha az padding */
+            background-color: var(--color-bg-light);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--color-border);
+            margin-bottom: 25px;
+            position: relative; /* ApexCharts için önemli */
+        }
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Daha küçük min genişlik */
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .figure-caption {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-top: 8px;
+            display: block;
+        }
+
+
+        /* Footer */
+        .poster-footer {
+            text-align: center;
+            padding: 35px 20px;
+            margin-top: 50px;
+            border-top: 1px solid var(--color-border);
+            background-color: var(--color-bg-medium);
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        .poster-footer img {
+             max-height: 30px; /* Daha küçük logo */
+             margin: 0 8px;
+             vertical-align: middle;
+             opacity: 0.7;
+        }
+        .poster-footer p { margin-bottom: 0.5rem; }
+
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            html { font-size: 15px; }
+            .poster-header h1 { font-size: 2rem; }
+            .section-header h2 { font-size: 1.3rem; }
+            .section-content { padding: 20px; }
+            .chart-grid { grid-template-columns: 1fr; }
+        }
+         @media (max-width: 480px) {
+             html { font-size: 14px; }
+             .poster-header h1 { font-size: 1.8rem; }
+             .section-header { padding: 15px 20px; }
+              .section-header h2 { font-size: 1.2rem; }
+              .section-content { padding: 15px; }
+         }
+
+         /* ApexCharts Tooltip Stilleri (Opsiyonel) */
+        .apexcharts-tooltip {
+            background: #f3f3f3;
+            color: var(--color-text-dark);
+            border: 1px solid #e3e3e3;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+         .apexcharts-tooltip-title {
+             background: #e3e3e3;
+             border-bottom: 1px solid #d3d3d3;
+             font-weight: 600;
+             padding: 6px 10px;
+         }
+          .apexcharts-tooltip-series-group {
+             padding: 5px 10px;
+          }
+
+
+    </style>
+</head>
+<body>
+
+    <header class="poster-header" data-aos="fade-down">
+        <div class="main-container">
+            <h1>Yüksek Karbapenem Direncinin Görüldüğü Bir Bölgedeki <i>Acinetobacter baumannii</i> İzolatlarında Karbapenemaz Genlerinin Dağılımı</h1>
+            <p class="authors">
+                H. Tutan¹, B. Mazlumoğlu¹, L. Genç¹, E.S. Tanriverdi², Z. Çizmeci³, M.E. Bulut³, E. Aktaş¹
+            </p>
+            <div class="affiliations">
+                <span>¹ Sağlık Bilimleri Üniversitesi, Şişli Hamidiye Etfal EAH, Tıbbi Mikrobiyoloji - İstanbul</span>
+                <span>² Malatya EAH, Mikrobiyoloji Laboratuvarı - Malatya</span>
+                <span>³ Bakırköy Dr. Sadi Konuk EAH, Tıbbi Mikrobiyoloji - İstanbul</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+
+        <section class="section-block" data-aos="fade-up">
+            <div class="section-header">
+                <i class="fas fa-book-open"></i><h2>GİRİŞ ve ARKA PLAN</h2>
+            </div>
+            <div class="section-content">
+                <p>Karbapenemaz üreten Gram-negatif bakterilerin neden olduğu enfeksiyonlar, küresel halk sağlığı için önemli bir tehdit oluşturmaktadır. Özellikle <i>Acinetobacter baumannii</i> kompleksine ait türlerde karbapenem grubu antibiyotiklere karşı gelişen yüksek direnç oranları, tedavi seçeneklerini ciddi şekilde kısıtlamaktadır.</p>
+                <p>Dünya Sağlık Örgütü (WHO), Karbapeneme Dirençli <i>A. baumannii</i> (CRAb)'yi, yeni antibiyotik geliştirilmesi ve enfeksiyon kontrol önlemlerinin güçlendirilmesi gereken <strong>kritik öncelikli patojenler</strong> arasında listelemektedir. (<a href="https://www.who.int/news/item/27-02-2017-who-publishes-list-of-bacteria-for-which-new-antibiotics-are-urgently-needed" target="_blank" rel="noopener noreferrer">WHO Ref</a>)</p>
+
+                <div class="regional-context">
+                    <p><i class="fas fa-map-marked-alt me-2"></i><strong>Avrupa Bölgesi Verileri:</strong> Antimikrobiyal direnç, Avrupa bölgesinde de yaygın olarak gözlenmektedir. WHO Avrupa Bölgesi için EARS-Net tarafından raporlanan 2021 verilerine göre, <strong>Türkiye'de invaziv <i>Acinetobacter</i> spp. izolatlarında karbapenemlere (imipenem/meropenem) karşı direnç oranı %50'nin üzerindedir</strong>. Bu yüksek oran, Türkiye'yi bölgede direncin en yoğun olduğu ülkelerden biri olarak konumlandırmakta ve konunun yerel önemini vurgulamaktadır.</p>
+                </div>
+
+                <p>CRAb izolatlarında karbapenem direncinden sorumlu en yaygın edinsel mekanizmalar, başta sınıf D OXA-tipi karbapenemazlar (<code>bla</code><sub>OXA-23-like</sub>, <code>bla</code><sub>OXA-40-like</sub>, <code>bla</code><sub>OXA-58-like</sub>) ve sınıf B metallo-beta-laktamazlardır (MBL; örn. <code>bla</code><sub>NDM</sub>, <code>bla</code><sub>VIM</sub>). Bu direnç genleri sıklıkla plazmidler gibi mobil genetik elemanlar üzerinde taşınarak bakteriler arasında hızla yayılabilmektedir.</p>
+                <p><strong>Çalışmanın Amacı:</strong> Bu araştırma, Türkiye'de yüksek karbapenem direncinin raporlandığı bir coğrafi bölgedeki üç farklı üçüncü basamak hastaneden izole edilen CRAb suşlarında, klinik açıdan önemli karbapenemaz genlerinin (<code>bla</code><sub>OXA-23-like</sub>, <code>bla</code><sub>OXA-40-like</sub>, <code>bla</code><sub>NDM</sub>, <code>bla</code><sub>VIM</sub> vb.) prevalansını, dağılımını ve olası ko-prodüksiyonlarını belirleyerek bölgesel direnç paternlerine ilişkin güncel veri sunmayı hedeflemektedir.</p>
+            </div>
+        </section>
+
+        <section class="section-block" data-aos="fade-up">
+             <div class="section-header">
+                <i class="fas fa-flask-vial"></i><h2>YÖNTEMLER</h2>
+            </div>
+            <div class="section-content">
+                 <p><strong>Çalışma Popülasyonu ve İzolatlar:</strong> Ocak 2023 - Ekim 2024 periyodunda, ikisi İstanbul'da biri Malatya'da bulunan üç tersiyer eğitim ve araştırma hastanesinde çeşitli klinik örneklerden (örn. solunum yolu sekresyonları, kan, yara sürüntüsü) izole edilen ve laboratuvar testlerinde karbapenemlere (imipenem ve/veya meropenem) dirençli bulunan toplam 336 <i>Acinetobacter baumannii</i> kompleksi izolatı prospektif olarak toplandı.</p>
+                 <ul>
+                    <li>Merkez 1 (İstanbul, Şişli Hamidiye Etfal EAH): n=198</li>
+                    <li>Merkez 2 (İstanbul, Bakırköy Dr. Sadi Konuk EAH): n=86</li>
+                    <li>Merkez 3 (Malatya, İnönü Üni. Turgut Özal Tıp Merkezi): n=52</li>
+                 </ul>
+                 <p><strong>Antimikrobiyal Duyarlılık Testleri:</strong> İzolatların karbapenem duyarlılıkları, VITEK® 2 Compact (bioMérieux, Fransa), BD Phoenix™ (Becton Dickinson, ABD) otomatize sistemleri veya standart Kirby-Bauer disk difüzyon metodu kullanılarak belirlendi. Sonuçların yorumlanmasında Avrupa Antimikrobiyal Duyarlılık Test Komitesi (EUCAST) güncel (v13.0) kriterleri esas alındı.</p>
+                 <p><strong>Moleküler Tiplendirme (Karbapenemaz Genleri):</strong> Tüm izolatlardan elde edilen DNA örneklerinde, <i>A. baumannii</i>'ye özgü intrinsik <code>bla</code><sub>OXA-51-like</sub> geni ile birlikte klinik öneme sahip başlıca edinsel karbapenemaz genlerinin (<code>bla</code><sub>OXA-23-like</sub>, <code>bla</code><sub>OXA-40-like</sub>, <code>bla</code><sub>OXA-58-like</sub>, <code>bla</code><sub>OXA-48-like</sub>, <code>bla</code><sub>VIM</sub>, <code>bla</code><sub>IMP</sub>, <code>bla</code><sub>NDM</sub>, <code>bla</code><sub>KPC</sub>, <code>bla</code><sub>GES</sub>) varlığı, ticari kalitatif Real-Time PCR kitleri (Biospeedy® Carbapenem-Resistance qPCR & OXA Detection qPCR, Bioeksen R&D Technologies, Türkiye) kullanılarak multipleks formatta araştırıldı.</p>
+            </div>
+        </section>
+
+        <section class="section-block" data-aos="fade-up">
+             <div class="section-header">
+                <i class="fas fa-chart-line"></i><h2>BULGULAR</h2>
+            </div>
+            <div class="section-content">
+                <p>Çalışmaya dahil edilen 336 CRAb izolatının tamamında, tür tanımlamasıyla uyumlu olarak intrinsik <code>bla</code><sub>OXA-51-like</sub> geni tespit edildi.</p>
+                <p>Edinsel karbapenemaz genlerinin genel prevalansı ve pozitif izolat sayıları aşağıdaki gibi belirlendi:</p>
+                <ul>
+                    <li><strong><code>bla</code><sub>OXA-23-like</sub>:</strong> %90.8 (n=305)</li>
+                    <li><strong><code>bla</code><sub>OXA-40-like</sub>:</strong> %26.2 (n=88)</li>
+                    <li><strong><code>bla</code><sub>NDM</sub>:</strong> %6.3 (n=21)</li>
+                    <li><strong><code>bla</code><sub>VIM</sub>:</strong> %0.3 (n=1)</li>
+                </ul>
+                 <p>Taranan diğer edinsel karbapenemaz genleri olan <code>bla</code><sub>OXA-58-like</sub>, <code>bla</code><sub>OXA-48-like</sub>, <code>bla</code><sub>KPC</sub>, <code>bla</code><sub>IMP</sub> ve <code>bla</code><sub>GES</sub>, çalışılan izolatların hiçbirinde saptanmadı.</p>
+                 <p><strong>Karbapenemaz Genlerinin Birlikteliği (Ko-prodüksiyon):</strong> İzolatların %22.3'ünde (n=75) birden fazla edinsel karbapenemaz geni bir arada tespit edildi. En yaygın görülen ikili kombinasyon <code>bla</code><sub>OXA-23-like</sub> + <code>bla</code><sub>OXA-40-like</sub> (%16.4, n=55) olarak belirlendi. İkinci sıklıkta <code>bla</code><sub>OXA-40-like</sub> + <code>bla</code><sub>NDM</sub> (%5.1, n=17) kombinasyonu gözlendi. Üçlü gen kombinasyonları ise çok daha nadir olarak saptandı (<code>bla</code><sub>OXA-23</sub>/<code>OXA-40</code>/<code>NDM</code>: n=2; <code>bla</code><sub>OXA-23</sub>/<code>OXA-40</code>/<code>VIM</code>: n=1).</p>
+
+                <div class="results-subsection" data-aos="fade-up">
+                    <h4>Şekil 1: Edinsel Karbapenemaz Genlerinin Toplam Prevalansı (n=336)</h4>
+                    <div class="chart-container">
+                        <div id="chartOverallPrevalence"></div>
+                    </div>
+                     <small class="figure-caption">Yatay barlar, her bir genin tespit edildiği izolatların toplam sayısının yüzdesini göstermektedir.</small>
+                </div>
+
+                <div class="results-subsection" data-aos="fade-up">
+                    <h4>Tablo 1: Merkezlere Göre Saptanan Karbapenemaz Gen Profilleri (İzolat Sayısı)</h4>
+                    <div class="table-wrapper">
+                        <table class="styled-table">
+                             <thead>
+                                <tr>
+                                    <th>Gen Profili</th>
+                                    <th>Merkez 1 (n=198)</th>
+                                    <th>Merkez 2 (n=86)</th>
+                                    <th>Merkez 3 (n=52)</th>
+                                    <th>Toplam (n=336)</th>
+                                </tr>
+                            </thead>
+                             <tbody>
+                                <tr><td><code>bla</code><sub>OXA-23</sub> (Sadece)*</td><td>144</td><td>54</td><td>48</td><td>246</td></tr>
+                                <tr><td><code>bla</code><sub>OXA-40</sub> (Sadece)*</td><td>8</td><td>4</td><td>1</td><td>13</td></tr>
+                                <tr><td><code>bla</code><sub>NDM</sub> (Sadece)*</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+                                <tr><td><code>bla</code><sub>OXA-23</sub> + <code>bla</code><sub>OXA-40</sub></td><td>27</td><td>26</td><td>2</td><td>55</td></tr>
+                                <tr><td><code>bla</code><sub>OXA-23</sub> + <code>bla</code><sub>NDM</sub></td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+                                <tr><td><code>bla</code><sub>OXA-40</sub> + <code>bla</code><sub>NDM</sub></td><td>16</td><td>1</td><td>0</td><td>17</td></tr>
+                                <tr><td><code>bla</code><sub>OXA-23</sub> + <code>bla</code><sub>OXA-40</sub> + <code>bla</code><sub>NDM</sub></td><td>1</td><td>1</td><td>0</td><td>2</td></tr>
+                                <tr><td><code>bla</code><sub>OXA-23</sub> + <code>bla</code><sub>OXA-40</sub> + <code>bla</code><sub>VIM</sub></td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+                             </tbody>
+                              <tfoot>
+                                  <tr><td>Toplam İzolat</td><td>198</td><td>86</td><td>52</td><td>336</td></tr>
+                              </tfoot>
+                        </table>
+                    </div>
+                    <small class="figure-caption">*'(Sadece)' ifadesi, tabloda listelenen diğer majör edinsel genler (OXA-40, NDM, VIM) olmaksızın yalnızca belirtilen genin bulunduğu izolatları temsil etmektedir.</small>
+                </div>
+
+                 <div class="results-subsection" data-aos="fade-up">
+                    <h4>Şekil 2: Merkezler Arası Gen Profili Dağılımının Karşılaştırılması</h4>
+                     <div class="chart-container">
+                        <div id="chartGroupedByCenter"></div>
+                    </div>
+                      <small class="figure-caption">Barlar, her merkezdeki farklı gen profiline sahip izolat sayılarını göstermektedir.</small>
+                </div>
+
+
+                <div class="results-subsection" data-aos="fade-up">
+                     <h4>Şekil 3: Her Merkez İçindeki Gen Profillerinin Yüzdesel Dağılımı</h4>
+                    <div class="chart-grid">
+                         <div class="chart-container">
+                             <h5>Merkez 1 (n=198)</h5>
+                            <div id="chartDonutCenter1"></div>
+                        </div>
+                         <div class="chart-container">
+                              <h5>Merkez 2 (n=86)</h5>
+                            <div id="chartDonutCenter2"></div>
+                        </div>
+                         <div class="chart-container">
+                              <h5>Merkez 3 (n=52)</h5>
+                            <div id="chartDonutCenter3"></div>
+                        </div>
+                    </div>
+                     <small class="figure-caption">Her bir donut grafik, ilgili merkezdeki toplam izolat sayısı içinde farklı gen profillerinin oranını göstermektedir.</small>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-block" data-aos="fade-up">
+             <div class="section-header" style="background-color: var(--color-accent); border-bottom-color: var(--color-primary);">
+                 <i class="fas fa-comments"></i><h2 style="color: var(--color-primary);">TARTIŞMA ve SONUÇ</h2>
+            </div>
+            <div class="section-content">
+                <p>Bu çalışma, Türkiye'deki üç merkezden toplanan CRAb izolatlarında karbapenemaz genlerinin dağılımını ortaya koymaktadır. Baskın genin <code>bla</code><sub>OXA-23-like</sub> (%90.8) olması, hem Türkiye'den hem de küresel literatürden bildirilen verilerle tutarlılık göstermektedir ve bu genin endemik yayılımını desteklemektedir.</p>
+                <p>Bununla birlikte, <code>bla</code><sub>OXA-40-like</sub> (%26.2) ve MBL geni <code>bla</code><sub>NDM</sub>'nin (%6.3) prevalansı da dikkate değerdir. Özellikle NDM üreten izolatların varlığı, kolistin gibi son çare antibiyotiklere olan bağımlılığı artırabilecek ve tedavi başarısızlığı riskini yükseltebilecek önemli bir bulgudur. İzolatların önemli bir bölümünde (%22.3) birden fazla karbapenemaz geninin birlikte bulunması (ko-prodüksiyon), direnç mekanizmalarının giderek karmaşıklaştığını ve bu durumun sürveyansının önemini göstermektedir.</p>
+                <p>Merkezler arasında gen profillerinde gözlenen varyasyonlar (örneğin, Merkez 2'de <code>bla</code><sub>OXA-23</sub>+<code>bla</code><sub>OXA-40</sub> ko-prodüksiyonunun, Merkez 1'de ise <code>bla</code><sub>OXA-40</sub>+<code>bla</code><sub>NDM</sub> ko-prodüksiyonunun daha sık görülmesi), lokal epidemiyolojik faktörlerin, hastaneler arası transferlerin, antibiyotik kullanım paternlerinin ve uygulanan enfeksiyon kontrol protokollerinin direnç profilleri üzerindeki potansiyel etkilerini düşündürmektedir.</p>
+                <p>Sonuç olarak, bu çalışma incelenen bölgedeki CRAb popülasyonunda <code>bla</code><sub>OXA-23-like</sub>'ın dominant olduğunu teyit etmekle birlikte, <code>bla</code><sub>OXA-40-like</sub> ve özellikle <code>bla</code><sub>NDM</sub> gibi diğer önemli direnç mekanizmalarının ve çoklu gen taşıyıcılığının da göz ardı edilmemesi gerektiğini ortaya koymaktadır. Bu bulgular, dirençli enfeksiyonların yönetimi ve kontrolü için sürekli moleküler sürveyansın ve merkezlere özgü müdahale stratejilerinin geliştirilmesinin kritik önemini desteklemektedir.</p>
+            </div>
+        </section>
+
+    </main>
+
+     <footer class="poster-footer">
+        <p>
+            Bu çalışma ESCMID Global Kongresi'nde sunulan verilere dayanmaktadır.
+            <a href="https://www.escmid.org/" target="_blank" rel="noopener noreferrer">
+                <img src="https://www.escmid.org/fileadmin/media/images/escmid_logo.svg" alt="ESCMID Logo">
+            </a>
+        </p>
+        <p>
+            <small>Gelişmiş İnteraktif Sunum | ApexCharts & Modern Web Teknolojileri Kullanılarak Oluşturulmuştur.</small>
+        </p>
+     </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // AOS Başlatma
+        AOS.init({
+            duration: 600,
+            once: true,
+            offset: 80
+        });
+
+        // ApexCharts Renkleri
+         const apexColors = [
+                "#0d3b66", "#1a7fa8", "#60a5fa", "#f9a828", "#ed8936",
+                "#f56565", "#48bb78", "#a0aec0", "#e53e3e", "#38b2ac"
+          ];
+
+        // --- GRAFİK 1: Genel Prevalans (Yatay Bar) ---
+        const optionsOverall = {
+          series: [{
+            name: 'Prevalans', // Tooltip için daha kısa isim
+            data: [90.8, 26.2, 6.3, 0.3] // OXA-23, OXA-40, NDM, VIM
+          }],
+          chart: {
+            type: 'bar',
+            height: 280,
+            toolbar: { show: false }
+          },
+          plotOptions: {
+            bar: {
+              horizontal: true,
+              barHeight: '55%',
+              distributed: true, // Her bar için farklı renk
+              dataLabels: { position: 'bottom' } // Etiketler bar içinde altta
+            }
+          },
+          colors: [apexColors[0], apexColors[1], apexColors[3], apexColors[5]], // Uygun renkler
+          dataLabels: {
+            enabled: true,
+            textAnchor: 'start', // Etiket başlangıç noktası
+            style: { colors: ['#fff'], fontSize: '11px', fontWeight: 600 }, // Beyaz, kalın etiket
+            formatter: (val) => val.toFixed(1) + "%",
+            offsetX: 5,
+            dropShadow: { enabled: true, top: 1, left: 1, blur: 1, opacity: 0.4 } // Hafif gölge
+          },
+          xaxis: {
+            categories: ['<i>bla</i><sub>OXA-23-like</sub>', '<i>bla</i><sub>OXA-40-like</sub>', '<i>bla</i><sub>NDM</sub>', '<i>bla</i><sub>VIM</sub>'],
+            max: 100,
+            labels: { formatter: (val) => val.toFixed(0) + "%" }
+          },
+           yaxis: { labels: { style: { fontSize: '13px', fontWeight: 400 } } }, // Y ekseni fontu
+           tooltip: {
+             theme: 'light', // Açık tema tooltip
+             y: {
+               formatter: (val) => val.toFixed(1) + "%",
+               title: { formatter: (seriesName, { dataPointIndex, w }) => w.globals.labels[dataPointIndex] + ':' } // Tooltip başlığı gen adı
+             },
+              marker: { show: false }
+           },
+           legend: { show: false },
+           grid: {
+              borderColor: 'var(--color-border)',
+              xaxis: { lines: { show: true } },
+              yaxis: { lines: { show: false } }
+          }
+        };
+        const chartOverall = new ApexCharts(document.querySelector("#chartOverallPrevalence"), optionsOverall);
+        chartOverall.render();
+
+
+        // --- GRAFİK 2: Merkezlere Göre Gruplu Bar ---
+        const groupedCategories = ['OXA-23*', 'OXA-40*', 'NDM*', 'O23+O40', 'O23+NDM', 'O40+NDM', 'O23+O40+NDM', 'O23+O40+VIM'];
+        const optionsGrouped = {
+          series: [
+              { name: 'Merkez 1 (n=198)', data: [144, 8, 1, 27, 1, 16, 1, 0] },
+              { name: 'Merkez 2 (n=86)', data: [54, 4, 0, 26, 0, 1, 1, 0] },
+              { name: 'Merkez 3 (n=52)', data: [48, 1, 0, 2, 0, 0, 0, 1] }
+          ],
+          chart: {
+            type: 'bar',
+            height: 400, // Yüksekliği ayarla
+            toolbar: { show: true, tools: { download: true } },
+             stacked: false, // Gruplu bar için false olmalı
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: '75%',
+            },
+          },
+          dataLabels: {
+            enabled: false // Veri etiketleri kapatıldı
+          },
+          stroke: { show: true, width: 2, colors: ['transparent'] },
+          xaxis: {
+            categories: groupedCategories.map(c => c.replace('*', ' (Sadece)')),
+            labels: {
+                 rotate: -30, // Etiketleri hafif döndür
+                 style: { fontSize: '11px' },
+                 trim: true, // Uzun etiketleri kırp
+                 rotateAlways: false // Gerektiğinde döndür
+            },
+            title: { text: 'Gen Profili', style: {fontWeight: 600} }
+          },
+           yaxis: { title: { text: 'İzolat Sayısı', style: {fontWeight: 600} } },
+          colors: [apexColors[0], apexColors[2], apexColors[4]], // Merkez renkleri
+          fill: { opacity: 1 },
+           tooltip: {
+               theme: 'light',
+               y: { formatter: (val) => val + " izolat" },
+                // x tooltip'i varsayılan olarak kategoriyi gösterir, yeterli
+           },
+           legend: { position: 'top', offsetY: 0, fontSize: '12px', fontWeight: 500 }
+        };
+        const chartGrouped = new ApexCharts(document.querySelector("#chartGroupedByCenter"), optionsGrouped);
+        chartGrouped.render();
+
+
+        // --- GRAFİK 3: Merkez İçi Donut Grafikler ---
+        const donutBaseOptions = {
+             chart: { type: 'donut', height: 290 }, // Yükseklik ayarı
+             plotOptions: {
+                 pie: {
+                     donut: { size: '65%' },
+                     // Veri etiketleri kapatıldı, legend'da gösterilecek
+                 }
+             },
+             dataLabels: { enabled: false },
+             legend: {
+                 show: true,
+                 position: 'bottom',
+                 fontSize: '11px', // Legend font boyutu
+                 itemMargin: { horizontal: 5, vertical: 2 },
+                 formatter: function(seriesName, opts) {
+                    // opts.w.globals.series -> Yüzde değerlerini içerir
+                    const percentage = opts.w.globals.series[opts.seriesIndex];
+                    return `<span style="color: ${opts.w.globals.colors[opts.seriesIndex]}; font-weight: 500;">${seriesName}:</span> ${percentage.toFixed(1)}%`; // Renkli ve kalın etiket
+                 }
+             },
+              tooltip: {
+                  theme: 'light',
+                  fillSeriesColor: false,
+                  y: {
+                      formatter: (val) => val.toFixed(1) + '%',
+                      title: { formatter: (seriesName) => seriesName }
+                  }
+              },
+             stroke: { width: 2, colors: ['var(--color-bg-medium)'] }, // Dilimler arası çizgi
+             states: { hover: { filter: { type: 'lighten', value: 0.05 } } } // Hover efekti
+         };
+
+         // Merkez 1 Donut Veri ve Etiketleri (Sıfırlar hariç)
+         const dataCenter1 = { counts: [144, 8, 1, 27, 1, 16, 1], total: 198 };
+         const labelsCenter1 = ['OXA-23*', 'OXA-40*', 'NDM*', 'O23+O40', 'O23+NDM', 'O40+NDM', 'O23+O40+NDM'];
+         const colors1 = apexColors.slice(0, dataCenter1.counts.length);
+
+        // Merkez 2 Donut Veri ve Etiketleri (Sıfırlar hariç)
+         const dataCenter2 = { counts: [54, 4, 26, 1, 1], total: 86 };
+         const labelsCenter2 = ['OXA-23*', 'OXA-40*', 'O23+O40', 'O40+NDM', 'O23+O40+NDM'];
+         const colors2 = [apexColors[0], apexColors[1], apexColors[3], apexColors[5], apexColors[6]];
+
+        // Merkez 3 Donut Veri ve Etiketleri (Sıfırlar hariç)
+         const dataCenter3 = { counts: [48, 1, 2, 1], total: 52 };
+         const labelsCenter3 = ['OXA-23*', 'OXA-40*', 'O23+O40', 'O23+O40+VIM'];
+         const colors3 = [apexColors[0], apexColors[1], apexColors[3], apexColors[4]]; // VIM için renk
+
+         // Donut Grafikleri Oluşturma Fonksiyonu
+         function createDonutChart(selector, dataCounts, dataTotal, labels, colors) {
+             // Etiketlerdeki '*' karakterini '(Sadece)' ile değiştir
+             const formattedLabels = labels.map(l => l.replace('*',' (Sadece)'));
+             const options = {
+                 ...donutBaseOptions,
+                 series: dataCounts.map(count => (count / dataTotal) * 100), // Yüzdeleri hesapla
+                 labels: formattedLabels, // Formatlanmış etiketleri kullan
+                 colors: colors
+             };
+             // Tooltip içeriğini özelleştir (Hem yüzde hem ham sayı gösterimi - opsiyonel)
+             options.tooltip.y.formatter = function(value, { seriesIndex, w }) {
+                  const count = dataCounts[seriesIndex]; // Ham sayıyı al
+                  return `${value.toFixed(1)}% (${count} izolat)`;
+              };
+
+             const chart = new ApexCharts(document.querySelector(selector), options);
+             chart.render();
+         }
+
+         // Grafikleri Oluştur
+         createDonutChart("#chartDonutCenter1", dataCenter1.counts, dataCenter1.total, labelsCenter1, colors1);
+         createDonutChart("#chartDonutCenter2", dataCenter2.counts, dataCenter2.total, labelsCenter2, colors2);
+         createDonutChart("#chartDonutCenter3", dataCenter3.counts, dataCenter3.total, labelsCenter3, colors3);
+
+    </script>
+
+</body>
+</html>
