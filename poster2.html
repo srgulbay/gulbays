@@ -301,23 +301,30 @@
               .section-content { padding: 15px; }
          }
 
-         /* ApexCharts Tooltip Stilleri (Opsiyonel) */
+         /* ApexCharts Tooltip Stilleri (Opsiyonel İyileştirme) */
         .apexcharts-tooltip {
-            background: #f3f3f3;
+            background: rgba(255, 255, 255, 0.9); /* Hafif şeffaf beyaz */
             color: var(--color-text-dark);
-            border: 1px solid #e3e3e3;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid var(--color-border);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            border-radius: 6px; /* Daha yumuşak köşe */
+            backdrop-filter: blur(5px); /* Bulanıklık efekti (destekleyen tarayıcılarda) */
+            -webkit-backdrop-filter: blur(5px);
         }
          .apexcharts-tooltip-title {
-             background: #e3e3e3;
-             border-bottom: 1px solid #d3d3d3;
+             background: rgba(240, 240, 240, 0.9); /* Biraz daha koyu başlık */
+             border-bottom: 1px solid var(--color-border);
              font-weight: 600;
-             padding: 6px 10px;
+             padding: 8px 12px; /* Daha ferah padding */
+             font-size: 0.9rem;
          }
           .apexcharts-tooltip-series-group {
-             padding: 5px 10px;
+             padding: 6px 12px;
+             font-size: 0.85rem;
           }
-
+          .apexcharts-tooltip-marker {
+              margin-right: 8px !important;
+          }
 
     </style>
 </head>
@@ -325,7 +332,7 @@
 
     <header class="poster-header" data-aos="fade-down">
         <div class="main-container">
-            <h1>Yüksek Karbapenem Direncinin Görüldüğü Bir Bölgedeki <i>Acinetobacter baumannii</i> İzolatlarında Karbapenemaz Genlerinin Dağılımı</h1>
+             <h1>Yüksek Karbapenem Direncinin Görüldüğü Bir Bölgedeki <i>Acinetobacter baumannii</i> İzolatlarında Karbapenemaz Genlerinin Dağılımı</h1>
             <p class="authors">
                 H. Tutan¹, B. Mazlumoğlu¹, L. Genç¹, E.S. Tanriverdi², Z. Çizmeci³, M.E. Bulut³, E. Aktaş¹
             </p>
@@ -462,7 +469,7 @@
                  <i class="fas fa-comments"></i><h2 style="color: var(--color-primary);">TARTIŞMA ve SONUÇ</h2>
             </div>
             <div class="section-content">
-                <p>Bu çalışma, Türkiye'deki üç merkezden toplanan CRAb izolatlarında karbapenemaz genlerinin dağılımını ortaya koymaktadır. Baskın genin <code>bla</code><sub>OXA-23-like</sub> (%90.8) olması, hem Türkiye'den hem de küresel literatürden bildirilen verilerle tutarlılık göstermektedir ve bu genin endemik yayılımını desteklemektedir.</p>
+                 <p>Bu çalışmada, incelenen CRAb izolatları arasında en baskın karbapenemaz geni açık ara farkla <code>bla</code><sub>OXA-23-like</sub> (%90.8) olmuştur. Bu bulgu, hem Türkiye'den hem de küresel literatürden bildirilen verilerle tutarlılık göstermekte ve bu genin endemik yayılımını desteklemektedir.</p>
                 <p>Bununla birlikte, <code>bla</code><sub>OXA-40-like</sub> (%26.2) ve MBL geni <code>bla</code><sub>NDM</sub>'nin (%6.3) prevalansı da dikkate değerdir. Özellikle NDM üreten izolatların varlığı, kolistin gibi son çare antibiyotiklere olan bağımlılığı artırabilecek ve tedavi başarısızlığı riskini yükseltebilecek önemli bir bulgudur. İzolatların önemli bir bölümünde (%22.3) birden fazla karbapenemaz geninin birlikte bulunması (ko-prodüksiyon), direnç mekanizmalarının giderek karmaşıklaştığını ve bu durumun sürveyansının önemini göstermektedir.</p>
                 <p>Merkezler arasında gen profillerinde gözlenen varyasyonlar (örneğin, Merkez 2'de <code>bla</code><sub>OXA-23</sub>+<code>bla</code><sub>OXA-40</sub> ko-prodüksiyonunun, Merkez 1'de ise <code>bla</code><sub>OXA-40</sub>+<code>bla</code><sub>NDM</sub> ko-prodüksiyonunun daha sık görülmesi), lokal epidemiyolojik faktörlerin, hastaneler arası transferlerin, antibiyotik kullanım paternlerinin ve uygulanan enfeksiyon kontrol protokollerinin direnç profilleri üzerindeki potansiyel etkilerini düşündürmektedir.</p>
                 <p>Sonuç olarak, bu çalışma incelenen bölgedeki CRAb popülasyonunda <code>bla</code><sub>OXA-23-like</sub>'ın dominant olduğunu teyit etmekle birlikte, <code>bla</code><sub>OXA-40-like</sub> ve özellikle <code>bla</code><sub>NDM</sub> gibi diğer önemli direnç mekanizmalarının ve çoklu gen taşıyıcılığının da göz ardı edilmemesi gerektiğini ortaya koymaktadır. Bu bulgular, dirençli enfeksiyonların yönetimi ve kontrolü için sürekli moleküler sürveyansın ve merkezlere özgü müdahale stratejilerinin geliştirilmesinin kritik önemini desteklemektedir.</p>
@@ -501,42 +508,44 @@
         // --- GRAFİK 1: Genel Prevalans (Yatay Bar) ---
         const optionsOverall = {
           series: [{
-            name: 'Prevalans', // Tooltip için daha kısa isim
+            name: 'Prevalans',
             data: [90.8, 26.2, 6.3, 0.3] // OXA-23, OXA-40, NDM, VIM
           }],
           chart: {
             type: 'bar',
             height: 280,
-            toolbar: { show: false }
+            toolbar: { show: false },
+            fontFamily: 'Inter, sans-serif' // Grafik fontu
           },
           plotOptions: {
             bar: {
               horizontal: true,
               barHeight: '55%',
-              distributed: true, // Her bar için farklı renk
-              dataLabels: { position: 'bottom' } // Etiketler bar içinde altta
+              distributed: true,
+              dataLabels: { position: 'bottom' }
             }
           },
-          colors: [apexColors[0], apexColors[1], apexColors[3], apexColors[5]], // Uygun renkler
+          colors: [apexColors[0], apexColors[1], apexColors[3], apexColors[5]],
           dataLabels: {
             enabled: true,
-            textAnchor: 'start', // Etiket başlangıç noktası
-            style: { colors: ['#fff'], fontSize: '11px', fontWeight: 600 }, // Beyaz, kalın etiket
+            textAnchor: 'start',
+            style: { colors: ['#fff'], fontSize: '11px', fontWeight: 600 },
             formatter: (val) => val.toFixed(1) + "%",
             offsetX: 5,
-            dropShadow: { enabled: true, top: 1, left: 1, blur: 1, opacity: 0.4 } // Hafif gölge
+            dropShadow: { enabled: true, top: 1, left: 1, blur: 1, opacity: 0.4 }
           },
           xaxis: {
-            categories: ['<i>bla</i><sub>OXA-23-like</sub>', '<i>bla</i><sub>OXA-40-like</sub>', '<i>bla</i><sub>NDM</sub>', '<i>bla</i><sub>VIM</sub>'],
-            max: 100,
-            labels: { formatter: (val) => val.toFixed(0) + "%" }
+            // Kategoriler HTML'den alınacak gibi, ama burada tanımlamak daha iyi olabilir
+             categories: ['<i>bla</i><sub>OXA-23-like</sub>', '<i>bla</i><sub>OXA-40-like</sub>', '<i>bla</i><sub>NDM</sub>', '<i>bla</i><sub>VIM</sub>'],
+             max: 100,
+             labels: { formatter: (val) => val.toFixed(0) + "%" }
           },
-           yaxis: { labels: { style: { fontSize: '13px', fontWeight: 400 } } }, // Y ekseni fontu
+           yaxis: { labels: { style: { fontSize: '13px', fontWeight: 400 } } },
            tooltip: {
-             theme: 'light', // Açık tema tooltip
+             theme: 'light',
              y: {
                formatter: (val) => val.toFixed(1) + "%",
-               title: { formatter: (seriesName, { dataPointIndex, w }) => w.globals.labels[dataPointIndex] + ':' } // Tooltip başlığı gen adı
+               title: { formatter: (seriesName, { dataPointIndex, w }) => w.globals.labels[dataPointIndex].replace(/<[^>]*>/g, '') + ':' } // HTML taglarını temizle
              },
               marker: { show: false }
            },
@@ -547,12 +556,16 @@
               yaxis: { lines: { show: false } }
           }
         };
-        const chartOverall = new ApexCharts(document.querySelector("#chartOverallPrevalence"), optionsOverall);
-        chartOverall.render();
+        // Zamanlayıcı ile küçük bir gecikme eklemek, render sorunlarını azaltabilir
+        setTimeout(() => {
+            const chartOverall = new ApexCharts(document.querySelector("#chartOverallPrevalence"), optionsOverall);
+            chartOverall.render();
+        }, 100);
 
 
         // --- GRAFİK 2: Merkezlere Göre Gruplu Bar ---
-        const groupedCategories = ['OXA-23*', 'OXA-40*', 'NDM*', 'O23+O40', 'O23+NDM', 'O40+NDM', 'O23+O40+NDM', 'O23+O40+VIM'];
+        const groupedCategoriesRaw = ['OXA-23*', 'OXA-40*', 'NDM*', 'O23+O40', 'O23+NDM', 'O40+NDM', 'O23+O40+NDM', 'O23+O40+VIM'];
+        const groupedCategoriesFormatted = groupedCategoriesRaw.map(c => c.replace('*', ' (Sadece)')); // Tooltip ve eksen için temiz etiketler
         const optionsGrouped = {
           series: [
               { name: 'Merkez 1 (n=198)', data: [144, 8, 1, 27, 1, 16, 1, 0] },
@@ -561,116 +574,126 @@
           ],
           chart: {
             type: 'bar',
-            height: 400, // Yüksekliği ayarla
+            height: 400,
             toolbar: { show: true, tools: { download: true } },
-             stacked: false, // Gruplu bar için false olmalı
+             stacked: false,
+             fontFamily: 'Inter, sans-serif'
           },
-          plotOptions: {
-            bar: {
-              horizontal: false,
-              columnWidth: '75%',
-            },
-          },
-          dataLabels: {
-            enabled: false // Veri etiketleri kapatıldı
-          },
+          plotOptions: { bar: { horizontal: false, columnWidth: '75%' } },
+          dataLabels: { enabled: false }, // Temiz görünüm için kapatıldı
           stroke: { show: true, width: 2, colors: ['transparent'] },
           xaxis: {
-            categories: groupedCategories.map(c => c.replace('*', ' (Sadece)')),
+            categories: groupedCategoriesFormatted,
             labels: {
-                 rotate: -30, // Etiketleri hafif döndür
-                 style: { fontSize: '11px' },
-                 trim: true, // Uzun etiketleri kırp
-                 rotateAlways: false // Gerektiğinde döndür
+                 rotate: -30,
+                 style: { fontSize: '11px', fontWeight: 400 },
+                 trim: true,
+                 rotateAlways: false,
+                 hideOverlappingLabels: true // Üst üste binenleri gizle
             },
-            title: { text: 'Gen Profili', style: {fontWeight: 600} }
+            title: { text: 'Gen Profili', style: {fontWeight: 600, fontSize: '13px'} }
           },
-           yaxis: { title: { text: 'İzolat Sayısı', style: {fontWeight: 600} } },
-          colors: [apexColors[0], apexColors[2], apexColors[4]], // Merkez renkleri
-          fill: { opacity: 1 },
+           yaxis: { title: { text: 'İzolat Sayısı', style: {fontWeight: 600, fontSize: '13px'} } },
+          colors: [apexColors[0], apexColors[2], apexColors[4]],
+          fill: { opacity: 0.9 }, // Hafif opaklık
            tooltip: {
                theme: 'light',
                y: { formatter: (val) => val + " izolat" },
-                // x tooltip'i varsayılan olarak kategoriyi gösterir, yeterli
+               // x tooltip kategoriyi gösterir
            },
-           legend: { position: 'top', offsetY: 0, fontSize: '12px', fontWeight: 500 }
+           legend: { position: 'top', offsetY: 0, fontSize: '12px', fontWeight: 500 },
+            grid: { borderColor: 'var(--color-border)', row: { colors: ['transparent', 'transparent'], opacity: 0.5 } } // Grid çizgileri için
         };
-        const chartGrouped = new ApexCharts(document.querySelector("#chartGroupedByCenter"), optionsGrouped);
-        chartGrouped.render();
+        setTimeout(() => {
+             const chartGrouped = new ApexCharts(document.querySelector("#chartGroupedByCenter"), optionsGrouped);
+             chartGrouped.render();
+        }, 150); // Farklı gecikme
 
 
         // --- GRAFİK 3: Merkez İçi Donut Grafikler ---
         const donutBaseOptions = {
-             chart: { type: 'donut', height: 290 }, // Yükseklik ayarı
-             plotOptions: {
-                 pie: {
-                     donut: { size: '65%' },
-                     // Veri etiketleri kapatıldı, legend'da gösterilecek
-                 }
-             },
-             dataLabels: { enabled: false },
+             chart: { type: 'donut', height: 290, fontFamily: 'Inter, sans-serif' },
+             plotOptions: { pie: { donut: { size: '70%' } } },
+             dataLabels: { enabled: false }, // Kapatıldı, legend'da gösterilecek
              legend: {
                  show: true,
                  position: 'bottom',
-                 fontSize: '11px', // Legend font boyutu
-                 itemMargin: { horizontal: 5, vertical: 2 },
+                 fontSize: '11px',
+                 itemMargin: { horizontal: 5, vertical: 3 }, // Biraz daha dikey boşluk
                  formatter: function(seriesName, opts) {
-                    // opts.w.globals.series -> Yüzde değerlerini içerir
                     const percentage = opts.w.globals.series[opts.seriesIndex];
-                    return `<span style="color: ${opts.w.globals.colors[opts.seriesIndex]}; font-weight: 500;">${seriesName}:</span> ${percentage.toFixed(1)}%`; // Renkli ve kalın etiket
+                    // Çok küçük yüzdeleri gizle veya farklı formatla (opsiyonel)
+                     if (percentage < 1) return `<span style="opacity: 0.7;">${seriesName}: ${percentage.toFixed(1)}%</span>`;
+                    return `<span style="color: ${opts.w.globals.colors[opts.seriesIndex]}; font-weight: 500;">${seriesName}:</span> ${percentage.toFixed(1)}%`;
                  }
              },
               tooltip: {
                   theme: 'light',
                   fillSeriesColor: false,
                   y: {
-                      formatter: (val) => val.toFixed(1) + '%',
-                      title: { formatter: (seriesName) => seriesName }
+                      formatter: (val, { seriesIndex, w }) => {
+                          // Ham sayıyı global scope'tan almak gerekir (bu örnekte simplifiye edildi)
+                          // Sadece yüzde ve ismi gösterelim
+                          const seriesName = w.globals.labels[seriesIndex];
+                           return `${seriesName}: ${val.toFixed(1)}%`;
+                      },
+                      title: { formatter: (seriesName) => '' } // Başlığı kaldır, bilgi y içinde
                   }
               },
-             stroke: { width: 2, colors: ['var(--color-bg-medium)'] }, // Dilimler arası çizgi
-             states: { hover: { filter: { type: 'lighten', value: 0.05 } } } // Hover efekti
+             stroke: { width: 2, colors: ['var(--color-bg-medium)'] },
+             states: { hover: { filter: { type: 'lighten', value: 0.05 } } },
+             responsive: [{ // Küçük ekranlar için legend ayarı
+                breakpoint: 480,
+                options: { legend: { fontSize: '10px', itemMargin: { horizontal: 2, vertical: 1} } }
+             }]
          };
 
          // Merkez 1 Donut Veri ve Etiketleri (Sıfırlar hariç)
          const dataCenter1 = { counts: [144, 8, 1, 27, 1, 16, 1], total: 198 };
-         const labelsCenter1 = ['OXA-23*', 'OXA-40*', 'NDM*', 'O23+O40', 'O23+NDM', 'O40+NDM', 'O23+O40+NDM'];
+         const labelsCenter1_raw = ['OXA-23*', 'OXA-40*', 'NDM*', 'O23+O40', 'O23+NDM', 'O40+NDM', 'O23+O40+NDM'];
          const colors1 = apexColors.slice(0, dataCenter1.counts.length);
 
         // Merkez 2 Donut Veri ve Etiketleri (Sıfırlar hariç)
          const dataCenter2 = { counts: [54, 4, 26, 1, 1], total: 86 };
-         const labelsCenter2 = ['OXA-23*', 'OXA-40*', 'O23+O40', 'O40+NDM', 'O23+O40+NDM'];
+         const labelsCenter2_raw = ['OXA-23*', 'OXA-40*', 'O23+O40', 'O40+NDM', 'O23+O40+NDM'];
          const colors2 = [apexColors[0], apexColors[1], apexColors[3], apexColors[5], apexColors[6]];
 
         // Merkez 3 Donut Veri ve Etiketleri (Sıfırlar hariç)
          const dataCenter3 = { counts: [48, 1, 2, 1], total: 52 };
-         const labelsCenter3 = ['OXA-23*', 'OXA-40*', 'O23+O40', 'O23+O40+VIM'];
-         const colors3 = [apexColors[0], apexColors[1], apexColors[3], apexColors[4]]; // VIM için renk
+         const labelsCenter3_raw = ['OXA-23*', 'OXA-40*', 'O23+O40', 'O23+O40+VIM'];
+         const colors3 = [apexColors[0], apexColors[1], apexColors[3], apexColors[4]];
 
          // Donut Grafikleri Oluşturma Fonksiyonu
-         function createDonutChart(selector, dataCounts, dataTotal, labels, colors) {
+         function createDonutChart(selector, dataCounts, dataTotal, rawLabels, colors) {
              // Etiketlerdeki '*' karakterini '(Sadece)' ile değiştir
-             const formattedLabels = labels.map(l => l.replace('*',' (Sadece)'));
+             const formattedLabels = rawLabels.map(l => l.replace('*',' (Sdc)')); // Daha kısa etiket
              const options = {
                  ...donutBaseOptions,
-                 series: dataCounts.map(count => (count / dataTotal) * 100), // Yüzdeleri hesapla
-                 labels: formattedLabels, // Formatlanmış etiketleri kullan
-                 colors: colors
+                 series: dataCounts.map(count => (count / dataTotal) * 100),
+                 labels: formattedLabels,
+                 colors: colors,
+                 tooltip: { // Tooltip'i burada override et, ham sayıyı ekle
+                      theme: 'light',
+                      fillSeriesColor: false,
+                      y: {
+                          formatter: (val, { seriesIndex, w }) => {
+                              const count = dataCounts[seriesIndex]; // Ham sayıyı al
+                              return `${val.toFixed(1)}% (${count} izolat)`;
+                          },
+                          title: { formatter: (seriesName) => seriesName } // Seriyi başlık yap
+                      }
+                  }
              };
-             // Tooltip içeriğini özelleştir (Hem yüzde hem ham sayı gösterimi - opsiyonel)
-             options.tooltip.y.formatter = function(value, { seriesIndex, w }) {
-                  const count = dataCounts[seriesIndex]; // Ham sayıyı al
-                  return `${value.toFixed(1)}% (${count} izolat)`;
-              };
-
              const chart = new ApexCharts(document.querySelector(selector), options);
              chart.render();
          }
 
-         // Grafikleri Oluştur
-         createDonutChart("#chartDonutCenter1", dataCenter1.counts, dataCenter1.total, labelsCenter1, colors1);
-         createDonutChart("#chartDonutCenter2", dataCenter2.counts, dataCenter2.total, labelsCenter2, colors2);
-         createDonutChart("#chartDonutCenter3", dataCenter3.counts, dataCenter3.total, labelsCenter3, colors3);
+         // Grafikleri Oluştur (Render gecikmesi ile)
+          setTimeout(() => {
+             createDonutChart("#chartDonutCenter1", dataCenter1.counts, dataCenter1.total, labelsCenter1_raw, colors1);
+             createDonutChart("#chartDonutCenter2", dataCenter2.counts, dataCenter2.total, labelsCenter2_raw, colors2);
+             createDonutChart("#chartDonutCenter3", dataCenter3.counts, dataCenter3.total, labelsCenter3_raw, colors3);
+         }, 200); // Diğerlerinden sonra render
 
     </script>
 
